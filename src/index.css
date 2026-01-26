@@ -1,0 +1,56 @@
+:root {
+  --bg-dark: #050510;
+  --bg-card: #13131f;
+  --bg-card-hover: #1c1c2e;
+  
+  --primary-neon: #00f0ff;
+  --primary-glow: rgba(0, 240, 255, 0.5);
+  
+  --secondary-neon: #bd00ff;
+  --secondary-glow: rgba(189, 0, 255, 0.5);
+  
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+  
+  --accent-success: #00ff9d;
+  --accent-warning: #ffb700;
+  --accent-danger: #ff0055;
+
+  --font-main: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.5;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-card);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-neon);
+}

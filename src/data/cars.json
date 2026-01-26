@@ -1,0 +1,110 @@
+[
+  {
+    "id": "zentorno",
+    "name": "Zentorno",
+    "manufacturer": "Pegassi",
+    "class": "Super",
+    "price": 725000,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 85,
+      "acceleration": 90,
+      "braking": 70,
+      "handling": 80,
+      "offroad": 30,
+      "weight": 60
+    },
+    "image": "https://placehold.co/600x400/13131f/00f0ff?text=Zentorno"
+  },
+  {
+    "id": "adder",
+    "name": "Adder",
+    "manufacturer": "Truffade",
+    "class": "Super",
+    "price": 1000000,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 98,
+      "acceleration": 86,
+      "braking": 65,
+      "handling": 68,
+      "offroad": 20,
+      "weight": 80
+    },
+    "image": "https://placehold.co/600x400/13131f/bd00ff?text=Adder"
+  },
+  {
+    "id": "elegy",
+    "name": "Elegy RH8",
+    "manufacturer": "Annis",
+    "class": "Sports",
+    "price": 0,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 78,
+      "acceleration": 82,
+      "braking": 75,
+      "handling": 85,
+      "offroad": 35,
+      "weight": 70
+    },
+    "image": "https://placehold.co/600x400/13131f/00ff9d?text=Elegy+RH8"
+  },
+  {
+    "id": "kuruma",
+    "name": "Kuruma (Armored)",
+    "manufacturer": "Karin",
+    "class": "Sports",
+    "price": 525000,
+    "drivetrain": "AWD",
+    "seats": 4,
+    "stats": {
+      "speed": 75,
+      "acceleration": 70,
+      "braking": 60,
+      "handling": 65,
+      "offroad": 60,
+      "weight": 90
+    },
+    "image": "https://placehold.co/600x400/13131f/ffb700?text=Kuruma"
+  },
+  {
+    "id": "dominator",
+    "name": "Dominator",
+    "manufacturer": "Vapid",
+    "class": "Muscle",
+    "price": 35000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 70,
+      "acceleration": 80,
+      "braking": 50,
+      "handling": 40,
+      "offroad": 40,
+      "weight": 75
+    },
+    "image": "https://placehold.co/600x400/13131f/ff0055?text=Dominator"
+  },
+  {
+    "id": "sanchez",
+    "name": "Sanchez",
+    "manufacturer": "Maibatsu",
+    "class": "Off-Road",
+    "price": 8000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 60,
+      "acceleration": 75,
+      "braking": 65,
+      "handling": 80,
+      "offroad": 95,
+      "weight": 30
+    },
+    "image": "https://placehold.co/600x400/13131f/ffffff?text=Sanchez"
+  }
+]

@@ -1,0 +1,189 @@
+.analyzer-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.analyzer-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.analyzer-header h1 {
+  font-size: 2.5rem;
+}
+
+.main-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.car-visualizer {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.car-hero-image-container {
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  margin-bottom: 2rem;
+  filter: var(--paint-filter);
+  transition: filter 0.3s;
+}
+
+.car-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid transparent; /* controlled by inline style */
+}
+
+.visualizer-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-garage-btn {
+  background: var(--accent-success);
+  color: #000;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 4px;
+}
+
+.add-garage-btn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.data-panel {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.cost-info {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.drivetrain-badge {
+  display: inline-block;
+  background: var(--primary-neon);
+  color: #000;
+  padding: 0.2rem 0.5rem;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+  border-radius: 2px;
+}
+
+.price-big {
+  font-size: 2.5rem;
+  color: var(--accent-success);
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.tech-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-name {
+  width: 100px;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+.progress-bg {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 1s ease-out;
+}
+
+.radar-section {
+  margin-bottom: 3rem;
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.radar-container {
+  max-width: 600px;
+  margin: 0 auto;
+  height: 400px;
+}
+
+.versus-section {
+  background: linear-gradient(to right, var(--bg-card), transparent);
+  padding: 2rem;
+  border-left: 4px solid var(--accent-danger);
+}
+
+.versus-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent-danger);
+}
+
+.verdict-box {
+  background: rgba(255, 0, 85, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid var(--accent-danger);
+}
+
+.verdict-box h4 {
+  color: var(--accent-danger);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .main-stage {
+    grid-template-columns: 1fr;
+  }
+}
