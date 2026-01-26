@@ -1,5 +1,23 @@
 [
   {
+    "id": "t20",
+    "name": "T20",
+    "manufacturer": "Progen",
+    "class": "Super",
+    "price": 2200000,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 98,
+      "acceleration": 94,
+      "braking": 78,
+      "handling": 85,
+      "offroad": 30,
+      "weight": 70
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/t20.png"
+  },
+  {
     "id": "zentorno",
     "name": "Zentorno",
     "manufacturer": "Pegassi",
@@ -12,10 +30,10 @@
       "acceleration": 90,
       "braking": 70,
       "handling": 80,
-      "offroad": 30,
-      "weight": 60
+      "offroad": 35,
+      "weight": 65
     },
-    "image": "https://placehold.co/600x400/13131f/00f0ff?text=Zentorno"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/zentorno.png"
   },
   {
     "id": "adder",
@@ -26,14 +44,50 @@
     "drivetrain": "AWD",
     "seats": 2,
     "stats": {
-      "speed": 98,
+      "speed": 100,
       "acceleration": 86,
       "braking": 65,
       "handling": 68,
       "offroad": 20,
-      "weight": 80
+      "weight": 85
     },
-    "image": "https://placehold.co/600x400/13131f/bd00ff?text=Adder"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/adder.png"
+  },
+  {
+    "id": "osiris",
+    "name": "Osiris",
+    "manufacturer": "Pegassi",
+    "class": "Super",
+    "price": 1950000,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 92,
+      "acceleration": 88,
+      "braking": 80,
+      "handling": 82,
+      "offroad": 25,
+      "weight": 70
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/osiris.png"
+  },
+  {
+    "id": "turismor",
+    "name": "Turismo R",
+    "manufacturer": "Grotti",
+    "class": "Super",
+    "price": 500000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 88,
+      "acceleration": 85,
+      "braking": 75,
+      "handling": 83,
+      "offroad": 20,
+      "weight": 50
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/turismor.png"
   },
   {
     "id": "elegy",
@@ -51,7 +105,43 @@
       "offroad": 35,
       "weight": 70
     },
-    "image": "https://placehold.co/600x400/13131f/00ff9d?text=Elegy+RH8"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/elegy.png"
+  },
+  {
+    "id": "jester",
+    "name": "Jester",
+    "manufacturer": "Dinka",
+    "class": "Sports",
+    "price": 240000,
+    "drivetrain": "AWD",
+    "seats": 2,
+    "stats": {
+      "speed": 80,
+      "acceleration": 78,
+      "braking": 72,
+      "handling": 79,
+      "offroad": 30,
+      "weight": 75
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/jester.png"
+  },
+  {
+    "id": "massacro",
+    "name": "Massacro",
+    "manufacturer": "Dewbauchee",
+    "class": "Sports",
+    "price": 275000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 83,
+      "acceleration": 84,
+      "braking": 65,
+      "handling": 75,
+      "offroad": 30,
+      "weight": 74
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/massacro.png"
   },
   {
     "id": "kuruma",
@@ -69,7 +159,25 @@
       "offroad": 60,
       "weight": 90
     },
-    "image": "https://placehold.co/600x400/13131f/ffb700?text=Kuruma"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/kuruma.png"
+  },
+  {
+    "id": "sutan",
+    "name": "Sultan",
+    "manufacturer": "Karin",
+    "class": "Sports",
+    "price": 12000,
+    "drivetrain": "AWD",
+    "seats": 4,
+    "stats": {
+      "speed": 72,
+      "acceleration": 74,
+      "braking": 68,
+      "handling": 78,
+      "offroad": 80,
+      "weight": 65
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/sultan.png"
   },
   {
     "id": "dominator",
@@ -87,7 +195,43 @@
       "offroad": 40,
       "weight": 75
     },
-    "image": "https://placehold.co/600x400/13131f/ff0055?text=Dominator"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/dominator.png"
+  },
+  {
+    "id": "gauntlet",
+    "name": "Gauntlet",
+    "manufacturer": "Bravado",
+    "class": "Muscle",
+    "price": 32000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 68,
+      "acceleration": 78,
+      "braking": 55,
+      "handling": 55,
+      "offroad": 35,
+      "weight": 80
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/gauntlet.png"
+  },
+  {
+    "id": "dukes",
+    "name": "Dukes",
+    "manufacturer": "Imponte",
+    "class": "Muscle",
+    "price": 62000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 69,
+      "acceleration": 76,
+      "braking": 52,
+      "handling": 45,
+      "offroad": 38,
+      "weight": 82
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/dukes.png"
   },
   {
     "id": "sanchez",
@@ -105,6 +249,114 @@
       "offroad": 95,
       "weight": 30
     },
-    "image": "https://placehold.co/600x400/13131f/ffffff?text=Sanchez"
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/sanchez.png"
+  },
+  {
+    "id": "bifta",
+    "name": "Bifta",
+    "manufacturer": "BF",
+    "class": "Off-Road",
+    "price": 75000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 65,
+      "acceleration": 70,
+      "braking": 55,
+      "handling": 70,
+      "offroad": 85,
+      "weight": 40
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/bifta.png"
+  },
+  {
+    "id": "insurgent",
+    "name": "Insurgent",
+    "manufacturer": "HVY",
+    "class": "Off-Road",
+    "price": 675000,
+    "drivetrain": "AWD",
+    "seats": 6,
+    "stats": {
+      "speed": 60,
+      "acceleration": 55,
+      "braking": 60,
+      "handling": 50,
+      "offroad": 90,
+      "weight": 100
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/insurgent.png"
+  },
+  {
+    "id": "baller",
+    "name": "Baller",
+    "manufacturer": "Gallivanter",
+    "class": "SUVs",
+    "price": 90000,
+    "drivetrain": "AWD",
+    "seats": 4,
+    "stats": {
+      "speed": 62,
+      "acceleration": 60,
+      "braking": 55,
+      "handling": 58,
+      "offroad": 60,
+      "weight": 90
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/baller.png"
+  },
+  {
+    "id": "tailgater",
+    "name": "Tailgater",
+    "manufacturer": "Obey",
+    "class": "Sedans",
+    "price": 55000,
+    "drivetrain": "RWD",
+    "seats": 4,
+    "stats": {
+      "speed": 65,
+      "acceleration": 62,
+      "braking": 65,
+      "handling": 70,
+      "offroad": 20,
+      "weight": 75
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/tailgater.png"
+  },
+  {
+    "id": "bati",
+    "name": "Bati 801",
+    "manufacturer": "Pegassi",
+    "class": "Motorcycles",
+    "price": 15000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 90,
+      "acceleration": 95,
+      "braking": 70,
+      "handling": 90,
+      "offroad": 40,
+      "weight": 20
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/bati.png"
+  },
+  {
+    "id": "akuma",
+    "name": "Akuma",
+    "manufacturer": "Dinka",
+    "class": "Motorcycles",
+    "price": 9000,
+    "drivetrain": "RWD",
+    "seats": 2,
+    "stats": {
+      "speed": 85,
+      "acceleration": 100,
+      "braking": 75,
+      "handling": 85,
+      "offroad": 45,
+      "weight": 22
+    },
+    "image": "https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/akuma.png"
   }
 ]

@@ -1,6 +1,6 @@
 # Los Santos Performance Analyzer (LSPA)
 
-![LSPA Logo](https://placehold.co/600x200/13131f/00f0ff?text=LSPA+Banner)
+![LSPA Logo](src/assets/logo.png)
 
 **Deployment URL:** [https://CRACKXXXX.github.io/LSPA](https://CRACKXXXX.github.io/LSPA)
 **Repository:** [https://github.com/CRACKXXXX/LSPA](https://github.com/CRACKXXXX/LSPA)

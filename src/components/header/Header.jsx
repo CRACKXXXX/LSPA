@@ -1,14 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { ACTIVITY } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import './Header.css';
 
 const Header = () => {
   return (
     <header className="header-container">
       <div className="logo-section">
-        {/* Simple Logo using Lucide Icon and Text */}
-        <ACTIVITY size={32} color="var(--primary-neon)" />
+        <img src={logo} alt="LSPA Logo" className="header-logo" />
         <span>LSPA <span style={{ color: 'var(--text-main)', fontSize: '0.8em' }}>Telemetría</span></span>
       </div>
 
