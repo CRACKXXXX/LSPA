@@ -2,8 +2,8 @@
 
 ![LSPA Logo](https://placehold.co/600x200/13131f/00f0ff?text=LSPA+Banner)
 
-**Deployment URL:** [Insert GitHub Pages URL Here]
-**Repository:** [Insert GitHub Repo URL Here]
+**Deployment URL:** [https://CRACKXXXX.github.io/LSPA](https://CRACKXXXX.github.io/LSPA)
+**Repository:** [https://github.com/CRACKXXXX/LSPA](https://github.com/CRACKXXXX/LSPA)
 
 LSPA is a premium digital dealership and telemetry dashboard for GTA V/FiveM vehicles. It provides in-depth analysis, comparisons, and fleet management tools in a high-performance "Nightlife/Cyberpunk" interface.
 
