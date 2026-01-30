@@ -1,0 +1,96 @@
+.footer-container {
+    background: rgba(5, 5, 7, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 242, 234, 0.2);
+    padding: 3rem 2rem;
+    margin-top: auto;
+    color: var(--text-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.legal-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.footer-links-section {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.footer-column h4 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.footer-column a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: var(--primary-color);
+}
+
+.icons-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    filter: grayscale(100%);
+    transition: all 0.3s;
+}
+
+.social-icon:hover {
+    filter: grayscale(0%);
+    transform: scale(1.2);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-links-section {
+        justify-content: center;
+        gap: 2rem;
+    }
+    .icons-row {
+        justify-content: center;
+    }
+}

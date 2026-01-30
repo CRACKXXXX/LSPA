@@ -1,0 +1,243 @@
+.versus-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.versus-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.versus-header h2 {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.versus-arena {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.versus-slot {
+  width: 350px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-slot {
+  flex: 1;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: var(--text-muted);
+}
+
+.empty-slot:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background-color: rgba(0, 255, 136, 0.05);
+}
+
+.versus-divider {
+  font-size: 3rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--secondary-color);
+}
+
+.selected-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.change-btn {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+.change-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.comparison-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.stat-val {
+  font-size: 1.2rem;
+  font-weight: 700;
+  width: 100px;
+  text-align: center;
+}
+
+.stat-val.winner {
+  color: var(--success);
+}
+
+.stat-val.loser {
+  color: var(--danger);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: var(--bg-dark);
+  border: var(--glass-border);
+  width: 900px; /* Wider for grid */
+  max-width: 95vw;
+  max-height: 85vh;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-content input {
+  padding: 0.8rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.mini-card {
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* Very important for overlay */
+  position: relative;
+  height: 140px;
+}
+
+.mini-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
+  transform: scale(1.02);
+}
+
+.mini-card-img {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mini-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the card */
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.mini-card:hover .mini-card-img img {
+    opacity: 1;
+}
+
+/* Semi-transparent Banner */
+.mini-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4), transparent);
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    z-index: 2;
+    text-shadow: 0 1px 2px #000;
+}
+
+.mini-name {
+    font-weight: 800;
+    color: #fff;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.mini-manufacturer {
+    font-size: 0.65rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .versus-arena {
+        flex-direction: column;
+    }
+}

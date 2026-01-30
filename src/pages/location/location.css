@@ -1,0 +1,100 @@
+.location-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  gap: 4rem;
+  min-height: calc(100vh - 80px);
+}
+
+.map-section {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-section h2, .contact-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.map-wrapper {
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Override leaflet styles for dark mode integration if needed */
+.leaflet-container {
+    background: #242424;
+}
+
+.contact-section {
+  flex: 1;
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  height: fit-content;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+}
+
+.submit-btn {
+  background-color: var(--primary-color);
+  color: #000;
+  border: none;
+  padding: 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+}
+
+@media (max-width: 900px) {
+  .location-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

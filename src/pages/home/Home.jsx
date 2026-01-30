@@ -1,0 +1,223 @@
+
+import React, { useState, useMemo } from 'react';
+import VehicleCard from '../../components/vehicle-card/VehicleCard';
+import vehiclesData from '../../data/vehicles.json';
+import './home.css';
+
+const Home = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedManufacturer, setSelectedManufacturer] = useState('All');
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [minTopSpeed, setMinTopSpeed] = useState(100); // KM/H now
+  const [sortBy, setSortBy] = useState('name_asc'); 
+  
+  // Logic Flags
+  const [onlyWeaponized, setOnlyWeaponized] = useState(false);
+  const [onlyImani, setOnlyImani] = useState(false);
+  const [onlyHsw, setOnlyHsw] = useState(false);
+
+  // Derive Manufacturers & Classes
+  const manufacturers = useMemo(() => {
+     const set = new Set(vehiclesData.map(v => v.manufacturer).filter(m => m !== 'Unknown'));
+     return ['All', ...Array.from(set).sort()];
+  }, []);
+
+  const classes = useMemo(() => {
+    const set = new Set(vehiclesData.map(v => v.class));
+    return Array.from(set).sort();
+  }, []);
+
+  const classIcons = {
+      'Super': '🏎️', 'Supers': '🏎️',
+      'Sports': '🏁', 'Sport': '🏁',
+      'Sports Classics': '🏛️', 'Sports Classic': '🏛️',
+      'Muscle': '💪', 'Muscles': '💪',
+      'Off-Road': '🏔️', 'Off-roads': '🏔️', 
+      'SUV': '🚙', 'SUVs': '🚙', 'Suvs': '🚙',
+      'Motorcycle': '🏍️', 'Motorcycles': '🏍️', 'Bikes': '🏍️',
+      'Compact': '🚗', 'Compacts': '🚗',
+      'Sedan': '🚘', 'Sedans': '🚘',
+      'Coupe': '🛋️', 'Coupes': '🛋️',
+      'Van': '🚐', 'Vans': '🚐',
+      'Utility': '🛠️', 'Utilities': '🛠️',
+      'Industrial': '🏭',
+      'Cycle': '🚲', 'Cycles': '🚲', 
+      'Boat': '🚤', 'Boats': '🚤',
+      'Plane': '✈️', 'Planes': '✈️',
+      'Helicopter': '🚁', 'Helicopters': '🚁',
+      'Military': '🎖️',
+      'Emergency': '🚑',
+      'Service': '🚕',
+      'Commercial': '🚛',
+      'Trains': '🚂',
+      'Open Wheel': '🏎️'
+  };
+
+  const handleClassToggle = (cls) => {
+    setSelectedClasses(prev => 
+      prev.includes(cls) ? prev.filter(c => c !== cls) : [...prev, cls]
+    );
+  };
+
+  const filteredVehicles = useMemo(() => {
+    return vehiclesData.filter(vehicle => {
+      // 1. Search
+      if (searchTerm && !vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+          !vehicle.manufacturer.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+      
+      // 2. Manufacturer
+      if (selectedManufacturer !== 'All' && vehicle.manufacturer !== selectedManufacturer) return false;
+      
+      // 3. Class
+      if (selectedClasses.length > 0 && !selectedClasses.includes(vehicle.class)) return false;
+      
+      // 4. Sliders (RealKMH)
+      const speed = vehicle.stats.realKMH || (vehicle.stats.realMPH * 1.6);
+      if (speed < minTopSpeed) return false;
+
+      // 5. Flags
+      if (onlyWeaponized && !vehicle.isWeaponized) return false;
+      if (onlyImani && !vehicle.hasImaniTech) return false;
+      if (onlyHsw && !vehicle.isHsw) return false;
+
+      return true;
+    }).sort((a, b) => {
+        // Sorting Logic
+        if (sortBy === 'speed_desc') return (b.stats.realKMH || 0) - (a.stats.realKMH || 0);
+        if (sortBy === 'speed_asc') return (a.stats.realKMH || 0) - (b.stats.realKMH || 0);
+        
+        if (sortBy === 'accel_desc') return (b.stats.acceleration || 0) - (a.stats.acceleration || 0);
+        if (sortBy === 'accel_asc') return (a.stats.acceleration || 0) - (b.stats.acceleration || 0);
+
+        if (sortBy === 'handling_desc') return (b.stats.handling || 0) - (a.stats.handling || 0);
+        if (sortBy === 'handling_asc') return (a.stats.handling || 0) - (b.stats.handling || 0);
+
+        if (sortBy === 'braking_desc') return (b.stats.braking || 0) - (a.stats.braking || 0);
+        if (sortBy === 'braking_asc') return (a.stats.braking || 0) - (b.stats.braking || 0);
+
+        return a.name.localeCompare(b.name);
+    });
+  }, [searchTerm, selectedManufacturer, selectedClasses, minTopSpeed, onlyWeaponized, onlyImani, onlyHsw, sortBy]);
+
+  return (
+    <div className="home-container">
+      {/* Sidebar Filters */}
+      <aside className="filters-sidebar glass-panel">
+        <div className="sidebar-header">
+            <h2>Catálogo Inteligente</h2>
+            <button className="reset-btn" onClick={() => {
+                setSearchTerm('');
+                setSelectedManufacturer('All');
+                setSelectedClasses([]);
+                setMinTopSpeed(100);
+                setOnlyWeaponized(false);
+                setOnlyImani(false);
+                setOnlyHsw(false);
+            }}>Reset</button>
+        </div>
+
+        <div className="filter-group">
+            <label>Fabricante</label>
+            <select value={selectedManufacturer} onChange={(e) => setSelectedManufacturer(e.target.value)}>
+                {manufacturers.map(m => <option key={m} value={m}>{m}</option>)}
+            </select>
+        </div>
+
+        <div className="filter-group">
+             <label>Clase de Vehículo</label>
+             <div className="checkbox-group">
+                {classes.map(cls => (
+                    <label key={cls} className="checkbox-label" title={cls}>
+                        <input 
+                            type="checkbox" 
+                            checked={selectedClasses.includes(cls)}
+                            onChange={() => handleClassToggle(cls)}
+                        />
+                        <span className="class-icon">{classIcons[cls] || '🔹'}</span>
+                        <span className="class-name">{cls}</span>
+                    </label>
+                ))}
+             </div>
+        </div>
+
+        <div className="filter-group">
+            <label>Velocidad Mínima ({minTopSpeed} KM/H)</label>
+            <input 
+                type="range" 
+                min="100" max="300" 
+                value={minTopSpeed} 
+                onChange={(e) => setMinTopSpeed(Number(e.target.value))} 
+            />
+        </div>
+
+        <div className="filter-group flags-group">
+            <label className="toggle-label">
+                <input type="checkbox" checked={onlyWeaponized} onChange={(e) => setOnlyWeaponized(e.target.checked)} />
+                Vehículos Armados
+            </label>
+            <label className="toggle-label">
+                <input type="checkbox" checked={onlyImani} onChange={(e) => setOnlyImani(e.target.checked)} />
+                Imani Tech
+            </label>
+            <label className="toggle-label">
+                <input type="checkbox" checked={onlyHsw} onChange={(e) => setOnlyHsw(e.target.checked)} />
+                Mejoras HSW
+            </label>
+        </div>
+      </aside>
+
+      {/* Main Grid Area */}
+      <main className="vehicles-grid-section">
+        <div className="grid-header-actions">
+            <div className="search-bar-container">
+                <i className="search-icon">🔍</i>
+                <input 
+                    type="text" 
+                    placeholder="Buscar vehículo..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+            
+            <div className="sort-container">
+                <label>Ordenar:</label>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                    <option value="name_asc">Nombre (A-Z)</option>
+                    
+                    <option value="speed_desc">Velocidad (Más Rápido)</option>
+                    <option value="speed_asc">Velocidad (Más Lento)</option>
+                    
+                    <option value="accel_desc">Aceleración (Mayor)</option>
+                    <option value="accel_asc">Aceleración (Menor)</option>
+
+                    <option value="handling_desc">Manejo (Mejor)</option>
+                    <option value="handling_asc">Manejo (Peor)</option>
+
+                    <option value="braking_desc">Frenada (Mejor)</option>
+                    <option value="braking_asc">Frenada (Peor)</option>
+                </select>
+            </div>
+        </div>
+
+        <div className="results-meta">
+            Encontrados: {filteredVehicles.length}
+        </div>
+
+        <div className="vehicle-grid-container">
+          {filteredVehicles.length > 0 ? (
+            filteredVehicles.map(vehicle => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            ))
+          ) : (
+            <div className="no-results">
+                <h3>No hay resultados</h3>
+                <p>Intenta cambiar los filtros.</p>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Home;
