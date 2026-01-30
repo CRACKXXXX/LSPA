@@ -11,6 +11,22 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-logo {
+  height: 50px;
+  width: 50px; /* Force square/circle */
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+  background: #000;
+}
+
 .logo-section h1 {
   font-size: 1.5rem;
   font-weight: 800;

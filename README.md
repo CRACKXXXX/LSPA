@@ -1,6 +1,8 @@
 # Los Santos Performance Analyzer (LSPA)
 
-![LSPA Banner](https://via.placeholder.com/1200x300/050507/00f2ea?text=LSPA+|+Los+Santos+Performance+Analyzer)
+# Los Santos Performance Analyzer (LSPA)
+
+![LSPA Logo](src/assets/lspa-logo.jpg)
 
 ## 🏎️ Description (Descripción)
 
@@ -49,7 +51,7 @@ The design is heavily inspired by **Cyberpunk UI** and **Futuristic HUDs**, inco
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/Crackorb/Proyecto-react.git
+    git clone https://github.com/CRACKXXXX/LSPA.git
     ```
 2.  **Install dependencies**:
     ```bash

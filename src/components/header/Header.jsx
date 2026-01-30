@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import logo from '../../assets/lspa-logo.jpg';
 import './header.css';
 
 const Header = () => {
   return (
     <header className="header-container">
       <div className="logo-section">
+        <img src={logo} alt="LSPA Logo" className="app-logo" />
         <h1>LSPA</h1>
       </div>
       <nav className="nav-menu">
