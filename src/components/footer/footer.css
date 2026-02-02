@@ -1,39 +1,79 @@
+/* FOOTER STYLES */
 .footer-container {
-    background: rgba(5, 5, 7, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 230, 0, 0.2);
+    background: linear-gradient(to top, #000, #0a0a0f);
+    color: #fff;
     padding: 3rem 2rem;
-    margin-top: auto;
-    color: var(--text-color);
+    margin-top: 4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated gradient top border */
+.footer-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    animation: gradientFlow 3s infinite linear;
 }
 
 .footer-content {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 2rem;
+    justify-content: space-between;
+    gap: 3rem;
+    position: relative;
+    z-index: 10;
 }
 
 .footer-brand {
-    flex: 1;
-    min-width: 250px;
+    max-width: 350px;
 }
 
 .footer-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    color: var(--primary-color);
-    text-shadow: 0 0 10px var(--primary-color);
-    display: block;
+    font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 1rem;
+    display: block;
+    background: -webkit-linear-gradient(0deg, #fff, var(--primary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 230, 0, 0.2);
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .legal-text {
-    font-size: 0.8rem;
+    font-size: 0.75rem !important;
+    margin-top: 1rem;
+    opacity: 0.8;
+}
+
+.legal-text a {
     color: var(--text-muted);
-    margin-top: 0.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.legal-text a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.legal-text span {
+    color: var(--text-muted);
+    opacity: 0.5;
 }
 
 .footer-links-section {
@@ -44,53 +84,187 @@
 
 .footer-column h4 {
     color: #fff;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    border-bottom: 2px solid var(--secondary-color);
-    padding-bottom: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
     display: inline-block;
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--secondary-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.footer-column:hover h4::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .footer-column a {
     display: block;
     color: var(--text-muted);
     text-decoration: none;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    transition: color 0.3s;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s;
+    font-size: 0.95rem;
 }
 
 .footer-column a:hover {
     color: var(--primary-color);
+    transform: translateX(5px);
+    text-shadow: 0 0 10px rgba(255, 230, 0, 0.4);
 }
 
-.icons-row {
+/* Social Text Links */
+.social-links-text {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.8rem;
 }
 
-.social-icon {
-    font-size: 1.5rem;
-    filter: grayscale(100%);
+.social-text {
+    font-family: 'Orbitron', sans-serif; /* Tech font */
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    transition: all 0.3s ease;
+    width: fit-content;
+    padding-left: 15px;
+}
+
+/* Hover Indicator */
+.social-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px currentColor;
+}
+
+.social-text:hover {
+    padding-left: 20px;
+    transform: scale(1.05);
+}
+
+.social-text:hover::before {
+    opacity: 1;
+    left: 5px;
+}
+
+/* Platform Specifics - BRAND COLORS */
+.social-text.twitter {
+    color: #1DA1F2; /* Standard Blue */
+}
+.social-text.twitter:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #1DA1F2, 0 0 20px #1DA1F2;
+}
+
+.social-text.instagram {
+    /* Instagram Gradient as Text Color */
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* Fallback */
     transition: all 0.3s;
 }
-
-.social-icon:hover {
-    filter: grayscale(0%);
-    transform: scale(1.2);
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+.social-text.instagram:hover {
+    -webkit-text-fill-color: #fff;
+    text-shadow: 0 0 10px #bc1888, 0 0 20px #dc2743;
 }
 
-@media (max-width: 768px) {
+.social-text.youtube {
+    color: #FF0000; /* YouTube Red */
+}
+.social-text.youtube:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+}
+
+.social-text.discord {
+    color: #5865F2; /* Discord Blurple */
+}
+.social-text.discord:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* MEDIA QUERIES FIXED */
+@media (max-width: 900px) {
     .footer-content {
         flex-direction: column;
+        align-items: center;
         text-align: center;
-    }
-    .footer-links-section {
-        justify-content: center;
         gap: 2rem;
     }
-    .icons-row {
+
+    .footer-brand {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .footer-links-section {
         justify-content: center;
+        gap: 3rem;
+        width: 100%;
+    }
+
+    /* Fix Social Links on Mobile */
+    .social-links-text {
+        align-items: center; /* Center items in flex column */
+    }
+
+    .social-text {
+        padding-left: 0; /* Remove indent on mobile */
+        font-size: 1rem;
+    }
+    
+    .social-text::before {
+        display: none; /* Hide dot on mobile */
+    }
+
+    .social-text:hover {
+        padding-left: 0;
+        transform: scale(1.1);
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links-section {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .legal-text {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .legal-text span {
+        display: none; /* Hide separators on small mobile */
     }
 }
