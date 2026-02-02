@@ -76,7 +76,7 @@
 }
 
 .image-reveal-box.blurred img {
-    filter: blur(30px) grayscale(0.5);
+    filter: blur(15px) grayscale(0.5);
     transform: scale(1.1);
 }
 

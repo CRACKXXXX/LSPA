@@ -46,8 +46,8 @@ const GuidePage = () => {
 
                     <section className="legal-section">
                         <h2>Preguntas Frecuentes (FAQ)</h2>
-                        <p><strong>¿Son estos datos 100% reales?</strong><br/>Sí, extraídos directamente del código base del juego.</p>
-                        <p><strong>¿Incluye vehículos del modo Historia?</strong><br/>Incluye todos los vehículos disponibles en GTA Online, incluyendo los de las últimas actualizaciones.</p>
+                        <p><strong>¿Son estos datos 100% reales?</strong><br/>Son estimaciones basadas en pruebas de rendimiento simuladas por nuestros algoritmos. No corresponden necesariamente a los valores exactos del código del juego, ¡pero son ideales para comparar!</p>
+                        <p><strong>¿Incluye vehículos del modo Historia?</strong><br/>Incluye una amplia selección de vehículos de GTA Online para que construyas tu garaje soñado.</p>
                     </section>
 
                     <div className="legal-footer">
