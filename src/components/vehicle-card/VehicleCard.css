@@ -14,6 +14,46 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+  color: #fff;
+}
+
+.fav-btn:hover {
+  background: rgba(255, 0, 60, 0.2);
+  border-color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.fav-btn.active {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.fav-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: all 0.3s;
+}
+
+.fav-btn.active svg {
+    filter: drop-shadow(0 0 5px var(--secondary-color));
+    animation: neonPulse 1s infinite alternate;
+}
+
 .vehicle-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -172,4 +212,45 @@
   color: var(--success);
   text-shadow: 0 0 10px rgba(136, 255, 0, 0.3);
   font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .vehicle-card {
+        padding: 1rem;
+    }
+    
+    .card-image-placeholder {
+        height: 140px;
+    }
+    
+    .vehicle-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .stat-row {
+        font-size: 0.75rem;
+    }
+    
+    .stat-row span {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-image-placeholder {
+        height: 120px;
+    }
+    
+    .stat-value-text {
+        font-size: 0.8rem;
+    }
+    
+    .card-tags {
+        gap: 0.3rem;
+    }
+    
+    .tag {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.4rem;
+    }
 }

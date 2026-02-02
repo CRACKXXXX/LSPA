@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import vehicleData from '../../data/vehicles.json';
-import './versus-mode.css';
+import './VersusMode.css';
 
 const VersusMode = () => {
   const [leftVehicle, setLeftVehicle] = useState(null);

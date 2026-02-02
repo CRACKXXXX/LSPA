@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './vehicle-card.css';
+import './VehicleCard.css';
+import { useGarage } from '../../context/GarageContext';
 
 const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
-  const { name, manufacturer, class: vehicleClass, stats, price, isWeaponized, hasImaniTech, isHsw } = vehicle;
+  const { name, manufacturer, class: vehicleClass, stats, isWeaponized, hasImaniTech, isHsw, id } = vehicle;
+  const { isInGarage, toggleGarage } = useGarage();
+  const inGarage = isInGarage(id);
 
   return (
     <div 
-      className={`vehicle-card ${isSelected ? 'selected' : ''}`}
+      className={`vehicle-card ${isSelected ? 'selected' : ''} animate-slide-up`}
       onClick={() => onSelect && onSelect(vehicle)}
     >
+      <button 
+        className={`fav-btn ${inGarage ? 'active' : ''}`} 
+        onClick={(e) => {
+            e.stopPropagation();
+            toggleGarage(id);
+        }}
+        title={inGarage ? "Quitar del Garaje" : "Añadir a Mis Deseos"}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={inGarage ? "var(--secondary-color)" : "none"} stroke={inGarage ? "var(--secondary-color)" : "currentColor"} strokeWidth="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+
       <div className="card-header">
         <span className="manufacturer">{manufacturer}</span>
         <h3>{name}</h3>
@@ -64,6 +80,13 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
            <div className="stat-value-text">{stats.handling}</div>
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${stats.handling * 10}%` }}></div>
+          </div>
+        </div>
+        <div className="stat-row">
+          <span>Frenada</span>
+           <div className="stat-value-text">{stats.braking}</div>
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${stats.braking * 10}%`, background: 'var(--danger)', boxShadow: '0 0 5px var(--danger)' }}></div>
           </div>
         </div>
       </div>

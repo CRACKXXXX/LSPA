@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import vehiclesData from '../../data/vehicles.json';
-import './home.css';
+import './Home.css';
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');

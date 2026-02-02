@@ -1,76 +1,160 @@
-# Los Santos Performance Analyzer (LSPA)
 
-# Los Santos Performance Analyzer (LSPA)
+<a name="readme-top"></a>
 
-![LSPA Logo](src/assets/lspa-logo.jpg)
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/CRACKXXXX/LSPA">
+    <img src="public/lspa-logo.jpg" alt="Logo" width="80" height="80" style="border-radius:50%">
+  </a>
 
-## 🏎️ Description (Descripción)
+  <h3 align="center">Los Santos Performance Analyzer (LSPA)</h3>
 
-**Los Santos Performance Analyzer (LSPA)** is a cutting-edge web application designed for vehicle enthusiasts in the Los Santos area. It provides a comprehensive catalog of all available vehicles, detailed performance statistics (Speed, Acceleration, Handling, Braking), and tools to compare them.
+  <p align="center">
+    The ultimate vehicle performance database for GTA V Online, featuring real-time comparisons, minigames, and a persistent garage system.
+    <br />
+    <a href="https://github.com/CRACKXXXX/LSPA"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/CRACKXXXX/LSPA">View Demo</a>
+    ·
+    <a href="https://github.com/CRACKXXXX/LSPA/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/CRACKXXXX/LSPA/issues">Request Feature</a>
+  </p>
+</div>
 
-The Home page features a **Futuristic "Cyber" Design** with neon accents, glassmorphism effects, and dynamic filtering. Users can filter vehicles by Manufacturer, Class, Speed, features (Weaponized, Imani Tech, HSW), and sort them by any metric.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#home-page-description">Home Page Description</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#tutorials-and-resources">Tutorials and Resources</a></li>
+    <li><a href="#design-and-inspiration">Design and Inspiration</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
-The application also includes a **Versus Mode** for head-to-head comparisons and a **Location** page showing our HQ on a map.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-## 🚀 Key Features
+**LSPA** is a comprehensive React-based single-page application designed for gaming enthusiasts to analyze and compare vehicle statistics.
 
-- **Smart Catalog**: Filter 400+ vehicles by Class, Manufacturer, and Stats.
-- **Versus Mode**: Compare two vehicles side-by-side to see the winner in every category.
-- **Dynamic Sorting**: Sort by Speed, Acceleration, Handling, or Braking (Low/High).
-- **Responsive Design**: Fully optimized for Desktop, Tablet, and Mobile.
-- **Interactive Map**: Location page using Leaflet.
+Key Features:
+*   **Massive Database:** Browse over 700 vehicles with visual stats.
+*   **Comparison Tool:** "Versus Mode" to compare two vehicles side-by-side.
+*   **Dream Garage:** Add vehicles to your wishlist, tag them (Pending, Obtained, Hunting), and track your collection.
+*   **Minigames:**
+    *   *Guess The Car:* Identify vehicles from blurred images.
+    *   *Battle Cards:* A "Top Trumps" style card strategy game.
+*   **Responsive Design:** Fully adapted for Desktop, Laptop, Tablet, and Mobile devices.
 
-## 🛠️ Third-Party Components (Componentes de terceros)
+### Home Page Description
+The Home Page serves as the central hub and catalog. It features:
+*   A responsive **Grid System** displaying hundreds of vehicle cards via a JSON data source (`vehicles.json`).
+*   **Advanced Filtering:** Filter by Class (Super, Muscle, etc.), search by name, or sort by performance metrics.
+*   **Interactive Sidebar:** A collapsible filter panel (responsive) that allows fine-grained control over the viewed dataset.
+*   **Dynamic Routing:** Easy access to the Garage, Versus Mode, and Games via a sticky Navigation Header.
 
-1.  **[React Router Dom](https://reactrouter.com/)**: Used for seamless client-side navigation between Home, Versus, and Location pages.
-2.  **[Leaflet](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/)**: Used to render the interactive map on the Location page.
-3.  **[Axios](https://axios-http.com/)**: Used in the data import scripts to fetch vehicle data from external repositories.
-4.  **[Google Fonts](https://fonts.google.com/)**: Specifically 'Orbitron' and 'Inter' for the futuristic typography.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 📚 Tutorials & Resources (Enlaces de ayuda)
+### Built With
 
--   [Best-README-Template](https://github.com/othneildrew/Best-README-Template): Used as inspiration for this README.
--   [CSS Glassmorphism Generator](https://css.glass/): Helped with the sidebar and card styles.
--   [Leaflet Quick Start Guide](https://leafletjs.com/examples/quick-start/): Guide for setting up the map.
--   [GTA V Data Dumps](https://github.com/DurtyFree/gta-v-data-dumps): Source of the raw vehicle data.
+This project exploits modern web technologies and third-party components:
 
-## 🎨 Design & Inspiration
+*   [![React][React.js]][React-url]
+*   **React Router Dom**: For seamless client-side navigation.
+*   **Leaflet & React-Leaflet**: Used in the `/location` page to render interactive maps.
+*   **Vite**: Next-generation frontend tooling for fast builds.
+*   **CSS3 Custom Properties**: For the "Neon/Dark Mode" aesthetic without heavy frameworks.
 
-The design is heavily inspired by **Cyberpunk UI** and **Futuristic HUDs**, incorporating dark themes, neon cyan/magenta accents (Cyberpunk 2077 style), and minimalist layouts.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
--   **Figma Concept**: [Link to Figma Prototype (Placeholder)](https://figma.com)
+<!-- GETTING STARTED -->
+## Getting Started
 
-## 📂 Project Structure
+To get a local copy up and running follow these simple steps.
 
--   `src/components`: Reusable UI components (Header, Footer, VehicleCard).
--   `src/pages`: Main view components (Home, VersusMode, Location).
--   `src/data`: JSON data files.
--   `scripts`: Node.js scripts for data processing.
+### Prerequisites
 
-## 💻 Installation & Setup
-
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/CRACKXXXX/LSPA.git
+*   npm
+    ```sh
+    npm install npm@latest -g
     ```
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-3.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
-4.  **Build for production**:
-    ```bash
-    npm run build
-    ```
 
-## ⚖️ License & Credits
+### Installation
 
-© 2026 Los Santos Performance Analyzer. 
-Built by **Crackorb**.
-Images provided by **KevinLDG** & **GTA Assets**.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/CRACKXXXX/LSPA.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Start the Development Server
+   ```sh
+   npm run dev
+   ```
+   The app will be available at `http://localhost:5173` and `http://localhost:5173/home`.
 
----
-*This project was developed for the React Development Course.*
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+*   **Browsing:** Use the filters on the left sidebar to find "Super" cars with high "Handling".
+*   **Versus:** Navigate to "Versus" and select two cars to see which one is objectively better.
+*   **Garage:** Click the :heart: icon on any card to add it to your Garage. Go to the Garage page to organize them by tags.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- TUTORIALS -->
+## Tutorials and Resources
+
+This project was built with the help of the following resources:
+
+*   [Best-README-Template](https://github.com/othneildrew/Best-README-Template) - Used for this documentation.
+*   [React Leaflet Documentation](https://react-leaflet.js.org/) - Guide for implementing the map.
+*   [CSS Grid Guide (CSS-Tricks)](https://css-tricks.com/snippets/css/complete-guide-grid/) - Essential for the responsive catalog layout.
+*   [React Router v6 Tutorial](https://reactrouter.com/en/main/start/tutorial) - Routing implementation.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Design and Inspiration
+
+The UI/UX design focuses on a "Cyber/Neon" aesthetic suitable for a high-performance gaming theme.
+
+*   **Figma Design Inspiration:** [Gaming Dashboard UI Kit (Example)](https://www.figma.com/community/file/1169620831636988223)
+*   **Color Palette:** Dark background (`#1a1a20`) with Neon Yellow (`#ffe600`) and Red (`#ff003c`) accents.
+*   **UX Principles:**
+    *   **Feedback:** Hover effects and instant visual cues (heart animation).
+    *   **Visibility:** Clear navigation and active states.
+    *   **Consistency:** Reusable `VehicleCard` and `Button` styles.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Project Link: [https://github.com/CRACKXXXX/LSPA](https://github.com/CRACKXXXX/LSPA)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/

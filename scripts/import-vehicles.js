@@ -9,7 +9,11 @@ const __dirname = path.dirname(__filename);
 const OUTPUT_PATH = path.join(__dirname, '../src/data/vehicles.json');
 
 const SOURCE_URL = 'https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/vehicles.json';
-const IMG_BASE = 'https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images';
+const IMG_SOURCES = [
+    'https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images',
+    'https://gta-assets.pages.dev/images/vehicles',
+    'https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images'
+];
 
 // Configuration for "Invented" Stats based on Class
 const CLASS_SPECS = {
@@ -29,7 +33,10 @@ const CLASS_SPECS = {
     'Industrial': { speed: [1.0, 3.0], accel: [1.0, 2.0], hand: [1.0, 3.0], brake: [1.0, 3.0], kmh: [40, 90] }, // Crawling
     'Service': { speed: [3.0, 5.0], accel: [3.0, 5.0], hand: [4.0, 6.0], brake: [4.0, 6.0], kmh: [110, 150] },
     'Emergency': { speed: [6.0, 8.0], accel: [6.5, 8.5], hand: [6.0, 8.0], brake: [7.0, 9.0], kmh: [200, 260] },
-    'Military': { speed: [5.0, 7.0], accel: [4.0, 6.0], hand: [4.0, 6.0], brake: [5.0, 7.0], kmh: [150, 220] }
+    'Military': { speed: [5.0, 7.0], accel: [4.0, 6.0], hand: [4.0, 6.0], brake: [5.0, 7.0], kmh: [150, 220] },
+    'Plane': { speed: [8.0, 10.0], accel: [7.0, 9.0], hand: [6.0, 9.0], brake: [5.0, 7.0], kmh: [250, 450] },
+    'Helicopter': { speed: [7.0, 9.0], accel: [6.0, 8.0], hand: [7.0, 9.0], brake: [5.0, 7.0], kmh: [200, 300] },
+    'Boat': { speed: [5.0, 8.0], accel: [5.0, 7.0], hand: [4.0, 6.0], brake: [2.0, 4.0], kmh: [100, 180] }
 };
 
 const DEFAULT_SPEC = { speed: [4, 6], accel: [4, 6], hand: [4, 6], brake: [4, 6], kmh: [150, 200] };
@@ -44,19 +51,21 @@ function randInt(min, max) {
 
 function normalizeClass(cls) {
     if (!cls) return 'Generic';
-    // Fix known oddities
     if (cls === 'Sports Classics') return 'Sports Classics'; 
     return cls.charAt(0).toUpperCase() + cls.slice(1).toLowerCase();
 }
 
 async function checkImage(id) {
-    try {
-        const url = `${IMG_BASE}/${id}.png`;
-        await axios.head(url, { timeout: 2000 });
-        return url;
-    } catch (e) {
-        return null;
+    for (const base of IMG_SOURCES) {
+        try {
+            const url = `${base}/${id}.png`;
+            await axios.head(url, { timeout: 1500 }); // Fast check
+            return url;
+        } catch (e) {
+            // Try next source
+        }
     }
+    return null;
 }
 
 // Concurrency helper
@@ -88,6 +97,19 @@ async function runImport() {
         console.log(`✅ Downloaded ${rawData.length} entries. Processing...`);
         
         const seenIds = new Set();
+        let existingData = [];
+        
+        // Load existing data if exists
+        if (fs.existsSync(OUTPUT_PATH)) {
+            try {
+                existingData = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
+                existingData.forEach(v => seenIds.add(v.id));
+                console.log(`📂 Loaded ${existingData.length} existing vehicles.`);
+            } catch (e) {
+                console.log('⚠️ Could not parse existing data, starting fresh.');
+            }
+        }
+
         const candidates = [];
 
         rawData.forEach(item => {
@@ -98,7 +120,7 @@ async function runImport() {
             // Exclude common "junk" prefixes
             if (id.startsWith('prop_') || id.startsWith('p_')) return;
 
-            seenIds.add(id);
+            seenIds.add(id); // Mark as seen for this run too
 
             // Basic Info
             const name = item.DisplayName?.English || item.Name || 'Unknown';
@@ -113,8 +135,8 @@ async function runImport() {
                 }
             }
             
-            // Exclude Non-Land
-            const excludedClasses = ['Boat', 'Plane', 'Helicopter', 'Train', 'Subway', 'Rail', 'Trailer'];
+            // Exclude Non-Land (Updated: Removed Air/Water)
+            const excludedClasses = ['Train', 'Subway', 'Rail', 'Trailer'];
             if (excludedClasses.includes(category)) return;
 
             // Generate "Invented" Stats
@@ -135,14 +157,9 @@ async function runImport() {
             // Apply Bonus for "Good" flags
             let speedBonus = 0;
             if (isHsw) speedBonus += 1.0;
-            // Super cars always ultra fast
-            // if (category === 'Super' && Math.random() > 0.8) speedBonus += 0.5; // Random "Super fast" cars
 
             const finalSpeed = Math.min(10, rand(specs.speed[0], specs.speed[1]) + speedBonus);
             
-            // KMH Calculation: Base logic on the 0-10 speed score to align visual bar with number
-            // Map 0-10 to KMH Range roughly
-            // Actually, let's use the Spec Range + variance
             const realKMH = randInt(specs.kmh[0], specs.kmh[1]) + (isHsw ? 30 : 0);
 
             candidates.push({
@@ -150,7 +167,7 @@ async function runImport() {
                 model: id,
                 name: name,
                 manufacturer: manufacturer,
-                class: category, // Keep original casing for key lookup provided it matches specs keys slightly
+                class: category,
                 seats: item.Seats || 2,
                 stats: {
                     speed: finalSpeed.toFixed(1),
@@ -160,9 +177,8 @@ async function runImport() {
                     realKMH: realKMH,
                     realMPH: Math.round(realKMH / 1.609)
                 },
-                // No Price needed anymore, but keeping field structure doesn't hurt.
                 price: 0, 
-                image: null, // To be validated
+                image: null,
                 isWeaponized: !!isWeaponized,
                 hasImaniTech: !!hasImaniTech,
                 isHsw: !!isHsw
@@ -177,10 +193,9 @@ async function runImport() {
              return bP - aP;
         });
 
-        console.log(`⚙️  Candidates ready: ${candidates.length}. Starting Validation...`);
+        console.log(`⚙️  New Candidates found: ${candidates.length}. Validating up to 600...`);
 
-        // Validate Images
-        // Limit to checking first ~600 candidates to save time, looking for ~350 valid
+        // Validate Images - Check up to 600 NEW candidates
         const subsetToCheck = candidates.slice(0, 600); 
         
         const validated = await mapLimit(subsetToCheck, 30, async (veh) => {
@@ -192,10 +207,12 @@ async function runImport() {
             return null;
         });
 
-        const finalData = validated.filter(Boolean); // Remove nulls
+        const newVehicles = validated.filter(Boolean); // Remove nulls
+        
+        const totalData = [...existingData, ...newVehicles];
 
-        fs.writeFileSync(OUTPUT_PATH, JSON.stringify(finalData, null, 2));
-        console.log(`💾 SUCCESS: Saved ${finalData.length} valid vehicles.`);
+        fs.writeFileSync(OUTPUT_PATH, JSON.stringify(totalData, null, 2));
+        console.log(`💾 SUCCESS: Added ${newVehicles.length} new vehicles. Total Database: ${totalData.length}.`);
 
     } catch (error) {
         console.error(`❌ Error import: ${error.message}`);

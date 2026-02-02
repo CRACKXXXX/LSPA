@@ -1,0 +1,124 @@
+.garage-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 80px);
+}
+
+.garage-header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.garage-header h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.garage-stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: rgba(20, 20, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-align: right;
+    backdrop-filter: blur(10px);
+}
+
+.stat-card span {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.value-card {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(255, 230, 0, 0.1);
+}
+
+.garage-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.garage-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 0.5rem;
+}
+
+.garage-controls label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.tag-select {
+    flex: 1;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 8px;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tag-select:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.tag-select option {
+    background: #000;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+.empty-garage {
+    text-align: center;
+    padding: 4rem;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin-top: 2rem;
+}
+
+.sub-text {
+    font-size: 1rem;
+    margin-top: 1rem;
+    color: var(--primary-color);
+}
+
+.garage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
