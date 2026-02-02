@@ -51,7 +51,7 @@
 .empty-slot:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
-  background-color: rgba(0, 255, 136, 0.05);
+  background-color: rgba(255, 230, 0, 0.05);
 }
 
 .versus-divider {
@@ -182,7 +182,7 @@
 
 .mini-card:hover {
   border-color: var(--primary-color);
-  box-shadow: 0 0 15px rgba(0, 242, 234, 0.4);
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.4);
   transform: scale(1.02);
 }
 

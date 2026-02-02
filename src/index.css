@@ -3,21 +3,21 @@
   --bg-card: rgba(20, 20, 25, 0.7);
   --bg-card-hover: rgba(30, 30, 40, 0.9);
   
-  --primary-color: #00f2ea;
-  --secondary-color: #ff0055;
-  --accent-color: #bc13fe;
+  --primary-color: #ffe600;   /* Neon Yellow */
+  --secondary-color: #ff003c; /* Neon Red */
+  --accent-color: #ffaa00;    /* Neon Orange */
   
   --text-main: #ffffff;
   --text-muted: #8b9bb4;
   
-  --success: #00ffa3;
-  --danger: #ff0055;
-  --warning: #ffbf00;
+  --success: #88ff00;
+  --danger: #ff003c;
+  --warning: #ffe600;
 
   --font-main: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-border: 1px solid rgba(255, 230, 0, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --neon-glow: 0 0 10px rgba(0, 242, 234, 0.5);
+  --neon-glow: 0 0 10px rgba(255, 230, 0, 0.5);
 }
 
 * {

@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-brand">
             <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem'}}>
-                <img src={logo} alt="LSPA" style={{height:'60px', borderRadius:'50%', border:'2px solid #00f2ea'}} />
+                <img src={logo} alt="LSPA" style={{height:'60px', borderRadius:'50%', border:'2px solid var(--primary-color)'}} />
                 <span className="footer-logo" style={{margin:0}}>LSPA</span>
             </div>
             <p>&copy; 2026 Los Santos Performance Analyzer.</p>
