@@ -1,23 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+@font-face {
+    font-family: 'Pricedown';
+    src: url('https://db.onlinewebfonts.com/t/056353a27c582f1fb7429511639ad1fd.woff2') format('woff2');
+}
+
 :root {
-  --bg-dark: #050507;
+  font-family: 'Outfit', sans-serif;
+  --bg-dark: #0a0a0f;
   --bg-card: rgba(20, 20, 25, 0.7);
   --bg-card-hover: rgba(30, 30, 40, 0.9);
   
-  --primary-color: #ffe600;   /* Neon Yellow */
-  --secondary-color: #ff003c; /* Neon Red */
-  --accent-color: #ffaa00;    /* Neon Orange */
+  --primary-color: #FFD700; /* Gold */
+  --secondary-color: #FF4500; /* Orange Red */
+  --accent-color: #FF2A2A; /* NEON BRIGHT RED */
   
   --text-main: #ffffff;
-  --text-muted: #8b9bb4;
+  --text-muted: #888888;
   
   --success: #88ff00;
   --danger: #ff003c;
   --warning: #ffe600;
 
-  --font-main: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --glass-border: 1px solid rgba(255, 230, 0, 0.1);
+  --font-main: 'Outfit', sans-serif;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --neon-glow: 0 0 10px rgba(255, 230, 0, 0.5);
+  --neon-glow: 0 0 10px rgba(255, 0, 0, 0.6);
 }
 
 * {

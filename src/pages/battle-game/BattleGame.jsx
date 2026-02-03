@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import vehiclesData from '../../data/vehicles.json';
 import './BattleGame.css';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
+import { useGamification } from '../../context/GamificationContext';
 
 const BattleGame = () => {
+    const { addXp } = useGamification();
     const [playerCard, setPlayerCard] = useState(null);
     const [cpuCard, setCpuCard] = useState(null);
     const [gameState, setGameState] = useState('CHOOSING'); // CHOOSING, REVEAL, RESULT
@@ -49,6 +51,7 @@ const BattleGame = () => {
             if (pVal > cVal) {
                 setResult('WIN');
                 setScores(s => ({ ...s, player: s.player + 1 }));
+                addXp(100, 150); // XP Reward
             } else if (pVal < cVal) {
                 setResult('LOSE');
                 setScores(s => ({ ...s, cpu: s.cpu + 1 }));

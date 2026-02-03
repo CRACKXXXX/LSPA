@@ -8,39 +8,59 @@ import VersusMode from './pages/versus-mode/VersusMode';
 import './Animations.css';
 import Location from './pages/location/Location';
 import GaragePage from './pages/garage/GaragePage';
+import { GarageProvider } from './context/GarageContext';
 import GuessGame from './pages/guess-game/GuessGame';
 import BattleGame from './pages/battle-game/BattleGame';
+import HigherLower from './pages/minigames/HigherLower';
+import { AuthProvider } from './context/AuthContext';
+import { GamificationProvider } from './context/GamificationContext';
+import AuthPage from './pages/auth/AuthPage';
+import ProfilePage from './pages/profile/ProfilePage';
+import Leaderboard from './pages/leaderboard/Leaderboard';
+import Community from './pages/community/Community';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Analytics from './pages/analytics/Analytics';
 
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
 import CookiesPolicy from './pages/legal/CookiesPolicy';
 import TermsOfSale from './pages/legal/TermsOfSale';
-import GuidePage from './pages/guide/GuidePage';
+import GuideFAQ from './pages/legal/GuideFAQ';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="app-container">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/versus-mode" element={<VersusMode />} />
-          <Route path="/location" element={<Location />} />
-          <Route path="/garage" element={<GaragePage />} />
-          <Route path="/minigames/guess" element={<GuessGame />} />
-          <Route path="/minigames/battle" element={<BattleGame />} />
-          
-          {/* Legal & Help Routes */}
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/cookies" element={<CookiesPolicy />} />
-          <Route path="/terms" element={<TermsOfSale />} />
-          <Route path="/guide" element={<GuidePage />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <GarageProvider>
+        <GamificationProvider>
+          <Router>
+            <ScrollToTop />
+          <Header />
+          <div className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/versus-mode" element={<VersusMode />} />
+              <Route path="/location" element={<Location />} />
+              <Route path="/garage" element={<ProtectedRoute><GaragePage /></ProtectedRoute>} />
+              <Route path="/minigames/guess" element={<GuessGame />} />
+              <Route path="/minigames/battle" element={<BattleGame />} />
+              <Route path="/minigames/higher-lower" element={<HigherLower />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/cookies-policy" element={<CookiesPolicy />} />
+              <Route path="/terms-of-sale" element={<TermsOfSale />} />
+              <Route path="/guide-faq" element={<GuideFAQ />} />
+            </Routes>
+          </div>
+          <Footer />
+          </Router>
+        </GamificationProvider>
+      </GarageProvider>
+    </AuthProvider>
   );
 }
 

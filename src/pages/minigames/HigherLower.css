@@ -1,0 +1,214 @@
+
+.higher-lower-container {
+    height: 90vh; /* Full screen feel */
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.hilo-header {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.streak-badge {
+    background: #ff9100;
+    color: #000;
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.hilo-arena {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.hilo-card {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.hilo-card img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+    transition: transform 0.5s;
+}
+
+.hilo-info {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    background: rgba(0,0,0,0.6);
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    width: 80%;
+}
+
+.hilo-card h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.stat-reveal h1, .stat-question h1 {
+    font-size: 3.5rem;
+    color: var(--accent-color);
+    margin: 0;
+}
+
+/* RIGHT SIDE SPECIFICS */
+.hilo-card.right {
+    border-left: 2px solid rgba(255,255,255,0.1);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-higher, .btn-lower {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.btn-higher:hover {
+    background: #00C853;
+    border-color: #00C853;
+    transform: scale(1.05);
+}
+
+.btn-lower:hover {
+    background: #FF1744;
+    border-color: #FF1744;
+    transform: scale(1.05);
+}
+
+/* VS CIRCLE */
+.vs-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    z-index: 5;
+    box-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+/* RESULTS */
+.result-msg {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-msg.success { color: #00C853; }
+.result-msg.fail { color: #FF1744; }
+
+.hilo-card.right.success img { opacity: 0.8; filter: brightness(1.2); }
+.hilo-card.right.fail img { filter: grayscale(100%); }
+
+.btn-retry {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 0.8rem 1.5rem;
+    background: #fff;
+    color: #000;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.btn-retry:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-color);
+}
+
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .hilo-arena { 
+        flex-direction: column; 
+    }
+    .hilo-card.right {
+        border-left: none;
+        border-top: 2px solid rgba(255,255,255,0.1);
+    }
+    .vs-circle { 
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px; 
+        height: 50px; 
+        font-size: 0.8rem; 
+    }
+    .stat-reveal h1, .stat-question h1 {
+        font-size: 2.5rem;
+    }
+    .hilo-card h3 {
+        font-size: 1.5rem;
+    }
+    .hilo-info {
+        padding: 1rem;
+        width: 90%;
+    }
+    .higher-lower-container {
+        height: calc(100vh - 60px); /* Account for header */
+    }
+    .controls {
+        flex-direction: row;
+        justify-content: center;
+    }
+    .btn-higher, .btn-lower {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}

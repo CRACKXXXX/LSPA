@@ -13,25 +13,30 @@ const Footer = () => {
             </div>
             <p>&copy; 2026 Los Santos Performance Analyzer.</p>
             <div className="legal-text" style={{display:'flex', gap:'10px', flexWrap:'wrap', justifyContent:'center'}}>
-                <a href="/privacy">Política de Privacidad</a>
+                <a href="/privacy-policy">Política de Privacidad</a>
                 <span>|</span>
-                <a href="/cookies">Cookies</a>
+                <a href="/cookies-policy">Cookies</a>
                 <span>|</span>
-                <a href="/terms">Condiciones de Venta</a>
+                <a href="/terms-of-sale">Condiciones de Venta</a>
                 <span>|</span>
-                <a href="/guide">Guía / FAQ</a>
+                <a href="/guide-faq">Guía / FAQ</a>
             </div>
         </div>
         
         <div className="footer-links-section">
             <div className="footer-column">
                 <h4>Navegación</h4>
-                <a href="/home">Inicio</a>
+                <a href="/">Inicio</a>
                 <a href="/garage">Mi Garaje</a>
-                <a href="/versus-mode">Versus</a>
-                <a href="/minigames/guess">Adivina</a>
-                <a href="/minigames/battle">Batalla</a>
+                <a href="/analytics">Análisis</a>
                 <a href="/location">Ubicación</a>
+            </div>
+            <div className="footer-column">
+                <h4>Zona Gaming</h4>
+                <a href="/versus-mode">Versus Mode</a>
+                <a href="/minigames/guess">Adivina el Coche</a>
+                <a href="/minigames/battle">Batalla de Cartas</a>
+                <a href="/minigames/higher-lower">Hi-Lo</a>
             </div>
             <div className="footer-column">
                 <h4>Proyecto</h4>

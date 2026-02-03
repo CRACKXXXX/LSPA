@@ -2,9 +2,12 @@
 import React, { useState } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import vehicleData from '../../data/vehicles.json';
+import StatRadar from '../../components/charts/StatRadar';
 import './VersusMode.css';
+import { useGamification } from '../../context/GamificationContext';
 
 const VersusMode = () => {
+  const { addXp } = useGamification();
   const [leftVehicle, setLeftVehicle] = useState(null);
   const [rightVehicle, setRightVehicle] = useState(null);
   const [isSelectingFor, setIsSelectingFor] = useState(null); // 'left' or 'right'
@@ -20,6 +23,22 @@ const VersusMode = () => {
     if (isSelectingFor === 'right') setRightVehicle(vehicle);
     setIsSelectingFor(null);
   };
+
+  const awardedPairRef = React.useRef(null);
+
+  // Award XP for Researching (Comparisons)
+  React.useEffect(() => {
+    if (leftVehicle && rightVehicle) {
+        const pairKey = [leftVehicle.id, rightVehicle.id].sort().join('-');
+        
+        if (awardedPairRef.current !== pairKey) {
+            // New unique comparison
+            addXp(10, 20);
+            awardedPairRef.current = pairKey;
+        }
+    }
+  }, [leftVehicle, rightVehicle, addXp]);
+
 
   const filteredSelection = vehicleData.filter(v => 
     v.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -47,6 +66,10 @@ const VersusMode = () => {
             <div className="selected-slot">
               <button className="change-btn" onClick={() => handleSelectClick('left')}>Cambiar</button>
               <VehicleCard vehicle={leftVehicle} />
+              {/* Individual Radar A (Cyan) */}
+              <div style={{marginTop: '1rem', transform: 'scale(0.9)'}}>
+                <StatRadar vehicleA={leftVehicle} />
+              </div>
             </div>
           ) : (
             <div className="empty-slot" onClick={() => handleSelectClick('left')}>
@@ -63,6 +86,10 @@ const VersusMode = () => {
              <div className="selected-slot">
               <button className="change-btn" onClick={() => handleSelectClick('right')}>Cambiar</button>
               <VehicleCard vehicle={rightVehicle} />
+              {/* Individual Radar B (Magenta) */}
+              <div style={{marginTop: '1rem', transform: 'scale(0.9)'}}>
+                <StatRadar vehicleB={rightVehicle} /> 
+              </div>
             </div>
           ) : (
             <div className="empty-slot" onClick={() => handleSelectClick('right')}>
@@ -73,34 +100,24 @@ const VersusMode = () => {
       </div>
 
       {leftVehicle && rightVehicle && (
-        <div className="comparison-table">
-          <div className="comparison-row">
-            <span className={`stat-val ${getStatClass(leftVehicle.stats.realKMH || leftVehicle.stats.realMPH * 1.6, rightVehicle.stats.realKMH || rightVehicle.stats.realMPH * 1.6)}`}>
-              {leftVehicle.stats.realKMH || Math.round(leftVehicle.stats.realMPH * 1.6)} KM/H
-            </span>
-            <span className="stat-label">Velocidad</span>
-            <span className={`stat-val ${getStatClass(rightVehicle.stats.realKMH || rightVehicle.stats.realMPH * 1.6, leftVehicle.stats.realKMH || leftVehicle.stats.realMPH * 1.6)}`}>
-              {rightVehicle.stats.realKMH || Math.round(rightVehicle.stats.realMPH * 1.6)} KM/H
-            </span>
-          </div>
-          <div className="comparison-row">
-            <span className={`stat-val ${getStatClass(leftVehicle.stats.handling, rightVehicle.stats.handling)}`}>
-              {leftVehicle.stats.handling}
-            </span>
-            <span className="stat-label">Manejo</span>
-            <span className={`stat-val ${getStatClass(rightVehicle.stats.handling, leftVehicle.stats.handling)}`}>
-              {rightVehicle.stats.handling}
-            </span>
-          </div>
-             <div className="comparison-row">
-            <span className={`stat-val ${getStatClass(leftVehicle.stats.braking, rightVehicle.stats.braking)}`}>
-              {leftVehicle.stats.braking}
-            </span>
-            <span className="stat-label">Frenado</span>
-            <span className={`stat-val ${getStatClass(rightVehicle.stats.braking, leftVehicle.stats.braking)}`}>
-              {rightVehicle.stats.braking}
-            </span>
-          </div>
+        <div className="comparison-section" style={{marginTop:'2rem'}}>
+            <StatRadar 
+                vehicleA={leftVehicle} 
+                vehicleB={rightVehicle} 
+                title="COMPARACIÓN DE RENDIMIENTO"
+            />
+            
+            <div className="comparison-table">
+            <div className="comparison-row">
+                <span className={`stat-val ${getStatClass(leftVehicle.stats.realKMH, rightVehicle.stats.realKMH)}`}>
+                {leftVehicle.stats.realKMH} <small>KM/H</small>
+                </span>
+                <span className="stat-label">VELOCIDAD MÁX</span>
+                <span className={`stat-val ${getStatClass(rightVehicle.stats.realKMH, leftVehicle.stats.realKMH)}`}>
+                {rightVehicle.stats.realKMH} <small>KM/H</small>
+                </span>
+            </div>
+            </div>
         </div>
       )}
 

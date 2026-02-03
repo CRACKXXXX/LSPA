@@ -3,12 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import './animations.css'
-import { GarageProvider } from './context/GarageContext'
+import './animations.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GarageProvider>
-      <App />
-    </GarageProvider>
+    <App />
   </React.StrictMode>,
 )

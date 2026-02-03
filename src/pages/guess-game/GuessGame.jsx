@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import vehiclesData from '../../data/vehicles.json';
 import './GuessGame.css';
+import { useGamification } from '../../context/GamificationContext';
 
 const GuessGame = () => {
+    const { addXp } = useGamification();
     const [currentVehicle, setCurrentVehicle] = useState(null);
     const [options, setOptions] = useState([]);
     const [score, setScore] = useState(0);
@@ -64,7 +66,9 @@ const GuessGame = () => {
 
         if (name === currentVehicle.name) {
             // Correct
-            setScore(prev => prev + 100 + (timeLeft * 10)); // Bonus for speed
+            const xpEarned = 50 + (timeLeft * 2);
+            setScore(prev => prev + 100 + (timeLeft * 10)); // Score remains same
+            addXp(xpEarned, xpEarned + 10); // Gamification XP
         } else {
             // Wrong or Timeout
             setIsGameOver(true);

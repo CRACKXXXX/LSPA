@@ -8,7 +8,7 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedManufacturer, setSelectedManufacturer] = useState('All');
   const [selectedClasses, setSelectedClasses] = useState([]);
-  const [minTopSpeed, setMinTopSpeed] = useState(100); // KM/H now
+  const [minTopSpeed, setMinTopSpeed] = useState(0); // KM/H now
   const [sortBy, setSortBy] = useState('name_asc'); 
   
   // Logic Flags
@@ -59,8 +59,51 @@ const Home = () => {
     );
   };
 
+  // Smart Matcher State
+  const [smartPreference, setSmartPreference] = useState(null); // 'speed', 'drift', 'control', 'offroad'
+
+  const handleSmartSelect = (pref) => {
+      // Toggle logic
+      if (smartPreference === pref) {
+          setSmartPreference(null);
+          return;
+      }
+      setSmartPreference(pref);
+      
+      // Auto-configure filters based on preference
+      if (pref === 'speed') {
+          setSortBy('speed_desc');
+          setMinTopSpeed(190);
+      } else if (pref === 'drift') {
+          setSortBy('accel_desc'); // Power needed for drift
+          setMinTopSpeed(0);
+      } else if (pref === 'control') {
+          setSortBy('handling_desc');
+          setMinTopSpeed(0);
+      } else {
+          setSortBy('name_asc');
+          setMinTopSpeed(0);
+      }
+  };
+
   const filteredVehicles = useMemo(() => {
     return vehiclesData.filter(vehicle => {
+      // 0. Smart Matcher Logic
+      if (smartPreference === 'drift') {
+          // Drift = High Power + Low Traction (Slippery)
+          // Adjust logic: Traction < 2.5 and Accel > 7
+          const traction = parseFloat(vehicle.stats.handling);
+          const accel = parseFloat(vehicle.stats.acceleration);
+          if (traction > 2.5 || accel < 6.5) return false;
+      }
+      if (smartPreference === 'control') {
+          // Grip = High Traction + High Braking
+          if (parseFloat(vehicle.stats.handling) < 8.0 || parseFloat(vehicle.stats.braking) < 7.0) return false;
+      }
+      if (smartPreference === 'offroad') {
+          if (vehicle.class !== 'Off-Road' && vehicle.class !== 'SUV') return false;
+      }
+
       // 1. Search
       if (searchTerm && !vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
           !vehicle.manufacturer.toLowerCase().includes(searchTerm.toLowerCase())) return false;
@@ -97,19 +140,19 @@ const Home = () => {
 
         return a.name.localeCompare(b.name);
     });
-  }, [searchTerm, selectedManufacturer, selectedClasses, minTopSpeed, onlyWeaponized, onlyImani, onlyHsw, sortBy]);
+  }, [searchTerm, selectedManufacturer, selectedClasses, minTopSpeed, onlyWeaponized, onlyImani, onlyHsw, sortBy, smartPreference]);
 
   return (
     <div className="home-container">
       {/* Sidebar Filters */}
       <aside className="filters-sidebar glass-panel">
         <div className="sidebar-header">
-            <h2>Catálogo Inteligente</h2>
+            <h2>Catálogo LSPA</h2>
             <button className="reset-btn" onClick={() => {
                 setSearchTerm('');
                 setSelectedManufacturer('All');
                 setSelectedClasses([]);
-                setMinTopSpeed(100);
+                setMinTopSpeed(0);
                 setOnlyWeaponized(false);
                 setOnlyImani(false);
                 setOnlyHsw(false);
@@ -144,7 +187,7 @@ const Home = () => {
             <label>Velocidad Mínima ({minTopSpeed} KM/H)</label>
             <input 
                 type="range" 
-                min="100" max="300" 
+                min="0" max="500" 
                 value={minTopSpeed} 
                 onChange={(e) => setMinTopSpeed(Number(e.target.value))} 
             />

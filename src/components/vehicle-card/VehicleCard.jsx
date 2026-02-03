@@ -8,10 +8,24 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
   const { isInGarage, toggleGarage } = useGarage();
   const inGarage = isInGarage(id);
 
+  // Helper for dynamic stat colors
+  const getStatColor = (value) => {
+    // TIER S (God Tier - 9.0+): Neon Purple/Pink (Rare)
+    if (value >= 9.0) return '#D946EF'; 
+    // TIER A (Excellent - 7.0+): Neon Cyan/Green
+    if (value >= 7.0) return '#00E676'; 
+    // TIER B (Average - 4.0+): Warning Yellow/Orange
+    if (value >= 4.0) return '#FFC107'; 
+    // TIER C (Bad - < 4.0): Danger Red
+    return '#FF5252';
+  };
+
   return (
     <div 
       className={`vehicle-card ${isSelected ? 'selected' : ''} animate-slide-up`}
-      onClick={() => onSelect && onSelect(vehicle)}
+      onClick={() => {
+          onSelect && onSelect(vehicle);
+      }}
     >
       <button 
         className={`fav-btn ${inGarage ? 'active' : ''}`} 
@@ -63,30 +77,46 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
       <div className="card-stats">
         <div className="stat-row">
           <span>Velocidad</span>
-          <div className="stat-value-text">{stats.realKMH || stats.realMPH * 1.6} KM/H</div>
+          <div className="stat-value-text" style={{color: getStatColor(stats.speed)}}>{stats.realKMH || stats.realMPH * 1.6} KM/H</div>
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${stats.speed * 10}%` }}></div>
+            <div className="progress-fill" style={{ 
+                width: `${stats.speed * 10}%`,
+                background: getStatColor(stats.speed),
+                boxShadow: `0 0 8px ${getStatColor(stats.speed)}`
+            }}></div>
           </div>
         </div>
         <div className="stat-row">
           <span>Aceleración</span>
-          <div className="stat-value-text">{stats.acceleration}</div>
+          <div className="stat-value-text" style={{color: getStatColor(stats.acceleration)}}>{stats.acceleration}</div>
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${stats.acceleration * 10}%`, background: 'var(--accent-color)', boxShadow: '0 0 8px var(--accent-color)' }}></div>
+            <div className="progress-fill" style={{ 
+                width: `${stats.acceleration * 10}%`, 
+                background: getStatColor(stats.acceleration), 
+                boxShadow: `0 0 8px ${getStatColor(stats.acceleration)}` 
+            }}></div>
           </div>
         </div>
         <div className="stat-row">
           <span>Manejo</span>
-           <div className="stat-value-text">{stats.handling}</div>
+           <div className="stat-value-text" style={{color: getStatColor(stats.handling)}}>{stats.handling}</div>
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${stats.handling * 10}%` }}></div>
+            <div className="progress-fill" style={{ 
+                width: `${stats.handling * 10}%`,
+                background: getStatColor(stats.handling),
+                boxShadow: `0 0 8px ${getStatColor(stats.handling)}`
+            }}></div>
           </div>
         </div>
         <div className="stat-row">
           <span>Frenada</span>
-           <div className="stat-value-text">{stats.braking}</div>
+           <div className="stat-value-text" style={{color: getStatColor(stats.braking)}}>{stats.braking}</div>
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${stats.braking * 10}%`, background: 'var(--danger)', boxShadow: '0 0 5px var(--danger)' }}></div>
+            <div className="progress-fill" style={{ 
+                width: `${stats.braking * 10}%`, 
+                background: getStatColor(stats.braking), 
+                boxShadow: `0 0 8px ${getStatColor(stats.braking)}` 
+            }}></div>
           </div>
         </div>
       </div>
