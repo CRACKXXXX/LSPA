@@ -65,6 +65,26 @@ export const GamificationProvider = ({ children }) => {
         return { amount, leveledUp, newLevel };
     };
 
+    // New: Update High Score for a specific game
+    const updateHighScore = (gameKey, score) => {
+        if (!user) return false;
+
+        const currentHighScores = user.highScores || {};
+        const currentRecord = currentHighScores[gameKey] || 0;
+
+        if (score > currentRecord) {
+            // New Record!
+            updateUser({
+                highScores: {
+                    ...currentHighScores,
+                    [gameKey]: score
+                }
+            });
+            return true; // Use this to show "NEW RECORD" UI
+        }
+        return false;
+    };
+
     const getLeaderboard = () => {
         const dbStr = localStorage.getItem(DB_KEY);
         if (!dbStr) return [];
@@ -113,7 +133,8 @@ export const GamificationProvider = ({ children }) => {
         getLevelProgress,
         level: currentLevel,
         xp: currentXp,
-        nextLevelXp
+        nextLevelXp,
+        updateHighScore
     };
 
     return (

@@ -2,28 +2,34 @@ import React, { useState, useEffect } from 'react';
 import vehiclesData from '../../data/vehicles.json';
 import './GuessGame.css';
 import { useGamification } from '../../context/GamificationContext';
+import { useAuth } from '../../context/AuthContext';
 
 const GuessGame = () => {
-    const { addXp } = useGamification();
+    const { addXp, updateHighScore } = useGamification();
+    const { user } = useAuth();
+    
     const [currentVehicle, setCurrentVehicle] = useState(null);
     const [options, setOptions] = useState([]);
     const [score, setScore] = useState(0);
-    const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('lspa_guess_highscore') || '0'));
+    const [highScore, setHighScore] = useState(0);
     const [isRevealed, setIsRevealed] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [timeLeft, setTimeLeft] = useState(10);
     const [isGameOver, setIsGameOver] = useState(false);
 
+    // Sync High Score from User Profile
     useEffect(() => {
-        startRound();
-    }, []);
+        if (user && user.highScores) {
+             setHighScore(user.highScores.guessCar || 0);
+        }
+    }, [user]);
 
     useEffect(() => {
         if (score > highScore) {
             setHighScore(score);
-            localStorage.setItem('lspa_guess_highscore', score.toString());
+            updateHighScore('guessCar', score);
         }
-    }, [score]);
+    }, [score, highScore, updateHighScore]);
 
     useEffect(() => {
         let timer;
@@ -35,22 +41,37 @@ const GuessGame = () => {
         return () => clearInterval(timer);
     }, [timeLeft, isRevealed, isGameOver]);
 
-    const getRandomVehicle = () => vehiclesData[Math.floor(Math.random() * vehiclesData.length)];
+    const getRandomVehicle = () => {
+        if (!vehiclesData || vehiclesData.length === 0) return null;
+        return vehiclesData[Math.floor(Math.random() * vehiclesData.length)];
+    };
 
     const startRound = () => {
+        if (!vehiclesData || vehiclesData.length < 4) {
+            console.error("Not enough vehicles data!");
+            return;
+        }
+
         setIsRevealed(false);
         setSelectedOption(null);
         setTimeLeft(10);
         setIsGameOver(false);
 
         const correct = getRandomVehicle();
+        if (!correct) return; // Safety
+        
         setCurrentVehicle(correct);
 
         // Generate options
         const wrongOptions = new Set();
-        while (wrongOptions.size < 3) {
+        let safetyCounter = 0;
+        
+        while (wrongOptions.size < 3 && safetyCounter < 100) {
             const wrong = getRandomVehicle();
-            if (wrong.id !== correct.id) wrongOptions.add(wrong.name);
+            if (wrong && wrong.id !== correct.id) {
+                wrongOptions.add(wrong.name);
+            }
+            safetyCounter++;
         }
         
         const allOptions = [correct.name, ...Array.from(wrongOptions)];
@@ -76,7 +97,41 @@ const GuessGame = () => {
         }
     };
 
-    if (!currentVehicle) return <div className="loading">Cargando...</div>;
+    const [loadingError, setLoadingError] = useState(false);
+
+    // Initial Load
+    useEffect(() => {
+        try {
+            startRound();
+        } catch (e) {
+            console.error(e);
+            setLoadingError(true);
+        }
+    }, []);
+
+    if (loadingError) return (
+        <div className="loading">
+            <div style={{textAlign:'center'}}>
+                <p>ERROR CRÍTICO</p>
+                <p style={{fontSize:'1rem', color:'#fff'}}>Consulta la consola.</p>
+                <button className="next-btn" onClick={() => window.location.reload()}>RECARGAR</button>
+            </div>
+        </div>
+    );
+
+    if (!currentVehicle) return (
+        <div className="loading">
+            <div style={{textAlign:'center'}}>
+                <p>CARGANDO MOTORES...</p>
+                <p style={{fontSize:'0.8rem', color:'#888', marginTop:'0.5rem'}}>
+                    Vehículos detectados: {vehiclesData ? vehiclesData.length : '0'}
+                </p>
+                <button className="option-btn" style={{marginTop:'1rem', fontSize:'0.8rem'}} onClick={startRound}>
+                    INICIAR MANUALMENTE
+                </button>
+            </div>
+        </div>
+    );
 
     const getImage = (vehicle) => {
         // Same image fallback logic

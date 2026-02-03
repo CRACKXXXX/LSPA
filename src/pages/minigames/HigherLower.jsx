@@ -13,7 +13,7 @@ const STATS = [
 ];
 
 const HigherLower = () => {
-    const { addXp } = useGamification();
+    const { addXp, updateHighScore } = useGamification();
     const [leftCar, setLeftCar] = useState(null);
     const [rightCar, setRightCar] = useState(null);
     const [targetStat, setTargetStat] = useState(STATS[0]);
@@ -65,6 +65,10 @@ const HigherLower = () => {
         } else {
             setGameState('fail');
             setMessage(`¡FALLASTE! Era ${valB.toLocaleString()}`);
+            
+            // SAVE HIGH SCORE
+            updateHighScore('higherLower', streak); // "streak" is the score here
+            
             setStreak(0);
         }
     };

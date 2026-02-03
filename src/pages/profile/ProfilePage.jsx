@@ -242,6 +242,31 @@ const ProfilePage = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* HIGH SCORES SECTION */}
+                    {profileUser.highScores && (
+                        <div className="profile-stats-container glass-panel-sm" style={{marginTop: '1rem', borderColor: 'var(--accent-color)'}}>
+                            <div className="xp-info-row" style={{justifyContent: 'center', marginBottom: '1rem'}}>
+                                <span style={{color: 'var(--accent-color)', fontWeight: 'bold', letterSpacing: '2px'}}>RÉCORDS DE JUEGOS</span>
+                            </div>
+                            <div className="stats-row" style={{marginBottom: 0}}>
+                                <div className="stat-item">
+                                    <span className="stat-label">MAYOR MENOR</span>
+                                    <span className="stat-value">{profileUser.highScores.higherLower || 0}</span>
+                                </div>
+                                <div className="stat-divider"></div>
+                                <div className="stat-item">
+                                    <span className="stat-label">ADIVINA</span>
+                                    <span className="stat-value">{profileUser.highScores.guessCar || 0}</span>
+                                </div>
+                                <div className="stat-divider"></div>
+                                <div className="stat-item">
+                                    <span className="stat-label">BATALLA</span>
+                                    <span className="stat-value">{profileUser.highScores.battleWinStreak || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     
                     {isOwnProfile && (
                         <button 

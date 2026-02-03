@@ -125,6 +125,16 @@ export const AuthProvider = ({ children }) => {
          updateUser({ garage: newGarage });
     };
 
+    const ADMIN_ID = '06f2211e-8d48-41c9-a21d-4d1ddaa72002'; // HARDCODED SUPER ADMIN
+
+    // Helper: Check if user is admin or owner
+    const checkAdmin = (userObj) => {
+        if (userObj.id === ADMIN_ID) {
+            return { ...userObj, role: 'owner' };
+        }
+        return userObj;
+    };
+
     // Helper for Social Features
     const getAllUsers = () => getDb();
     
@@ -132,6 +142,39 @@ export const AuthProvider = ({ children }) => {
         const users = getDb();
         return users.find(u => u.id === id) || null;
     };
+
+    // --- ADMIN ACTIONS ---
+    const deleteUser = (targetId) => {
+        const users = getDb();
+        const newUsers = users.filter(u => u.id !== targetId);
+        saveDb(newUsers);
+        
+        // If deleting self (weird but possible), logout
+        if (user && user.id === targetId) {
+            logout();
+        }
+    };
+
+    const adminUpdateUser = (targetId, updates) => {
+        const users = getDb();
+        const index = users.findIndex(u => u.id === targetId);
+        
+        if (index !== -1) {
+            const updatedUser = { ...users[index], ...updates };
+            users[index] = updatedUser;
+            saveDb(users);
+
+            // If updating currently logged in user, update session
+            if (user && user.id === targetId) {
+                 setUser(updatedUser);
+                 localStorage.setItem(SESSION_KEY, JSON.stringify(updatedUser));
+            }
+            return true;
+        }
+        return false;
+    };
+
+    const isAdmin = user && (user.id === ADMIN_ID || user.role === 'admin' || user.role === 'owner');
 
     const value = {
         user,
@@ -143,7 +186,11 @@ export const AuthProvider = ({ children }) => {
         syncGarage,
         getAllUsers,
         getUserById,
-        DEFAULT_AVATAR_URL
+        DEFAULT_AVATAR_URL,
+        deleteUser,
+        adminUpdateUser,
+        isAdmin,
+        ADMIN_ID
     };
 
     return (

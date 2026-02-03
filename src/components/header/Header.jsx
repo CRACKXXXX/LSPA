@@ -14,7 +14,7 @@ const Header = () => {
     const [userMenuOpen, setUserMenuOpen] = useState(false); // Dropdown state
     const { garageIds } = useGarage(); 
     const count = garageIds.length;
-    const { user, logout } = useAuth(); // Destructure logout
+    const { user, logout, isAdmin } = useAuth(); // Destructure logout and isAdmin
     const { level } = useGamification();
     const navigate = useNavigate();
 
@@ -115,6 +115,13 @@ const Header = () => {
                                     zIndex: 1000,
                                     boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
                                 }}>
+                                    {/* Admin Link */}
+                                    {isAdmin && (
+                                        <button onClick={() => navigate('/admin')} style={{background:'none', border:'none', color:'#00F0FF', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold', borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
+                                            PANEL ADMIN 🛡️
+                                        </button>
+                                    )}
+
                                     <button onClick={() => navigate('/profile')} style={{background:'none', border:'none', color:'white', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold'}}>PERFIL</button>
                                     <button onClick={handleLogout} style={{background:'none', border:'none', color:'#ff4444', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold', borderTop:'1px solid rgba(255,255,255,0.1)'}}>LOGOUT</button>
                                 </div>

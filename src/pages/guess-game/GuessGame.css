@@ -174,3 +174,21 @@
 @media (max-width: 600px) {
     .options-grid { grid-template-columns: 1fr; }
 }
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; text-shadow: 0 0 20px var(--primary-color); }
+    100% { opacity: 0.5; }
+}

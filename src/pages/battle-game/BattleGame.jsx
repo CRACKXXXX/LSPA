@@ -3,14 +3,18 @@ import vehiclesData from '../../data/vehicles.json';
 import './BattleGame.css';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import { useGamification } from '../../context/GamificationContext';
+import { useAuth } from '../../context/AuthContext';
 
 const BattleGame = () => {
-    const { addXp } = useGamification();
+    const { addXp, updateHighScore } = useGamification();
+    const { user } = useAuth(); // To get current High Score display if needed
+    
     const [playerCard, setPlayerCard] = useState(null);
     const [cpuCard, setCpuCard] = useState(null);
     const [gameState, setGameState] = useState('CHOOSING'); // CHOOSING, REVEAL, RESULT
     const [result, setResult] = useState(null);
-    const [scores, setScores] = useState({ player: 0, cpu: 0 });
+    const [scores, setScores] = useState({ player: 0, cpu: 0 }); // Current Session Score
+    const [streak, setStreak] = useState(0); // Current Streak
     const [selectedStat, setSelectedStat] = useState(null);
 
     useEffect(() => {
@@ -51,12 +55,19 @@ const BattleGame = () => {
             if (pVal > cVal) {
                 setResult('WIN');
                 setScores(s => ({ ...s, player: s.player + 1 }));
-                addXp(100, 150); // XP Reward
+                
+                const newStreak = streak + 1;
+                setStreak(newStreak);
+                updateHighScore('battleWinStreak', newStreak); // Save if record
+
+                addXp(100 + (newStreak * 10), 150 + (newStreak * 10)); // Bonus XP
             } else if (pVal < cVal) {
                 setResult('LOSE');
                 setScores(s => ({ ...s, cpu: s.cpu + 1 }));
+                setStreak(0); // Reset
             } else {
                 setResult('DRAW');
+                // Streak stays? Or resets? Let's say keep it for Draw.
             }
             setGameState('RESULT');
         }, 1000); // 1s delay for tension
@@ -73,6 +84,10 @@ const BattleGame = () => {
         <div className="battle-container">
             <h2 className="gradient-text">BATALLA DE CARTAS</h2>
             
+                <div className="score-badge main-streak" style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid gold', color: 'gold'}}>
+                    RACHA: {streak} ⚔️
+                </div>
+
             <div className="battle-scoreboard">
                 <div className="score-badge player">JUGADOR: {scores.player}</div>
                 <div className="vs-logo">VS</div>

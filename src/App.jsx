@@ -25,6 +25,7 @@ import PrivacyPolicy from './pages/legal/PrivacyPolicy';
 import CookiesPolicy from './pages/legal/CookiesPolicy';
 import TermsOfSale from './pages/legal/TermsOfSale';
 import GuideFAQ from './pages/legal/GuideFAQ';
+import AdminPanel from './pages/admin/AdminPanel';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
               <Route path="/cookies-policy" element={<CookiesPolicy />} />
               <Route path="/terms-of-sale" element={<TermsOfSale />} />
               <Route path="/guide-faq" element={<GuideFAQ />} />
+              <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
             </Routes>
           </div>
           <Footer />
