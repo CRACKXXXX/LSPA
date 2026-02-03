@@ -2,7 +2,7 @@
 import React from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
 
-const StatRadar = ({ vehicleA, vehicleB, title }) => {
+const StatRadar = ({ vehicleA, vehicleB, title, colorA, colorB }) => {
     // Normalizing Data for the Chart
     const data = [
         {
@@ -31,6 +31,13 @@ const StatRadar = ({ vehicleA, vehicleB, title }) => {
         }
     ];
 
+    // Default Colors
+    const defaultColorA = "#00F0FF"; // Cyan
+    const defaultColorB = "#FF003C"; // Red / Magenta
+
+    const finalColorA = colorA || (vehicleB ? "var(--accent-color)" : defaultColorA);
+    const finalColorB = colorB || (vehicleA ? "var(--secondary-color)" : defaultColorB);
+
     return (
         <div style={{ width: '100%', height: 350, background: 'rgba(0,0,0,0.2)', borderRadius: '12px', padding: '1rem', position: 'relative' }}>
             {title && (
@@ -55,26 +62,26 @@ const StatRadar = ({ vehicleA, vehicleB, title }) => {
                     <PolarAngleAxis dataKey="subject" tick={{ fill: 'white', fontSize: 13, fontFamily: 'Outfit', fontWeight: '500' }} />
                     <PolarRadiusAxis angle={30} domain={[0, 10]} tickCount={11} tick={false} axisLine={false} />
                     
-                    {/* Vehicle A - Cyan (Left) */}
+                    {/* Vehicle A (Left) */}
                     {vehicleA && (
                         <Radar
                             name={vehicleA.name}
                             dataKey="A"
-                            stroke={vehicleB ? "var(--accent-color)" : "#00F0FF"} 
+                            stroke={colorA || (vehicleB ? "var(--accent-color)" : "#00F0FF")} 
                             strokeWidth={3}
-                            fill={vehicleB ? "var(--accent-color)" : "#00F0FF"}
+                            fill={colorA || (vehicleB ? "var(--accent-color)" : "#00F0FF")}
                             fillOpacity={0.5}
                         />
                     )}
 
-                    {/* Vehicle B - Magenta (Right) */}
+                    {/* Vehicle B (Right) */}
                     {vehicleB && (
                         <Radar
                             name={vehicleB.name}
                             dataKey="B"
-                            stroke={vehicleA ? "var(--secondary-color)" : "#FF003C"}
+                            stroke={colorB || (vehicleA ? "var(--secondary-color)" : "#FF003C")}
                             strokeWidth={3}
-                            fill={vehicleA ? "var(--secondary-color)" : "#FF003C"}
+                            fill={colorB || (vehicleA ? "var(--secondary-color)" : "#FF003C")}
                             fillOpacity={0.5}
                         />
                     )}

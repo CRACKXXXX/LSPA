@@ -160,6 +160,7 @@ This project was built with the help of the following resources:
 The UI/UX design focuses on a "Cyber/Neon" aesthetic suitable for a high-performance gaming theme.
 
 *   **Theme:** "Fire & Gold" - Dark backgrounds featuring Neon Red accents and Gold highlights.
+*   **Figma Inspiration:** [Gaming Dashboard UI Kit](https://www.figma.com/community/file/1169620831636988223)
 *   **UX Principles:**
     *   **Gamified Feedback:** Animations for leveling up and earning XP.
     *   **Glassmorphism:** Translucent panels for a modern, futuristic feel.

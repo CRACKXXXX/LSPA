@@ -38,6 +38,7 @@ function App() {
           <div className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/versus-mode" element={<VersusMode />} />
               <Route path="/location" element={<Location />} />
               <Route path="/garage" element={<ProtectedRoute><GaragePage /></ProtectedRoute>} />

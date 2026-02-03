@@ -68,7 +68,7 @@ const VersusMode = () => {
               <VehicleCard vehicle={leftVehicle} />
               {/* Individual Radar A (Cyan) */}
               <div style={{marginTop: '1rem', transform: 'scale(0.9)'}}>
-                <StatRadar vehicleA={leftVehicle} />
+                <StatRadar vehicleA={leftVehicle} colorA="#0d2ccc" />
               </div>
             </div>
           ) : (
@@ -88,7 +88,7 @@ const VersusMode = () => {
               <VehicleCard vehicle={rightVehicle} />
               {/* Individual Radar B (Magenta) */}
               <div style={{marginTop: '1rem', transform: 'scale(0.9)'}}>
-                <StatRadar vehicleB={rightVehicle} /> 
+                <StatRadar vehicleB={rightVehicle} colorB="#ff0000" /> 
               </div>
             </div>
           ) : (
@@ -105,15 +105,17 @@ const VersusMode = () => {
                 vehicleA={leftVehicle} 
                 vehicleB={rightVehicle} 
                 title="COMPARACIÓN DE RENDIMIENTO"
+                colorA="#0d2ccc"   // Blue
+                colorB="#ff0000"   // Red
             />
             
             <div className="comparison-table">
             <div className="comparison-row">
-                <span className={`stat-val ${getStatClass(leftVehicle.stats.realKMH, rightVehicle.stats.realKMH)}`}>
+                <span className="stat-val" style={{color: '#0d2ccc', textShadow: '0 0 10px rgba(13, 44, 204, 0.4)'}}>
                 {leftVehicle.stats.realKMH} <small>KM/H</small>
                 </span>
                 <span className="stat-label">VELOCIDAD MÁX</span>
-                <span className={`stat-val ${getStatClass(rightVehicle.stats.realKMH, leftVehicle.stats.realKMH)}`}>
+                <span className="stat-val" style={{color: '#ff0000', textShadow: '0 0 10px rgba(255, 0, 0, 0.4)'}}>
                 {rightVehicle.stats.realKMH} <small>KM/H</small>
                 </span>
             </div>
