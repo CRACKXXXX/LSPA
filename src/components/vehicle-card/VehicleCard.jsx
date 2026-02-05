@@ -8,24 +8,58 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
   const { isInGarage, toggleGarage } = useGarage();
   const inGarage = isInGarage(id);
   const [isReaderMode, setIsReaderMode] = useState(false);
+  
+  // NEW: Tuning Mode State
+  const [isTuned, setIsTuned] = useState(false);
 
-  // Helper for dynamic stat colors
-  const getStatColor = (value) => {
-    // TIER S (God Tier - 9.0+): Neon Purple/Pink (Rare)
-    if (value >= 9.0) return '#D946EF'; 
-    // TIER A (Excellent - 7.0+): Neon Cyan/Green
-    if (value >= 7.0) return '#00E676'; 
-    // TIER B (Average - 4.0+): Warning Yellow/Orange
-    if (value >= 4.0) return '#FFC107'; 
-    // TIER C (Bad - < 4.0): Danger Red
-    return '#FF5252';
+  // 1. ENGINE MATHEMATICS
+  const calculateScore = (s) => {
+      // Base calculation on original 0-10 scale
+      const rawScore = (s.speed * 30) + (s.acceleration * 30) + (s.handling * 25) + (s.braking * 15);
+      return Math.round(rawScore);
   };
+
+  // 2. TIER LOGIC "LSPA GRANULAR"
+  const getTier = (score) => {
+      // ELITE RANK
+      if (score >= 980) return { label: 'S+', color: '#FFD700', text: '#000', glow: '0 0 15px #FFD700' }; // GOD
+      if (score >= 950) return { label: 'S',  color: '#D946EF', text: '#fff', glow: '0 0 10px #D946EF' }; // LEGEND
+      if (score >= 900) return { label: 'A+', color: '#00E5FF', text: '#000', glow: '0 0 8px #00E5FF' }; // HYPER
+      
+      // COMPETITIVE RANK
+      if (score >= 850) return { label: 'A',  color: '#00E676', text: '#000', glow: 'none' }; // TOP
+      if (score >= 750) return { label: 'B',  color: '#FFC107', text: '#000', glow: 'none' }; // PRO
+      
+      // MID-LOW RANK
+      if (score >= 650) return { label: 'C',  color: '#FF9800', text: '#fff', glow: 'none' }; // AVERAGE
+      if (score >= 550) return { label: '-C', color: '#E64A19', text: '#fff', glow: 'none' }; // WEAK
+      
+      // TRASH RANK
+      if (score >= 450) return { label: 'D',  color: '#D32F2F', text: '#fff', glow: 'none' }; // BAD
+      return { label: '-D', color: '#455A64', text: '#fff', glow: 'none' }; // TRASH
+  };
+
+  // Derive Effective Stats
+  const effectiveStats = {
+      speed: isTuned ? Math.min(stats.speed * 1.2, 10) : stats.speed,
+      acceleration: isTuned ? Math.min(stats.acceleration * 1.2, 10) : stats.acceleration,
+      handling: isTuned ? Math.min(stats.handling * 1.2, 10) : stats.handling,
+      braking: isTuned ? Math.min(stats.braking * 1.2, 10) : stats.braking
+  };
+
+  // Derive Score & Tier
+  const currentScore = calculateScore(effectiveStats);
+  const tier = getTier(currentScore);
 
   return (
     <div 
       className={`vehicle-card ${isSelected ? 'selected' : ''} ${isReaderMode ? 'reader-mode' : ''} animate-slide-up`}
       onClick={() => {
           onSelect && onSelect(vehicle);
+      }}
+      style={{
+          borderTop: `3px solid ${tier.color}`,
+          boxShadow: isReaderMode ? 'none' : `0 4px 20px -5px ${tier.color}40` // Subtle glow based on tier
       }}
     >
       <div className="card-actions">
@@ -35,7 +69,7 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
                 e.stopPropagation();
                 setIsReaderMode(!isReaderMode);
             }}
-            title="Modo Lectura (Ver solo coche)"
+            title="Modo Lectura"
         >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -58,8 +92,12 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
       </div>
 
       <div className="card-header">
-        <span className="manufacturer">{manufacturer}</span>
-        <h3>{name}</h3>
+        <span className="manufacturer" style={{color: 'var(--text-muted)'}}>{manufacturer}</span>
+        <h3 style={{
+            fontSize: name.length > 15 ? '1.1rem' : '1.3rem', 
+            margin: '2px 0 5px',
+            textShadow: isTuned ? '0 0 10px #2979FF' : 'none'
+        }}>{name}</h3>
         <span className="vehicle-class">{vehicleClass}</span>
       </div>
       
@@ -70,12 +108,9 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
                 const target = e.target;
                 const currentSrc = target.src;
                 const id = vehicle.model;
-                
-                // Backup 1: MericcaN41
+                // Backup logic
                 const backup1 = `https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/${id}.png`;
-                // Backup 2: GTA Assets
                 const backup2 = `https://gta-assets.pages.dev/images/vehicles/${id}.png`;
-                // Backup 3: Placeholder
                 const placeholder = "https://via.placeholder.com/300x160?text=No+Image";
 
                 if (currentSrc === vehicle.image) {
@@ -89,64 +124,103 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
             }}
             alt={name} 
         />
+        
+        {/* NEW: TIER BADGE */}
+        <div className="tier-badge" style={{
+            position: 'absolute',
+            top: '0',
+            right: '0',
+            background: tier.color,
+            color: tier.text,
+            padding: '4px 8px',
+            borderBottomLeftRadius: '8px',
+            fontWeight: 'bold',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            lineHeight: '1',
+            boxShadow: tier.glow,
+            zIndex: 10
+        }}>
+            <span style={{fontSize: '1.2rem'}}>{tier.label}</span>
+            <span style={{fontSize: '0.6rem', opacity: 0.8}}>{currentScore}</span>
+        </div>
       </div>
 
       <div className="card-stats">
-        <div className="stat-row">
-          <span>Velocidad</span>
-          <div className="stat-value-text" style={{color: getStatColor(stats.speed)}}>{stats.realKMH || stats.realMPH * 1.6} KM/H</div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ 
-                width: `${stats.speed * 10}%`,
-                background: getStatColor(stats.speed),
-                boxShadow: `0 0 8px ${getStatColor(stats.speed)}`
-            }}></div>
-          </div>
+        
+        {/* NEW: TUNING SWITCH */}
+        <div className="tuning-control" style={{
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            marginBottom: '0.5rem',
+            background: 'rgba(0,0,0,0.3)',
+            padding: '4px 8px',
+            borderRadius: '4px'
+        }}>
+            <span style={{fontSize: '0.7rem', color: isTuned ? '#2979FF' : '#888', fontWeight: 'bold'}}>
+                LS CUSTOMS TUNING
+            </span>
+            <div 
+                className={`tuning-switch ${isTuned ? 'on' : ''}`} 
+                onClick={(e) => { e.stopPropagation(); setIsTuned(!isTuned); }}
+                style={{
+                    width: '30px',
+                    height: '16px',
+                    background: isTuned ? '#2979FF' : '#444',
+                    borderRadius: '10px',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    transition: '0.3s'
+                }}
+            >
+                <div style={{
+                    width: '12px',
+                    height: '12px',
+                    background: '#fff',
+                    borderRadius: '50%',
+                    position: 'absolute',
+                    top: '2px',
+                    left: isTuned ? '16px' : '2px',
+                    transition: '0.3s'
+                }}></div>
+            </div>
         </div>
-        <div className="stat-row">
-          <span>Aceleración</span>
-          <div className="stat-value-text" style={{color: getStatColor(stats.acceleration)}}>{stats.acceleration}</div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ 
-                width: `${stats.acceleration * 10}%`, 
-                background: getStatColor(stats.acceleration), 
-                boxShadow: `0 0 8px ${getStatColor(stats.acceleration)}` 
-            }}></div>
-          </div>
-        </div>
-        <div className="stat-row">
-          <span>Manejo</span>
-           <div className="stat-value-text" style={{color: getStatColor(stats.handling)}}>{stats.handling}</div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ 
-                width: `${stats.handling * 10}%`,
-                background: getStatColor(stats.handling),
-                boxShadow: `0 0 8px ${getStatColor(stats.handling)}`
-            }}></div>
-          </div>
-        </div>
-        <div className="stat-row">
-          <span>Frenada</span>
-           <div className="stat-value-text" style={{color: getStatColor(stats.braking)}}>{stats.braking}</div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ 
-                width: `${stats.braking * 10}%`, 
-                background: getStatColor(stats.braking), 
-                boxShadow: `0 0 8px ${getStatColor(stats.braking)}` 
-            }}></div>
-          </div>
-        </div>
+
+        {/* STATS BARS */}
+        {Object.entries({
+            'Velocidad': effectiveStats.speed,
+            'Aceleración': effectiveStats.acceleration,
+            'Manejo': effectiveStats.handling,
+            'Frenada': effectiveStats.braking
+        }).map(([label, val]) => (
+            <div className="stat-row" key={label}>
+              <span>{label}</span>
+              <div className="stat-value-text" style={{color: isTuned ? '#2979FF' : tier.color}}>
+                  {val.toFixed(1)}
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ 
+                    width: `${val * 10}%`,
+                    background: isTuned ? '#2979FF' : tier.color,
+                    boxShadow: isTuned ? `0 0 10px #2979FF` : 'none',
+                    transition: 'all 0.5s ease-out'
+                }}></div>
+              </div>
+            </div>
+        ))}
       </div>
       
       <div className="extra-info-row" style={{display:'flex', justifyContent:'space-between', fontSize:'0.75rem', color:'var(--text-muted)', marginTop:'0.5rem', borderTop:'1px solid rgba(255,255,255,0.05)', paddingTop:'0.5rem'}}>
         <span>Asientos: {vehicle.seats}</span>
-        <span>Clase: {vehicleClass}</span>
+        <span>{vehicleClass}</span>
       </div>
 
       <div className="card-tags">
-        {isWeaponized && <span className="tag weapon">ARMADO</span>}
-        {hasImaniTech && <span className="tag imani">IMANI</span>}
-        {isHsw && <span className="tag hsw">HSW</span>}
+        {isWeaponized && <span className="tag weapon" style={{fontSize:'0.6rem'}}>ARMADO</span>}
+        {hasImaniTech && <span className="tag imani" style={{fontSize:'0.6rem'}}>IMANI</span>}
+        {isHsw && <span className="tag hsw" style={{fontSize:'0.6rem'}}>HSW</span>}
       </div>
     </div>
   );
