@@ -1,0 +1,80 @@
+/* Explorer specific tweaks overriding/extending CrewFinder.css */
+.explorer-modal {
+    background: #0a0a0f !important;
+    border: 1px solid var(--primary-color) !important;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+/* MANDATORY CREW IMAGE STYLE */
+.crew-card-logo {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+    border: 2px solid #333;
+}
+
+.crew-card-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05); /* Slightly lighter than black */
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.crew-card-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.modal-header-hero {
+    background: linear-gradient(180deg, rgba(0,229,255,0.1) 0%, rgba(0,0,0,0) 100%);
+    padding: 2rem;
+    text-align: center;
+}
+
+.hero-logo {
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color);
+    margin-bottom: 1rem;
+    object-fit: cover; /* ESSENTIAL */
+}
+
+/* ... other styles ... */
+
+.avatars-row {
+    display: flex;
+    justify-content: center;
+    gap: -10px; /* Overlap effect? or just gap 5px */
+    margin-bottom: 2rem;
+}
+
+.mini-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #111;
+    transition: transform 0.2s;
+}
+.mini-avatar:hover {
+    transform: scale(1.2);
+    z-index: 10;
+    border-color: var(--primary-color);
+}
+.mini-avatar-container {
+    margin: 0 2px;
+}

@@ -19,10 +19,10 @@ const AppLoader = ({ onComplete }) => {
         <div className="app-loader">
             <div className="loader-content">
                 <div className="loader-logo-circle">
-                    <span className="loader-initial">L</span>
+                    <img src="/lspa-logo.jpg" alt="Logo" className="loader-img" />
                 </div>
                 <div className="loader-text">
-                    LOADING LOS SANTOS...
+                    Cargando LSPA...
                 </div>
                 <div className="loader-bar">
                     <div className="loader-progress"></div>

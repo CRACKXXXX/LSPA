@@ -122,6 +122,7 @@ const Header = () => {
                                         </button>
                                     )}
 
+                                    <button onClick={() => navigate('/crews')} style={{background:'none', border:'none', color:'white', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold'}}>👥 CREWS</button>
                                     <button onClick={() => navigate('/profile')} style={{background:'none', border:'none', color:'white', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold'}}>PERFIL</button>
                                     <button onClick={handleLogout} style={{background:'none', border:'none', color:'#ff4444', textAlign:'left', padding:'0.5rem', cursor:'pointer', fontWeight:'bold', borderTop:'1px solid rgba(255,255,255,0.1)'}}>LOGOUT</button>
                                 </div>

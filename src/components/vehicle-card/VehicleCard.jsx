@@ -12,31 +12,57 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
   // NEW: Tuning Mode State
   const [isTuned, setIsTuned] = useState(false);
 
-  // 1. ENGINE MATHEMATICS
+  // 1. ENGINE MATHEMATICS (BALANCED V4.0 - HARD MODE)
   const calculateScore = (s) => {
-      // Base calculation on original 0-10 scale
-      const rawScore = (s.speed * 30) + (s.acceleration * 30) + (s.handling * 25) + (s.braking * 15);
-      return Math.round(rawScore);
+      // Weighted Sum Strategy:
+      // Speed/Accel (35%) - Handling (20%) - Braking (10%)
+      // Max raw score = 1000.
+      
+      const speedPts  = s.speed * 35; 
+      const accelPts  = s.acceleration * 35;
+      const handlPts  = s.handling * 20;
+      const brakePts  = s.braking * 10;
+      
+      const rawScore = speedPts + accelPts + handlPts + brakePts;
+
+      // Multiplier x1.15
+      // - Generic Traffic (raw ~300) -> 345 (D Tier)
+      // - Adder (raw ~600) -> 690 (B Tier)
+      // - Meta Car (raw ~865) -> 995 (S+ Tier, but NOT 1000)
+      const calibratedScore = rawScore * 1.15; 
+      
+      return Math.min(1000, Math.round(calibratedScore)); 
   };
 
-  // 2. TIER LOGIC "LSPA GRANULAR"
+  // 2. TIER LOGIC "LSPA DISTRIBUTED"
   const getTier = (score) => {
-      // ELITE RANK
-      if (score >= 980) return { label: 'S+', color: '#FFD700', text: '#000', glow: '0 0 15px #FFD700' }; // GOD
-      if (score >= 950) return { label: 'S',  color: '#D946EF', text: '#fff', glow: '0 0 10px #D946EF' }; // LEGEND
-      if (score >= 900) return { label: 'A+', color: '#00E5FF', text: '#000', glow: '0 0 8px #00E5FF' }; // HYPER
+      // ELITE RANK (Hard to reach)
+      if (score >= 980) return { label: 'S+', color: '#FFD700', text: '#000', glow: '0 0 20px #FFD700' }; // GOD (Oro)
+      if (score >= 930) return { label: 'S',  color: '#D946EF', text: '#fff', glow: '0 0 15px #D946EF' }; // LEGEND (Magenta)
+      if (score >= 850) return { label: 'A+', color: '#00E5FF', text: '#000', glow: '0 0 10px #00E5FF' }; // HYPER (Cian)
       
-      // COMPETITIVE RANK
-      if (score >= 850) return { label: 'A',  color: '#00E676', text: '#000', glow: 'none' }; // TOP
-      if (score >= 750) return { label: 'B',  color: '#FFC107', text: '#000', glow: 'none' }; // PRO
+      // COMPETITIVE RANK (Good cars live here)
+      if (score >= 750) return { label: 'A',  color: '#00E676', text: '#000', glow: 'none' }; // TOP (Verde)
+      if (score >= 650) return { label: 'B',  color: '#FFC107', text: '#000', glow: 'none' }; // PRO (Amarillo)
       
       // MID-LOW RANK
-      if (score >= 650) return { label: 'C',  color: '#FF9800', text: '#fff', glow: 'none' }; // AVERAGE
-      if (score >= 550) return { label: '-C', color: '#E64A19', text: '#fff', glow: 'none' }; // WEAK
+      if (score >= 550) return { label: 'C',  color: '#FF9800', text: '#fff', glow: 'none' }; // AVERAGE (Naranja)
+      if (score >= 400) return { label: '-C', color: '#E64A19', text: '#fff', glow: 'none' }; // WEAK (Teja)
       
       // TRASH RANK
-      if (score >= 450) return { label: 'D',  color: '#D32F2F', text: '#fff', glow: 'none' }; // BAD
-      return { label: '-D', color: '#455A64', text: '#fff', glow: 'none' }; // TRASH
+      if (score >= 250) return { label: 'D',  color: '#D32F2F', text: '#fff', glow: 'none' }; // BAD (Rojo)
+      return { label: '-D', color: '#455A64', text: '#fff', glow: 'none' }; // TRASH (Gris)
+  };
+
+  // 3. STAT COLOR LOGIC (STRICT PALETTE)
+  const getStatColor = (val) => {
+      const v = Number(val); // Ensure number
+      if (v >= 9.0) return '#9C27B0'; // Purple (Perfect)
+      if (v >= 8.0) return '#2979FF'; // Bright Blue (Best of 8)
+      if (v >= 6.0) return '#00C853'; // Green (Best of 6)
+      if (v >= 5.0) return '#FF9800'; // Orange (Best of 5)
+      if (v >= 3.0) return '#FFEB3B'; // Yellow (Best of 3)
+      return '#F44336'; // Red (< 3)
   };
 
   // Derive Effective Stats
@@ -59,7 +85,9 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
       }}
       style={{
           borderTop: `3px solid ${tier.color}`,
-          boxShadow: isReaderMode ? 'none' : `0 4px 20px -5px ${tier.color}40` // Subtle glow based on tier
+          boxShadow: isReaderMode ? 'none' : `0 4px 20px -5px ${tier.color}40`,
+          position: 'relative',
+          overflow: 'hidden'
       }}
     >
       <div className="card-actions">
@@ -106,26 +134,14 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
             src={vehicle.image} 
             onError={(e) => {
                 const target = e.target;
-                const currentSrc = target.src;
                 const id = vehicle.model;
-                // Backup logic
-                const backup1 = `https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/${id}.png`;
-                const backup2 = `https://gta-assets.pages.dev/images/vehicles/${id}.png`;
-                const placeholder = "https://via.placeholder.com/300x160?text=No+Image";
-
-                if (currentSrc === vehicle.image) {
-                     target.src = backup1;
-                } else if (currentSrc === backup1) {
-                     target.src = backup2;
-                } else {
-                     target.onerror = null;
-                     target.src = placeholder;
-                }
+                target.src = `https://gta-assets.pages.dev/images/vehicles/${id}.png`;
+                target.onerror = () => target.src = "https://via.placeholder.com/300x160?text=No+Image";
             }}
             alt={name} 
         />
         
-        {/* NEW: TIER BADGE */}
+        {/* TIER BADGE */}
         <div className="tier-badge" style={{
             position: 'absolute',
             top: '0',
@@ -149,7 +165,7 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
 
       <div className="card-stats">
         
-        {/* NEW: TUNING SWITCH */}
+        {/* TUNING SWITCH */}
         <div className="tuning-control" style={{
             display: 'flex', 
             justifyContent: 'space-between', 
@@ -194,22 +210,27 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
             'Aceleración': effectiveStats.acceleration,
             'Manejo': effectiveStats.handling,
             'Frenada': effectiveStats.braking
-        }).map(([label, val]) => (
-            <div className="stat-row" key={label}>
-              <span>{label}</span>
-              <div className="stat-value-text" style={{color: isTuned ? '#2979FF' : tier.color}}>
-                  {Number(val).toFixed(1)}
-              </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ 
-                    width: `${Number(val) * 10}%`,
-                    background: isTuned ? '#2979FF' : tier.color,
-                    boxShadow: isTuned ? `0 0 10px #2979FF` : 'none',
-                    transition: 'all 0.5s ease-out'
-                }}></div>
-              </div>
-            </div>
-        ))}
+        }).map(([label, val]) => {
+            const numVal = Number(val);
+            const barColor = getStatColor(numVal); // Strict Palette Color
+            
+            return (
+                <div className="stat-row" key={label}>
+                  <span>{label}</span>
+                  <div className="stat-value-text" style={{color: barColor}}>
+                      {numVal.toFixed(1)}
+                  </div>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ 
+                        width: `${numVal * 10}%`,
+                        background: barColor, 
+                        boxShadow: `0 0 8px ${barColor}`,
+                        transition: 'all 0.5s ease-out'
+                    }}></div>
+                  </div>
+                </div>
+            );
+        })}
       </div>
       
       <div className="extra-info-row" style={{display:'flex', justifyContent:'space-between', fontSize:'0.75rem', color:'var(--text-muted)', marginTop:'0.5rem', borderTop:'1px solid rgba(255,255,255,0.05)', paddingTop:'0.5rem'}}>

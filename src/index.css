@@ -1,11 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Russo+One&display=swap');
 
-/* Fallback for Pricedown using Russo One (similar bold display font) */
-@font-face {
-    font-family: 'Pricedown';
-    src: local('Russo One'), url('https://fonts.gstatic.com/s/russoone/v14/Z9XUDmZCWYkMhJjI5n8.woff2') format('woff2');
-    font-display: swap;
-}
+
 
 :root {
   font-family: 'Outfit', sans-serif;
