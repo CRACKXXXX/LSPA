@@ -14,10 +14,17 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-.fav-btn {
+/* Actions Container */
+.card-actions {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.action-btn {
   background: rgba(0,0,0,0.5);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 50%;
@@ -27,15 +34,19 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
   transition: all 0.2s;
   color: #fff;
 }
 
+.action-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Fav Button specific */
 .fav-btn:hover {
   background: rgba(255, 0, 60, 0.2);
   border-color: var(--secondary-color);
-  transform: scale(1.1);
 }
 
 .fav-btn.active {
@@ -52,6 +63,57 @@
 .fav-btn.active svg {
     filter: drop-shadow(0 0 5px var(--secondary-color));
     animation: neonPulse 1s infinite alternate;
+}
+
+/* Reader Mode Button */
+.reader-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--primary-color);
+}
+
+.reader-btn.active {
+    background: var(--primary-color);
+    color: #000;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.reader-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- READER MODE STYLES --- */
+.vehicle-card.reader-mode {
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(20,20,30,0.9), rgba(0,0,0,0.95));
+}
+
+.vehicle-card.reader-mode .card-stats,
+.vehicle-card.reader-mode .card-tags,
+.vehicle-card.reader-mode .extra-info-row,
+.vehicle-card.reader-mode .manufacturer,
+.vehicle-card.reader-mode .vehicle-class {
+    display: none; /* Hide everything except Name and Image */
+}
+
+.vehicle-card.reader-mode .card-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.vehicle-card.reader-mode h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.vehicle-card.reader-mode .card-image-placeholder {
+    height: 220px; /* Maximize image */
+    background: transparent;
+}
+
+.vehicle-card.reader-mode:hover {
+    transform: scale(1.02);
 }
 
 .vehicle-card:hover {

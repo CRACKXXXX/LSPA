@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './VehicleCard.css';
 import { useGarage } from '../../context/GarageContext';
@@ -7,6 +7,7 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
   const { name, manufacturer, class: vehicleClass, stats, isWeaponized, hasImaniTech, isHsw, id } = vehicle;
   const { isInGarage, toggleGarage } = useGarage();
   const inGarage = isInGarage(id);
+  const [isReaderMode, setIsReaderMode] = useState(false);
 
   // Helper for dynamic stat colors
   const getStatColor = (value) => {
@@ -22,23 +23,39 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
 
   return (
     <div 
-      className={`vehicle-card ${isSelected ? 'selected' : ''} animate-slide-up`}
+      className={`vehicle-card ${isSelected ? 'selected' : ''} ${isReaderMode ? 'reader-mode' : ''} animate-slide-up`}
       onClick={() => {
           onSelect && onSelect(vehicle);
       }}
     >
-      <button 
-        className={`fav-btn ${inGarage ? 'active' : ''}`} 
-        onClick={(e) => {
-            e.stopPropagation();
-            toggleGarage(id);
-        }}
-        title={inGarage ? "Quitar del Garaje" : "Añadir a Mis Deseos"}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={inGarage ? "var(--secondary-color)" : "none"} stroke={inGarage ? "var(--secondary-color)" : "currentColor"} strokeWidth="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-      </button>
+      <div className="card-actions">
+        <button 
+            className={`action-btn reader-btn ${isReaderMode ? 'active' : ''}`}
+            onClick={(e) => {
+                e.stopPropagation();
+                setIsReaderMode(!isReaderMode);
+            }}
+            title="Modo Lectura (Ver solo coche)"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        </button>
+
+        <button 
+            className={`action-btn fav-btn ${inGarage ? 'active' : ''}`} 
+            onClick={(e) => {
+                e.stopPropagation();
+                toggleGarage(id);
+            }}
+            title={inGarage ? "Quitar del Garaje" : "Añadir a Mis Deseos"}
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={inGarage ? "var(--secondary-color)" : "none"} stroke={inGarage ? "var(--secondary-color)" : "currentColor"} strokeWidth="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+        </button>
+      </div>
 
       <div className="card-header">
         <span className="manufacturer">{manufacturer}</span>

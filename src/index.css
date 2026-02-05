@@ -66,3 +66,42 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
+
+/* --- GTA V CURSOR & ANIMATIONS --- */
+
+/* Cursor Default */
+body {
+    cursor: url('https://upload.wikimedia.org/wikipedia/commons/8/87/Gta_cursor.png'), auto;
+}
+
+/* Cursor Pointer (Hand) */
+a, button, .pointer-cursor, [role="button"] {
+    cursor: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Gta_hand_cursor.png/32px-Gta_hand_cursor.png'), pointer;
+}
+
+/* Animations */
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+    0% { filter: drop-shadow(0 0 5px var(--primary-color)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 20px var(--secondary-color)); transform: scale(1.05); }
+    100% { filter: drop-shadow(0 0 5px var(--primary-color)); transform: scale(1); }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in-content {
+    animation: fade-in 1s ease-out forwards;
+}

@@ -28,38 +28,53 @@ import GuideFAQ from './pages/legal/GuideFAQ';
 import AdminPanel from './pages/admin/AdminPanel';
 import ScrollToTop from './components/ScrollToTop';
 
+// UI Pack
+import AppLoader from './components/ui/AppLoader';
+import BackgroundSparks from './components/ui/BackgroundSparks';
+import ScrollTopBtn from './components/ui/ScrollTopBtn';
+import { useState } from 'react';
+
 function App() {
+  const [appReady, setAppReady] = useState(false);
+
   return (
     <AuthProvider>
       <GarageProvider>
         <GamificationProvider>
+          <AppLoader onComplete={() => setAppReady(true)} />
+          <BackgroundSparks />
+          
           <Router>
             <ScrollToTop />
-          <Header />
-          <div className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/versus-mode" element={<VersusMode />} />
-              <Route path="/location" element={<Location />} />
-              <Route path="/garage" element={<ProtectedRoute><GaragePage /></ProtectedRoute>} />
-              <Route path="/minigames/guess" element={<GuessGame />} />
-              <Route path="/minigames/battle" element={<BattleGame />} />
-              <Route path="/minigames/higher-lower" element={<HigherLower />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-              <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/cookies-policy" element={<CookiesPolicy />} />
-              <Route path="/terms-of-sale" element={<TermsOfSale />} />
-              <Route path="/guide-faq" element={<GuideFAQ />} />
-              <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-            </Routes>
-          </div>
-          <Footer />
+            <ScrollTopBtn />
+            
+            <div className={`app-wrapper ${appReady ? 'fade-in-content' : ''}`} style={{opacity: appReady ? 1 : 0}}>
+              <Header />
+              <div className="main-content">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/versus-mode" element={<VersusMode />} />
+                  <Route path="/location" element={<Location />} />
+                  <Route path="/garage" element={<ProtectedRoute><GaragePage /></ProtectedRoute>} />
+                  <Route path="/minigames/guess" element={<GuessGame />} />
+                  <Route path="/minigames/battle" element={<BattleGame />} />
+                  <Route path="/minigames/higher-lower" element={<HigherLower />} />
+                  <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                  <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                  <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/cookies-policy" element={<CookiesPolicy />} />
+                  <Route path="/terms-of-sale" element={<TermsOfSale />} />
+                  <Route path="/guide-faq" element={<GuideFAQ />} />
+                  <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+                </Routes>
+              </div>
+              <Footer />
+            </div>
           </Router>
         </GamificationProvider>
       </GarageProvider>
