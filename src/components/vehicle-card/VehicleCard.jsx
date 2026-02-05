@@ -198,11 +198,11 @@ const VehicleCard = ({ vehicle, onSelect, isSelected }) => {
             <div className="stat-row" key={label}>
               <span>{label}</span>
               <div className="stat-value-text" style={{color: isTuned ? '#2979FF' : tier.color}}>
-                  {val.toFixed(1)}
+                  {Number(val).toFixed(1)}
               </div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{ 
-                    width: `${val * 10}%`,
+                    width: `${Number(val) * 10}%`,
                     background: isTuned ? '#2979FF' : tier.color,
                     boxShadow: isTuned ? `0 0 10px #2979FF` : 'none',
                     transition: 'all 0.5s ease-out'
