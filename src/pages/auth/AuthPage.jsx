@@ -62,24 +62,27 @@ const AuthPage = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Usuario</label>
+                            <label htmlFor="auth-username">Usuario</label>
                             <input 
+                                id="auth-username"
                                 type="text" 
                                 name="username" 
                                 value={formData.username} 
                                 onChange={handleChange} 
                                 placeholder="Ej: FranklinC"
-                                autoComplete="off"
+                                autoComplete="username"
                             />
                         </div>
                         <div className="form-group">
-                            <label>Contraseña</label>
+                            <label htmlFor="auth-password">Contraseña</label>
                             <input 
+                                id="auth-password"
                                 type="password" 
                                 name="password" 
                                 value={formData.password} 
                                 onChange={handleChange} 
                                 placeholder="••••••••"
+                                autoComplete="current-password"
                             />
                         </div>
 

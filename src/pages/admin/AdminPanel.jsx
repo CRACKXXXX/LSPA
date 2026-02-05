@@ -215,12 +215,12 @@ const AdminPanel = () => {
                         <div className="editor-body">
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Nombre de Usuario</label>
-                                    <input type="text" name="username" value={formData.username} onChange={handleChange} />
+                                    <label htmlFor="edit-username">Nombre de Usuario</label>
+                                    <input id="edit-username" type="text" name="username" value={formData.username} onChange={handleChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Rol</label>
-                                    <select name="role" value={formData.role} onChange={handleChange}>
+                                    <label htmlFor="edit-role">Rol</label>
+                                    <select id="edit-role" name="role" value={formData.role} onChange={handleChange}>
                                         <option value="user">Usuario</option>
                                         <option value="admin">Administrador</option>
                                         {/* Only Owner can assign Owner role */}
@@ -232,30 +232,30 @@ const AdminPanel = () => {
                             </div>
 
                             <div className="form-group">
-                                <label>URL del Avatar</label>
-                                <input type="text" name="avatar" value={formData.avatar} onChange={handleChange} placeholder="https://..." />
+                                <label htmlFor="edit-avatar">URL del Avatar</label>
+                                <input id="edit-avatar" type="text" name="avatar" value={formData.avatar} onChange={handleChange} placeholder="https://..." />
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Contraseña (Direct)</label>
-                                    <input type="text" name="password" value={formData.password} onChange={handleChange} />
+                                    <label htmlFor="edit-password">Contraseña (Direct)</label>
+                                    <input id="edit-password" type="text" name="password" value={formData.password} onChange={handleChange} />
                                 </div>
                             </div>
                             
                             <div className="form-group">
-                                <label>Biografía</label>
-                                <textarea name="bio" value={formData.bio} onChange={handleChange} rows="3"></textarea>
+                                <label htmlFor="edit-bio">Biografía</label>
+                                <textarea id="edit-bio" name="bio" value={formData.bio} onChange={handleChange} rows="3"></textarea>
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Nivel</label>
-                                    <input type="number" name="level" value={formData.level} onChange={handleChange} />
+                                    <label htmlFor="edit-level">Nivel</label>
+                                    <input id="edit-level" type="number" name="level" value={formData.level} onChange={handleChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>XP Total</label>
-                                    <input type="number" name="xp" value={formData.xp} onChange={handleChange} />
+                                    <label htmlFor="edit-xp">XP Total</label>
+                                    <input id="edit-xp" type="number" name="xp" value={formData.xp} onChange={handleChange} />
                                 </div>
                             </div>
                         </div>

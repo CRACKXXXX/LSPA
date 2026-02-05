@@ -103,13 +103,15 @@ const ProfilePage = () => {
                         onError={(e) => e.target.src = "https://gta-assets.pages.dev/avatars/default_profile.png"}
                     />
                     {isEditing && isOwnProfile && (
-                        <input 
-                            type="text" 
-                            className="avatar-input"
-                            value={newAvatar}
-                            onChange={(e) => setNewAvatar(e.target.value)}
-                            placeholder="URL de tu Avatar"
-                        />
+                            <input 
+                                type="text" 
+                                id="profile-avatar-input"
+                                className="avatar-input"
+                                value={newAvatar}
+                                onChange={(e) => setNewAvatar(e.target.value)}
+                                placeholder="URL de tu Avatar"
+                                aria-label="URL del Avatar"
+                            />
                     )}
                 </div>
                 
@@ -120,13 +122,21 @@ const ProfilePage = () => {
                     {isEditing && isOwnProfile ? (
                         <div className="edit-form-container">
                             <textarea 
+                                id="profile-bio-input"
                                 className="bio-input"
                                 value={newBio}
                                 onChange={(e) => setNewBio(e.target.value)}
                                 placeholder="Tu biografía..."
+                                aria-label="Biografía"
                             />
                             <div className="edit-row" style={{display:'flex', gap:'1rem', marginBottom:'1rem', flexWrap: 'wrap'}}>
-                                <select value={newFavBrand} onChange={e => setNewFavBrand(e.target.value)} className="bio-input" style={{flex: 1, minWidth: '140px'}}>
+                                <select 
+                                    value={newFavBrand} 
+                                    onChange={e => setNewFavBrand(e.target.value)} 
+                                    className="bio-input" 
+                                    style={{flex: 1, minWidth: '140px'}}
+                                    aria-label="Marca Favorita"
+                                >
                                     <option value="" disabled>Marca</option>
                                     <optgroup label="Lujo / Deportivo">
                                         <option value="Pegassi">Pegassi</option>
@@ -169,7 +179,13 @@ const ProfilePage = () => {
                                     </optgroup>
                                 </select>
                                 
-                                <select value={newFavStyle} onChange={e => setNewFavStyle(e.target.value)} className="bio-input" style={{flex: 1, minWidth: '140px'}}>
+                                <select 
+                                    value={newFavStyle} 
+                                    onChange={e => setNewFavStyle(e.target.value)} 
+                                    className="bio-input" 
+                                    style={{flex: 1, minWidth: '140px'}}
+                                    aria-label="Estilo Favorito"
+                                >
                                     <option value="" disabled>Estilo</option>
                                     <option value="Grip">Grip</option>
                                     <option value="Drift">Drift</option>
@@ -185,7 +201,13 @@ const ProfilePage = () => {
                                     <option value="Touge">Touge (Montaña)</option>
                                 </select>
 
-                                <select value={newPlayerType} onChange={e => setNewPlayerType(e.target.value)} className="bio-input" style={{flex: 1, minWidth: '140px', borderColor: 'var(--accent-color)'}}>
+                                <select 
+                                    value={newPlayerType} 
+                                    onChange={e => setNewPlayerType(e.target.value)} 
+                                    className="bio-input" 
+                                    style={{flex: 1, minWidth: '140px', borderColor: 'var(--accent-color)'}}
+                                    aria-label="Tipo de Jugador"
+                                >
                                     <option value="" disabled>Tipo de Jugador</option>
                                     <option value="Rookie">Novato (Rookie)</option>
                                     <option value="Pro">Profesional (Pro)</option>
