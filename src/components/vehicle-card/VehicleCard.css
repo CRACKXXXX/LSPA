@@ -28,8 +28,8 @@
   background: rgba(0,0,0,0.5);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 50px; /* Standard size increased (User Request) */
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,8 +55,8 @@
 }
 
 .fav-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 24px; /* Global Increase */
+  height: 24px;
   transition: all 0.3s;
 }
 
@@ -78,8 +78,8 @@
 }
 
 .reader-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 24px; /* Global Increase */
+    height: 24px;
 }
 
 /* --- READER MODE STYLES --- */
@@ -276,17 +276,54 @@
   font-size: 0.9rem;
 }
 
+@media (max-width: 1024px) {
+    /* TABLET / LAPTOP TOUCH (Intermediate Size) */
+    .vehicle-card {
+        padding: 1.2rem;
+    }
+    
+    .action-btn {
+        width: 48px; 
+        height: 48px;
+        background: rgba(0,0,0,0.6);
+    }
+    
+    .action-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 @media (max-width: 768px) {
     .vehicle-card {
         padding: 1rem;
     }
     
+    /* ENHANCED MOBILE IMAGE (Aggressive Update) */
     .card-image-placeholder {
-        height: 140px;
+        height: 220px; /* Much larger for mobile */
+    }
+    
+    /* ENHANCED MOBILE BUTTONS (Final Fix) */
+    .action-btn {
+        width: 56px !important; /* Force larger touch target */
+        height: 56px !important;
+        background: rgba(0,0,0,0.8);
+    }
+
+    .action-btn svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    .card-actions {
+        top: 15px; /* Adjust spacing */
+        right: 15px;
+        gap: 12px; /* More space between buttons */
     }
     
     .vehicle-card h3 {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
     }
     
     .stat-row {

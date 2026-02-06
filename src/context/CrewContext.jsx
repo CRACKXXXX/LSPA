@@ -33,11 +33,15 @@ export const CrewProvider = ({ children }) => {
                 }
                 
                 // Recalculate points on load to ensure consistency
+                // Recalculate points on load to ensure consistency
+                // Recalculate points on load using DEEP SCANNER
                 const crewsWithPoints = cleanCrews.map(crew => ({
                     ...crew,
-                    crewPoints: crew.members.reduce((acc, m) => acc + (parseInt(m.level || 1) || 1), 0)
+                    crewPoints: calculateCrewXP(crew.members)
                 }));
                 
+                // DEBUG: Debugging removed as per request
+
                 setCrews(crewsWithPoints);
             } catch (e) {
                 console.error("Error parsing crews:", e);
@@ -67,12 +71,26 @@ export const CrewProvider = ({ children }) => {
     }, [crews, loading]);
 
     // Helper to calculate points
-    const calculateCrewPoints = (members) => {
-        return members.reduce((acc, m) => {
-            const memberLevel = parseInt(m.level) || 1;
-            return acc + memberLevel;
+    // Helper to calculate points (Robust)
+    // --- DEEP LEVEL SCANNER & XP CALCULATOR ---
+    
+    // Función auxiliar para encontrar el nivel real donde sea que se esconda
+    // --- XP CALCULATOR ---
+    
+    // Función auxiliar para sumar niveles (Nivel Total)
+    const calculateCrewXP = (members = []) => {
+        if (!Array.isArray(members)) return 0;
+        
+        return members.reduce((acc, member) => {
+            // Priority: member.level -> member.xp -> 1
+            const level = parseInt(member.level || member.xp || 1, 10);
+            return acc + (isNaN(level) ? 1 : level);
         }, 0);
     };
+
+    // Alias for compatibility
+    const calculateTotalXp = calculateCrewXP;
+    const calculateCrewPoints = calculateCrewXP;
 
     // --- ACTIONS ---
 
@@ -82,22 +100,22 @@ export const CrewProvider = ({ children }) => {
             return;
         }
         
-        const initialLevel = parseInt(user.level) || 1;
-
+        // AUDIT FIX: Verify exact location of level in AuthContext (user.stats.level)
         const newCrew = {
             id: generateUUID(),
             ...crewData,
+            privacy: crewData.privacy || 'public', // Default to PUBLIC
             crewPoints: initialLevel, 
             members: [{ 
                 userId: user.id, 
                 username: user.username,
                 avatar: user.avatar,
-                level: initialLevel,
+                level: initialLevel, // Storing correct snapshot
                 role: 'owner', 
                 joinedAt: Date.now() 
             }],
             chat: [],
-            memberLimit: 20,
+            memberLimit: 50, // UPDATED LIMIT
             createdAt: Date.now()
         };
 
@@ -116,12 +134,20 @@ export const CrewProvider = ({ children }) => {
         setCrews(prev => prev.map(crew => {
             if (crew.id === crewId) {
                 if (crew.privacy === 'public' || crew.privacy === 'invite_only') { 
-                    const userLevel = parseInt(user.level) || 1;
+                    // AUDIT FIX: Verify exact location of level in AuthContext (user.stats.level)
+                    const userLevel = parseInt(user.stats?.level || user.level || 1, 10);
+                    
+                    // Limit Check (50)
+                    if (crew.members.length >= 50) {
+                        showToast('error', 'La crew está llena (Máx 50).');
+                        return crew;
+                    }
+
                     const newMembers = [...crew.members, { 
                         userId: user.id, 
                         username: user.username,
                         avatar: user.avatar,
-                        level: userLevel,
+                        level: userLevel, // Storing correct snapshot
                         role: 'noob', 
                         joinedAt: Date.now() 
                     }];
@@ -182,7 +208,7 @@ export const CrewProvider = ({ children }) => {
         showToast('success', 'Información actualizada');
     };
 
-    const manageMember = (crewId, targetUserId, action) => {
+    const manageMember = (crewId, targetUserId, action, payload) => {
         const rankOrder = ['noob', 'veteran', 'staff', 'co-owner', 'owner'];
         
         setCrews(prev => prev.map(crew => {
@@ -197,25 +223,48 @@ export const CrewProvider = ({ children }) => {
             if (action === 'kick') {
                 updatedMembers = updatedMembers.filter(m => m.userId !== targetUserId);
                 showToast('success', `Has expulsado a ${targetUser.username}`);
-            } else if (action === 'promote') {
+            } else if (action === 'promote' || action === 'demote') {
+                 // Explicitly using params, avoiding arguments object
                 const currentRankIdx = rankOrder.indexOf(targetUser.role);
-                if (currentRankIdx < rankOrder.length - 2) { 
+                if (action === 'promote' && currentRankIdx < rankOrder.length - 2) { 
                      updatedMembers[targetIndex].role = rankOrder[currentRankIdx + 1];
                      showToast('success', `${targetUser.username} promovido a ${rankOrder[currentRankIdx + 1].toUpperCase()}`);
-                }
-            } else if (action === 'demote') {
-                const currentRankIdx = rankOrder.indexOf(targetUser.role);
-                if (currentRankIdx > 0) {
+                } else if (action === 'demote' && currentRankIdx > 0) {
                      updatedMembers[targetIndex].role = rankOrder[currentRankIdx - 1];
                      showToast('info', `${targetUser.username} degradado a ${rankOrder[currentRankIdx - 1].toUpperCase()}`);
                 }
+            } else if (action === 'setRole') {
+                // STRICT SECURITY CHECK
+                const myUser = crew.members.find(m => m.userId === user.id);
+                const myRole = myUser ? myUser.role : 'noob';
+                
+                const roles = { 'owner': 4, 'co-owner': 3, 'staff': 2, 'veteran': 1, 'noob': 0 };
+                const myRank = roles[myRole];
+                const newRole = payload; 
+                const newRank = roles[newRole];
+                const targetRank = roles[targetUser.role];
+
+                // Rule 1
+                if (targetRank >= myRank) {
+                    showToast('error', 'No tienes rango suficiente.');
+                    return crew;
+                }
+
+                // Rule 2
+                if (newRank >= myRank) {
+                    showToast('error', 'No puedes otorgar un rango igual o superior al tuyo.');
+                    return crew;
+                }
+
+                updatedMembers[targetIndex].role = newRole;
+                showToast('success', `Rol actualizado a ${newRole.toUpperCase()}`);
             }
 
-            // Recalculate points just in case level changed (unlikely here but safe)
+            // Recalculate points using robust function
             return { 
                 ...crew, 
                 members: updatedMembers,
-                crewPoints: calculateCrewPoints(updatedMembers)
+                crewPoints: calculateCrewXP(updatedMembers)
             };
         }));
     };

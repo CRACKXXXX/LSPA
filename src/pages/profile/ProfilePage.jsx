@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useGamification } from '../../context/GamificationContext';
 import { useGarage } from '../../context/GarageContext';
+import { useCrew } from '../../context/CrewContext'; // Added useCrew
 import vehiclesData from '../../data/vehicles.json'; // Import Data
 import './ProfilePage.css';
 
@@ -11,6 +12,7 @@ const ProfilePage = () => {
     const { userId } = useParams();
     const { user: currentUser, updateUser, getUserById, getAllUsers } = useAuth();
     const { calculateLevel, getXpForNextLevel, getLeaderboard } = useGamification();
+    const { crews } = useCrew(); // Get crews to search for user's crew
     const navigate = useNavigate();
 
     // The user to display
@@ -75,6 +77,10 @@ const ProfilePage = () => {
     const richLeaderboard = allUsers
         .sort((a, b) => (b.stats?.xp || 0) - (a.stats?.xp || 0))
         .slice(0, 10);
+
+    // Find Crew for the displayed user
+    const userCrew = crews.find(c => c.members.some(m => m.userId === profileUser.id));
+    const memberData = userCrew ? userCrew.members.find(m => m.userId === profileUser.id) : null;
 
 
     const handleSave = () => {
@@ -226,6 +232,49 @@ const ProfilePage = () => {
                     ) : (
                         <>
                             <p className="profile-bio">{profileUser.bio}</p>
+                            
+                            {/* CREW INFO BADGE */}
+                            {userCrew && memberData && (
+                                <div className="profile-crew-info" style={{
+                                    marginTop: '8px', 
+                                    marginBottom: '12px',
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '8px', 
+                                    justifyContent: 'center',
+                                    background: 'rgba(255, 215, 0, 0.05)',
+                                    padding: '8px',
+                                    borderRadius: '8px',
+                                    border: '1px solid rgba(255, 215, 0, 0.2)'
+                                }}>
+                                    <span style={{
+                                        background: '#FFD700', 
+                                        color: 'black', 
+                                        padding: '2px 6px', 
+                                        borderRadius: '4px', 
+                                        fontWeight: 'bold', 
+                                        fontSize: '0.8rem',
+                                        boxShadow: '0 0 5px rgba(255, 215, 0, 0.5)'
+                                    }}>
+                                        [{userCrew.tag}]
+                                    </span>
+                                    <span style={{color: '#eee', fontSize: '0.9rem', fontWeight: '500'}}>
+                                        {userCrew.name}
+                                    </span>
+                                    <span style={{color: '#666'}}>|</span>
+                                    <span style={{
+                                        color: '#FFD700', 
+                                        textTransform: 'uppercase', 
+                                        fontSize: '0.75rem', 
+                                        letterSpacing: '1px',
+                                        border: '1px solid #FFD700',
+                                        padding: '1px 5px',
+                                        borderRadius: '4px'
+                                    }}>
+                                        {memberData.role}
+                                    </span>
+                                </div>
+                            )}
                             <div className="favorites-tags" style={{display:'flex', justifyContent:'center', gap:'10px', marginBottom:'1rem'}}>
                                 {profileUser.favorites?.brand && <span className="tag-badge">🏎️ {profileUser.favorites.brand}</span>}
                                 {profileUser.favorites?.style && <span className="tag-badge">🎨 {profileUser.favorites.style}</span>}

@@ -11,7 +11,7 @@ const Footer = () => {
                 <img src={logo} alt="LSPA" style={{height:'60px', borderRadius:'50%', border:'2px solid var(--primary-color)'}} />
                 <span className="footer-logo" style={{margin:0}}>LSPA</span>
             </div>
-            <p>&copy; 2026 Los Santos Performance Analyzer.</p>
+            <p>&copy; 2026 Los Santos Performance Analyzer. Todos los derechos reservados.</p>
             <div className="legal-text" style={{display:'flex', gap:'10px', flexWrap:'wrap', justifyContent:'center'}}>
                 <a href="/privacy-policy">Política de Privacidad</a>
                 <span>|</span>

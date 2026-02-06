@@ -10,12 +10,12 @@ const AdminConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
     if (!isOpen) return null;
     return (
         <div className="modal-overlay">
-            <div className="modal-content confirm-modal" style={{border: '1px solid #ff4444'}}>
-                <h3 style={{color:'#ff4444'}}>{title}</h3>
-                <p>{message}</p>
+            <div className="admin-modal-content">
+                <h3 className="admin-modal-title">{title}</h3>
+                <p className="admin-modal-message">{message}</p>
                 <div className="modal-actions">
-                    <button onClick={onCancel} className="cancel-btn">Cancelar</button>
-                    <button onClick={onConfirm} className="confirm-btn" style={{background:'#ff4444', color:'white'}}>CONFIRMAR</button>
+                    <button onClick={onCancel} className="admin-btn-cancel">CANCELAR</button>
+                    <button onClick={onConfirm} className="admin-btn-confirm">CONFIRMAR</button>
                 </div>
             </div>
         </div>
@@ -75,6 +75,24 @@ const CrewAdmin = () => {
     };
 
     const myMemberRole = currentCrew.members.find(m => m.userId === user.id)?.role;
+    
+    // EMERGENCY DISBAND LOGIC (CASCADING AUTHORITY):
+    // 1. Owner always can.
+    // 2. Staff can IF no Owner AND no Co-Owner.
+    // 3. Veteran can IF no Owner, no Co-Owner AND no Staff.
+    
+    const hasOwnerOrCo = currentCrew.members.some(m => m.role === 'owner' || m.role === 'co-owner');
+    const hasStaff = currentCrew.members.some(m => m.role === 'staff');
+
+    let canDisband = false;
+
+    if (myMemberRole === 'owner') {
+        canDisband = true;
+    } else if (myMemberRole === 'staff') {
+        canDisband = !hasOwnerOrCo; // Only if abandoned by leaders
+    } else if (myMemberRole === 'veteran') {
+        canDisband = !hasOwnerOrCo && !hasStaff; // Only if abandoned by everyone above
+    }
 
     return (
         <div className="crew-admin-container">
@@ -162,14 +180,53 @@ const CrewAdmin = () => {
                                             <span className={`badge badge-${member.role}`}>{member.role.toUpperCase()}</span>
                                         </td>
                                         <td className="actions-cell">
-                                            {member.userId !== user.id && canManage(myMemberRole, member.role) && (
-                                                <>
-                                                    <button title="Ascender" className="action-btn promote" onClick={() => manageMember(currentCrew.id, member.userId, 'promote')}>⬆</button>
-                                                    <button title="Degradar" className="action-btn demote" onClick={() => manageMember(currentCrew.id, member.userId, 'demote')}>⬇</button>
-                                                    <button title="Expulsar" className="action-btn kick" onClick={() => 
-                                                        openConfirm('Expulsar Miembro', `¿Seguro que deseas expulsar a ${member.username}?`, () => manageMember(currentCrew.id, member.userId, 'kick'))
-                                                    }>✕</button>
-                                                </>
+                                            {member.userId !== user.id ? (
+                                                (() => {
+                                                    const roles = { 'owner': 4, 'co-owner': 3, 'staff': 2, 'veteran': 1, 'noob': 0 };
+                                                    const myRank = roles[myMemberRole || 'noob'];
+                                                    const targetRank = roles[member.role];
+                                                    
+                                                    // Logic: Can only manage if my rank > target rank
+                                                    const canEdit = myRank > targetRank;
+
+                                                    // Logic: Can only assign roles STRICTLY LOWER than mine
+                                                    const allRoles = ['co-owner', 'staff', 'veteran', 'noob'];
+                                                    const assignableRoles = allRoles.filter(r => roles[r] < myRank);
+
+                                                    return (
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                            <select 
+                                                                className="role-selector"
+                                                                disabled={!canEdit}
+                                                                value={member.role}
+                                                                onChange={(e) => manageMember(currentCrew.id, member.userId, 'setRole', e.target.value)}
+                                                                style={{
+                                                                    padding: '5px',
+                                                                    borderRadius: '4px',
+                                                                    backgroundColor: canEdit ? '#333' : '#222',
+                                                                    color: canEdit ? 'white' : '#666',
+                                                                    border: '1px solid #444',
+                                                                    cursor: canEdit ? 'pointer' : 'not-allowed'
+                                                                }}
+                                                            >
+                                                                {/* Only show roles I can assign, OR the current role if it's outside my range (so it doesn't vanish visually) */}
+                                                                {!assignableRoles.includes(member.role) && <option value={member.role}>{member.role.toUpperCase()}</option>}
+                                                                
+                                                                {assignableRoles.map(role => (
+                                                                    <option key={role} value={role}>{role.toUpperCase()}</option>
+                                                                ))}
+                                                            </select>
+
+                                                            {canEdit && (
+                                                                <button title="Expulsar" className="action-btn kick" onClick={() => 
+                                                                    openConfirm('Expulsar Miembro', `¿Seguro que deseas expulsar a ${member.username}?`, () => manageMember(currentCrew.id, member.userId, 'kick'))
+                                                                }>✕</button>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })()
+                                            ) : (
+                                                <span style={{color: '#888', fontSize: '0.8rem'}}>Tú</span>
                                             )}
                                         </td>
                                     </tr>
@@ -180,7 +237,7 @@ const CrewAdmin = () => {
                 </section>
 
                 {/* SECTION 3: DANGER ZONE */}
-                {myMemberRole === 'owner' && (
+                {canDisband && (
                     <section className="admin-card danger-card">
                         <h2>☠️ ZONA DE PELIGRO</h2>
                         <p>Estas acciones son irreversibles. Ten cuidado.</p>

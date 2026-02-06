@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useAuth } from '../../context/AuthContext';
-import CrewFinder from './CrewFinder';
+import CrewExplorer from './CrewExplorer';
 import CrewDashboard from './CrewDashboard';
 import './CrewPage.css';
 
@@ -16,7 +16,7 @@ const CrewPage = () => {
             {currentCrew ? (
                 <CrewDashboard crew={currentCrew} currentUser={user} />
             ) : (
-                <CrewFinder />
+                <CrewExplorer />
             )}
         </div>
     );

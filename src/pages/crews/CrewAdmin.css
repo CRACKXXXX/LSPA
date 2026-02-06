@@ -185,3 +185,107 @@
     color: white;
     box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
 }
+
+/* ==========================================================================
+   FUTURISTIC CONFIRMATION MODAL (REDESIGN)
+   ========================================================================== */
+
+/* ANIMATION */
+@keyframes hologramEntry {
+    0% { transform: scale(0.8) translateY(20px); opacity: 0; filter: blur(10px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+}
+
+.admin-modal-content {
+    background: #0a0a0a;
+    background-image: 
+        radial-gradient(circle at center, transparent 0%, #0a0a0a 100%),
+        linear-gradient(rgba(20, 20, 20, 0.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 20, 20, 0.5) 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+    
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 2px solid #ff0000;
+    box-shadow: 
+        0 0 30px rgba(255, 0, 0, 0.6), 
+        inset 0 0 20px rgba(255, 0, 0, 0.2);
+    
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    clip-path: polygon(
+        5% 0, 95% 0, 
+        100% 10%, 100% 90%, 
+        95% 100%, 5% 100%, 
+        0 90%, 0 10%
+    );
+
+    animation: hologramEntry 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.admin-modal-title {
+    font-family: 'Rajdhani', sans-serif; /* Or appropriate futuristic font */
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ff0000;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
+    letter-spacing: 2px;
+}
+
+.admin-modal-message {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* BUTTONS */
+.admin-btn-cancel {
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    color: #aaa;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+}
+
+.admin-btn-cancel:hover {
+    background: #222;
+    color: white;
+    border-color: #666;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.admin-btn-confirm {
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #8B0000, #ff0000);
+    border: none;
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.admin-btn-confirm:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+    background: linear-gradient(45deg, #ff0000, #ff4444);
+}
+
+.admin-btn-confirm:active {
+    transform: scale(0.98);
+}
