@@ -61,7 +61,26 @@
 
 The application features a **Cyberpunk/Neon** aesthetic with dark mode, glassmorphism, and smooth animations.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 🆕 Recent Updates (v2.0 - Polish & Community)
+
+### 👥 Crew System 2.0
+- **Deep Level Scanner**: New algorithm that accurately calculates Crew XP by scanning member stats depth-first.
+- **Dedicated Admin Panel**: New `/crew-admin` route for Staff+ with advanced tooltips and animated UI.
+- **Smart Privacy**: New crews now default to 'Public' for better discoverability.
+
+### 📱 Mobile Experience Overhaul
+- **Responsive Vehicle Cards**: 
+    - **Adaptive Sizing**: Buttons scale progressively (40px Desktop ➔ 48px Tablet ➔ 56px Mobile).
+    - **Visual Impact**: Vehicle images enlarged by 40% on mobile devices for better clarity.
+    - **Touch Optimized**: Expanded hit areas for 'Favorite' and 'Reader Mode' actions.
+
+### ⚖️ Compliance & Polish
+- **Legal Footer**: Updated copyright notices and navigation links.
+- **Clean Code Audit**: Refactored Context logic and removed redundancy.
 
 ---
 
