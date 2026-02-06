@@ -55,7 +55,7 @@ const Header = () => {
 
                 <NavLink to="/garage" onClick={closeMenu} className={({ isActive }) => (isActive ? 'nav-link garage-link active' : 'nav-link garage-link')}> {/* Reverted to original class name */}
                     <span>Garaje</span>
-                    {count > 0 && <span className="garage-badge">{count}</span>}
+                    {user && count > 0 && <span className="garage-badge">{count}</span>}
                 </NavLink>
 
                 <NavLink to="/analytics" onClick={closeMenu} className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>

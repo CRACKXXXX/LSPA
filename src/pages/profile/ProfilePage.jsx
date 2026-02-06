@@ -76,7 +76,7 @@ const ProfilePage = () => {
     const allUsers = getAllUsers ? getAllUsers() : [];
     const richLeaderboard = allUsers
         .sort((a, b) => (b.stats?.xp || 0) - (a.stats?.xp || 0))
-        .slice(0, 10);
+        .slice(0, 50);
 
     // Find Crew for the displayed user
     const userCrew = crews.find(c => c.members.some(m => m.userId === profileUser.id));

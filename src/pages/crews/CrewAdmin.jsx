@@ -196,18 +196,10 @@ const CrewAdmin = () => {
                                                     return (
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                             <select 
-                                                                className="role-selector"
+                                                                className="role-selector admin-select"
                                                                 disabled={!canEdit}
                                                                 value={member.role}
                                                                 onChange={(e) => manageMember(currentCrew.id, member.userId, 'setRole', e.target.value)}
-                                                                style={{
-                                                                    padding: '5px',
-                                                                    borderRadius: '4px',
-                                                                    backgroundColor: canEdit ? '#333' : '#222',
-                                                                    color: canEdit ? 'white' : '#666',
-                                                                    border: '1px solid #444',
-                                                                    cursor: canEdit ? 'pointer' : 'not-allowed'
-                                                                }}
                                                             >
                                                                 {/* Only show roles I can assign, OR the current role if it's outside my range (so it doesn't vanish visually) */}
                                                                 {!assignableRoles.includes(member.role) && <option value={member.role}>{member.role.toUpperCase()}</option>}

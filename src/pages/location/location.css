@@ -1,146 +1,210 @@
+/* Location.css - Cyberpunk Overhaul */
+
 .location-container {
-  display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  gap: 4rem;
-  min-height: calc(100vh - 80px);
-  animation: fadeIn 0.8s ease-out;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    min-height: calc(100vh - 80px); /* Full height minus header */
+    box-sizing: border-box;
+    animation: fadeIn 0.8s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.map-section {
-  flex: 1.5;
-  display: flex;
-  flex-direction: column;
+/* --- COMMON CARD STYLES --- */
+.map-section, .contact-section {
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border-color, rgba(0, 240, 255, 0.2));
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.map-section h2, .contact-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: var(--primary-color);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-  letter-spacing: 2px;
-  text-transform: uppercase;
+.map-section:hover, .contact-section:hover {
+    border-color: var(--primary-color, #FFE600);
+    box-shadow: 0 0 30px rgba(255, 230, 0, 0.15);
 }
 
+/* Neon Corner Accents */
+.map-section::before, .contact-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-color, #FFE600), transparent);
+    opacity: 0.5;
+}
+
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary-color, #FFE600);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 230, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+/* --- MAP --- */
 .map-wrapper {
-  height: 500px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1; /* Fill remaining space */
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #333;
+    min-height: 400px;
+    position: relative;
 }
 
-.map-wrapper:hover {
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-  border-color: var(--primary-color);
+/* Leaflet Dark Mode Hack via CSS Filter */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
-.contact-section {
-  flex: 1;
-  background: linear-gradient(135deg, rgba(20, 20, 25, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
-  padding: 2rem;
-  border-radius: 12px;
-  height: fit-content;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  backdrop-filter: blur(8px);
-  position: relative;
-  overflow: hidden;
+/* --- CONTACT INFO --- */
+.business-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 230, 0, 0.1);
+    margin-bottom: 2rem;
 }
 
-/* Cyberpunk decorative line */
-.contact-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color);
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-item .icon {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-color, #FFE600);
+}
+
+.info-item small {
+    display: block;
+    color: #888;
+    margin-top: 2px;
+}
+
+.form-title {
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-left: 3px solid var(--primary-color, #FFE600);
+    padding-left: 10px;
 }
 
 .business-info p {
-  line-height: 1.6;
-  color: #ccc;
-  margin-bottom: 0.5rem;
+    color: #ccc;
+    margin: 0;
+    font-size: 0.95rem;
 }
 
 .business-info strong {
-  color: #fff;
+    color: var(--primary-color, #FFE600);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
 }
 
+/* --- FORM --- */
 .contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    font-size: 0.9rem;
+    color: var(--primary-color, #FFE600);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .form-group input,
 .form-group textarea {
-  padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: var(--text-main);
-  outline: none;
-  font-family: inherit;
-  transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: var(--accent-color);
-  background-color: rgba(255, 42, 42, 0.05);
-  box-shadow: 0 0 15px rgba(255, 42, 42, 0.1);
+    outline: none;
+    border-color: var(--primary-color, #FFE600);
+    box-shadow: 0 0 10px rgba(255, 230, 0, 0.2);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .submit-btn {
-  background: linear-gradient(90deg, var(--accent-color), #ff6b6b);
-  color: #fff;
-  border: none;
-  padding: 1rem;
-  border-radius: 6px;
-  font-weight: 800;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(255, 42, 42, 0.3);
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: black;
+    border: none;
+    padding: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 42, 42, 0.5);
-  filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    filter: brightness(1.1);
 }
 
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 900px) {
-  .location-container {
-    flex-direction: column;
-    gap: 3rem;
-  }
+    .location-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .map-wrapper {
+        min-height: 300px;
+    }
 }

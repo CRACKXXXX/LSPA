@@ -65,7 +65,28 @@ The application features a **Cyberpunk/Neon** aesthetic with dark mode, glassmor
 
 ---
 
+## 🆕 Recent Updates (v3.0 - Social Revolution & UX Polish)
+
+### 🏴‍☠️ Crew System 3.0 (Full Social)
+- **Dedicated Admin Panel**: Separate management page for leaders with glassmorphism UI.
+- **Role Hierarchy**: Full rank system (Owner > Co-Owner > Staff > Veteran > Noob).
+- **Global Chat**: Encrypted private channels for crew members.
+
+### 🏆 Competition Layer
+- **Global Leaderboard**: Real-time Top 50 ranking based on Total XP.
+- **Profile Integration**: Direct link to global standing from user profile.
+- **Dynamic Badges**: Custom rank indicators in the navbar.
+
+### 📘 User Experience
+- **Player's Handbook**: Rewrote the entire Guide/FAQ to be user-centric (no technical jargon).
+- **Smart Navigation**: Dynamic garage badge that only appears when relevant.
+- **Visual Overhaul**: New "Magma" login theme and refined animations.
+
+---
+
 ## 🆕 Recent Updates (v2.0 - Polish & Community)
+<details>
+<summary>View v2.0 Changelog</summary>
 
 ### 👥 Crew System 2.0
 - **Deep Level Scanner**: New algorithm that accurately calculates Crew XP by scanning member stats depth-first.
@@ -81,6 +102,7 @@ The application features a **Cyberpunk/Neon** aesthetic with dark mode, glassmor
 ### ⚖️ Compliance & Polish
 - **Legal Footer**: Updated copyright notices and navigation links.
 - **Clean Code Audit**: Refactored Context logic and removed redundancy.
+</details>
 
 ---
 

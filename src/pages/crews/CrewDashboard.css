@@ -89,8 +89,44 @@
 
 .explore-btn:hover { background: #333; color: white; }
 
-.leave-btn { border-color: #d32f2f; color: #ffcdd2; }
-.leave-btn:hover { background: #d32f2f; color: white; }
+/* Cyberpunk Leave Button */
+.leave-btn {
+    border: 1px solid rgba(255, 60, 60, 0.5);
+    background: rgba(20, 0, 0, 0.6);
+    color: #ff4444;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.leave-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.leave-btn:hover {
+    background: #ff0000;
+    color: white;
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    text-shadow: 0 0 10px white;
+    transform: translateY(-2px);
+}
+
+.leave-btn:hover::before {
+    left: 100%;
+}
+
+.leave-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
 
 /* Horizontal Members Roll */
 .header-members-roll {
@@ -305,43 +341,145 @@
     }
 }
 
-/* FUTURISTIC BUTTON STYLES FOR MODAL & DASHBOARD */
+/* --- FUTURISTIC MODAL STYLES (Cyberpunk Update) --- */
 
-/* Cancel Button: Transparent, Slick */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85); /* Darker backdrop */
+    backdrop-filter: blur(8px); /* Blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content.confirm-modal, .modal-content.input-modal {
+    background: #0f0f12;
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 0, 0, .05) 25%, rgba(255, 0, 0, .05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, .05) 75%, rgba(255, 0, 0, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, .05) 25%, rgba(255, 0, 0, .05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, .05) 75%, rgba(255, 0, 0, .05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid #ff4444; /* Alert Red Border */
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    clip-path: polygon(
+        5% 0, 95% 0, 
+        100% 10%, 100% 90%, 
+        95% 100%, 5% 100%, 
+        0 90%, 0 10%
+    );
+    animation: hologramPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes hologramPop {
+    0% { transform: scale(0.8); opacity: 0; filter: blur(10px); }
+    100% { transform: scale(1); opacity: 1; filter: blur(0); }
+}
+
+.modal-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff4444;
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+.modal-content p {
+    color: #e0e0e0;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* MODAL BUTTONS */
 .btn-modal-cancel {
-    padding: 10px 24px;
+    padding: 12px 24px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
+    background: transparent;
     border: 1px solid #666;
-    color: #ccc;
+    color: #aaa;
     cursor: pointer;
 }
 
 .btn-modal-cancel:hover {
-    background: #333;
+    background: rgba(255, 255, 255, 0.1);
     color: white;
-    border-color: #888;
+    border-color: white;
 }
 
-/* Confirm Button: Danger, Gradient, Glowing */
 .btn-modal-confirm {
-    padding: 10px 24px;
+    padding: 12px 30px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     transition: all 0.3s ease;
     background: linear-gradient(45deg, #8B0000, #FF0000);
     color: white;
     border: none;
     cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
 }
 
 .btn-modal-confirm:hover {
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+    transform: translateY(-2px);
+    background: #ff0000;
+}
+
+/* IMAGE MODAL SPECIFIC BUTTONS */
+.cancel-btn {
+    padding: 12px 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.3s ease;
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-color: #888;
+}
+
+.confirm-btn {
+    padding: 12px 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.3s ease;
+    background: #ffd700; /* Gold */
+    color: black;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.confirm-btn:hover {
+    background: #ffcc00;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+    transform: translateY(-2px);
 }

@@ -199,6 +199,29 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    max-height: 350px; /* Shows approx 5 items */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* CUSTOM SCROLLBAR */
+.leaderboard-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.leaderboard-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+    box-shadow: 0 0 5px var(--accent-color);
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+    background: #fff;
 }
 
 .leaderboard-item {

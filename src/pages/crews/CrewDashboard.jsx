@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useNavigate } from 'react-router-dom';
 import './CrewDashboard.css';
@@ -88,7 +88,7 @@ const CrewDashboard = ({ crew, currentUser }) => {
     // Helper for Role Styles (DRY)
     const getRoleStyle = (role) => {
         switch(role) {
-            case 'owner': return { border: '3px solid #FF0000', boxShadow: '0 0 10px #FF0000' };
+            case 'owner': return { border: '3px solid #FF0033', boxShadow: '0 0 10px #FF0033' };
             case 'co-owner': return { border: '3px solid #FF8C00', boxShadow: '0 0 8px #FF8C00' };
             case 'staff': return { border: '3px solid #FFD700' };
             case 'veteran': return { border: '3px solid #00E676' };
@@ -114,10 +114,10 @@ const CrewDashboard = ({ crew, currentUser }) => {
                             <div className="header-stats-row">
                                 {/* Force local recalculation for display reliability */}
                                 <span>🏆 {
-                                    crew.members.reduce((acc, m) => {
+                                    useMemo(() => crew.members.reduce((acc, m) => {
                                          const val = parseInt(m.level || 1, 10);
                                          return acc + (isNaN(val) ? 1 : val);
-                                    }, 0)
+                                    }, 0), [crew.members])
                                 } NIVEL TOTAL</span>
                                 <span>👥 {crew.members.length} Miembros</span>
                             </div>

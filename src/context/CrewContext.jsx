@@ -32,16 +32,12 @@ export const CrewProvider = ({ children }) => {
                     localStorage.setItem('lspa_crews', JSON.stringify(cleanCrews));
                 }
                 
-                // Recalculate points on load to ensure consistency
-                // Recalculate points on load to ensure consistency
                 // Recalculate points on load using DEEP SCANNER
                 const crewsWithPoints = cleanCrews.map(crew => ({
                     ...crew,
                     crewPoints: calculateCrewXP(crew.members)
                 }));
                 
-                // DEBUG: Debugging removed as per request
-
                 setCrews(crewsWithPoints);
             } catch (e) {
                 console.error("Error parsing crews:", e);
@@ -70,11 +66,6 @@ export const CrewProvider = ({ children }) => {
         }
     }, [crews, loading]);
 
-    // Helper to calculate points
-    // Helper to calculate points (Robust)
-    // --- DEEP LEVEL SCANNER & XP CALCULATOR ---
-    
-    // Función auxiliar para encontrar el nivel real donde sea que se esconda
     // --- XP CALCULATOR ---
     
     // Función auxiliar para sumar niveles (Nivel Total)
@@ -100,6 +91,8 @@ export const CrewProvider = ({ children }) => {
             return;
         }
         
+        const initialLevel = 1; // Defined constant
+        
         // AUDIT FIX: Verify exact location of level in AuthContext (user.stats.level)
         const newCrew = {
             id: generateUUID(),
@@ -110,7 +103,7 @@ export const CrewProvider = ({ children }) => {
                 userId: user.id, 
                 username: user.username,
                 avatar: user.avatar,
-                level: initialLevel, // Storing correct snapshot
+                level: user.stats?.level || initialLevel, // Use actual user level if available
                 role: 'owner', 
                 joinedAt: Date.now() 
             }],

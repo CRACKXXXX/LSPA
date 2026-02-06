@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useToast } from '../../context/ToastContext';
 import 'leaflet/dist/leaflet.css';
 import './Location.css';
 
@@ -19,59 +20,95 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const Location = () => {
-    // Coords for "Los Santos" (Los Angeles downtown proxy)
-    const position = [34.0522, -118.2437];
+    const { showToast } = useToast();
+    const position = [34.0522, -118.2437]; // Los Santos (LA Proxy)
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
 
-  return (
-    <div className="location-container">
-      <div className="map-section">
-        <h2>Nuestra Ubicación</h2>
-        <div className="map-wrapper">
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position}>
-                    <Popup>
-                    Los Santos Performance Analyzer HQ <br /> Vinewood Blvd.
-                    </Popup>
-                </Marker>
-            </MapContainer>
-        </div>
-      </div>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Simulate network delay
+        setTimeout(() => {
+            showToast('success', `¡Mensaje enviado! Gracias, ${form.name}.`);
+            setForm({ name: '', email: '', message: '' }); // Reset
+        }, 500);
+    };
 
-      <div className="contact-section">
-        <h2>Visítanos</h2>
-        <div className="business-info">
-            <p><strong>LSPA Headquarters</strong></p>
-            <p>1234 Vinewood Blvd, Los Santos, SA 90028</p>
-            <p>(Cerca del Aeropuerto Internacional LSIA)</p>
-            <br/>
-            <p><strong>Horario de Atención:</strong></p>
-            <p>Lun - Vie: 09:00 - 18:00</p>
-            <p>Sábados: 10:00 - 15:00</p>
+    return (
+        <div className="location-container">
+            <div className="map-section glass-panel">
+                <h2 className="neon-text">📍 NUESTRA UBICACIÓN</h2>
+                <div className="map-wrapper">
+                    <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>
+                                <strong>LSPA Headquarters</strong><br />1234 Vinewood Blvd.
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
+                </div>
+            </div>
+
+            <div className="contact-section glass-panel">
+                <h2 className="neon-text">🏢 CONTACTO DIRECTO</h2>
+                
+                <div className="business-info">
+                    <div className="info-item">
+                        <span className="icon">🏠</span>
+                        <div>
+                            <strong>OFICINA CENTRAL</strong>
+                            <p>1234 Vinewood Blvd, Los Santos, SA 90028</p>
+                        </div>
+                    </div>
+                    <div className="info-item">
+                        <span className="icon">🕒</span>
+                        <div>
+                            <strong>HORARIO</strong>
+                            <p>24/7 (Siempre abiertos para el negocio)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 className="form-title">📩 ENVIAR MENSAJE</h3>
+                <form className="contact-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>👤 NOMBRE</label>
+                        <input 
+                            type="text" 
+                            required 
+                            placeholder="Tu nombre o alias..." 
+                            value={form.name}
+                            onChange={e => setForm({...form, name: e.target.value})}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>📧 EMAIL</label>
+                        <input 
+                            type="email" 
+                            required 
+                            placeholder="contacto@ejemplo.com" 
+                            value={form.email}
+                            onChange={e => setForm({...form, email: e.target.value})}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>📝 MENSAJE</label>
+                        <textarea 
+                            rows="4" 
+                            required 
+                            placeholder="¿En qué podemos ayudarte?"
+                            value={form.message}
+                            onChange={e => setForm({...form, message: e.target.value})}
+                        ></textarea>
+                    </div>
+                    <button type="submit" className="submit-btn neon-pulse">🚀 ENVIAR TRANSMISIÓN</button>
+                </form>
+            </div>
         </div>
-        
-        <h2 style={{marginTop: '2rem'}}>Contáctanos</h2>
-        <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-            <div className="form-group">
-                <label>Nombre</label>
-                <input type="text" required placeholder="Tu nombre" />
-            </div>
-            <div className="form-group">
-                <label>Email</label>
-                <input type="email" required placeholder="tu@email.com" />
-            </div>
-            <div className="form-group">
-                <label>Mensaje</label>
-                <textarea rows="5" required placeholder="¿Qué necesitas?"></textarea>
-            </div>
-            <button type="submit" className="submit-btn">Enviar Mensaje</button>
-        </form>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Location;

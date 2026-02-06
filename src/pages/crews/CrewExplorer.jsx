@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -31,15 +31,16 @@ const CrewExplorer = () => {
     };
 
     // Filter Logic
-    let filteredCrews = crews.filter(c => 
+    const filteredCrews = useMemo(() => crews.filter(c => 
         c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
         c.tag.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    ), [crews, searchTerm]);
 
     // Sort Logic
-    const sortedCrews = [...filteredCrews].sort((a, b) => {
-        const pointsA = getCrewPoints(a.members);
-        const pointsB = getCrewPoints(b.members);
+    const sortedCrews = useMemo(() => [...filteredCrews].sort((a, b) => {
+        // Use pre-calculated points from Context if available, else fallback
+        const pointsA = a.crewPoints ?? getCrewPoints(a.members);
+        const pointsB = b.crewPoints ?? getCrewPoints(b.members);
         const membersA = a.members.length;
         const membersB = b.members.length;
 
@@ -50,7 +51,7 @@ const CrewExplorer = () => {
             case 'members_asc': return membersA - membersB;
             default: return 0;
         }
-    });
+    }), [filteredCrews, sortBy]);
 
     // Back Button Logic
     const handleBack = () => {
