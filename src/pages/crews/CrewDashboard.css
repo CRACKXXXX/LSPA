@@ -478,9 +478,6 @@
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
-    transform: translateY(-2px);
-}
-
 /* --- CHAT DATE SEPARATORS --- */
 .chat-date-separator {
     display: flex;

@@ -1,17 +1,13 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/home/Home';
 import VersusMode from './pages/versus-mode/VersusMode';
-import './Animations.css';
+import './styles/Animations.css'; // Updated path
 import Location from './pages/location/Location';
 import GaragePage from './pages/garage/GaragePage';
 import { GarageProvider } from './context/GarageContext';
-import GuessGame from './pages/guess-game/GuessGame';
-import BattleGame from './pages/battle-game/BattleGame';
-import HigherLower from './pages/minigames/HigherLower';
 import { CrewProvider } from './context/CrewContext';
 import CrewPage from './pages/crews/CrewPage';
 import CrewAdmin from './pages/crews/CrewAdmin';
@@ -37,6 +33,11 @@ import ScrollToTop from './components/ScrollToTop';
 import AppLoader from './components/ui/AppLoader';
 import BackgroundSparks from './components/ui/BackgroundSparks';
 import ScrollTopBtn from './components/ui/ScrollTopBtn';
+
+// Games (Refactored)
+import GuessGame from './pages/games/guess/GuessGame';
+import BattleGame from './pages/games/battle/BattleGame';
+import HigherLower from './pages/games/higher-lower/HigherLower';
 
 function App() {
   const [appReady, setAppReady] = useState(false);

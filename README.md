@@ -196,19 +196,19 @@ src/
 │   └── GamificationContext.jsx # XP, levels, records
 ├── pages/               # Application pages
 │   ├── home/            # Main catalog
+│   ├── games/           # Minigames Collection (Battle, Guess, Hi-Lo)
 │   ├── versus-mode/     # Comparator
 │   ├── garage/          # Personal garage
 │   ├── profile/         # User profile
 │   ├── admin/           # Admin panel
+│   ├── crews/           # Crew System (Dashboard, Admin, Explorer)
 │   ├── analytics/       # Analytics dashboard
 │   ├── leaderboard/     # Global ranking
-│   ├── battle-game/     # Minigame: Battle
-│   ├── guess-game/      # Minigame: Guess
-│   ├── minigames/       # Minigame: Higher/Lower
 │   ├── guide/           # Guide and FAQ
 │   ├── location/        # Map and contact
 │   ├── legal/           # Legal pages
 │   └── auth/            # Login/Register
+├── styles/              # Global Styles (App.css, index.css)
 ├── data/
 │   └── vehicles.json    # Vehicle database
 └── scripts/

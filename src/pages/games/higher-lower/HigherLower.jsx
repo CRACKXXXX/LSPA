@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import vehicleData from '../../data/vehicles.json';
-import { useAuth } from '../../context/AuthContext';
-import { useGamification } from '../../context/GamificationContext';
+import vehicleData from '../../../data/vehicles.json';
+import { useAuth } from '../../../context/AuthContext';
+import { useGamification } from '../../../context/GamificationContext';
 import './HigherLower.css';
 
 const STATS = [

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import vehiclesData from '../../data/vehicles.json';
+import vehiclesData from '../../../data/vehicles.json';
 import './BattleGame.css';
-import VehicleCard from '../../components/vehicle-card/VehicleCard';
-import { useGamification } from '../../context/GamificationContext';
-import { useAuth } from '../../context/AuthContext';
+import VehicleCard from '../../../components/vehicle-card/VehicleCard';
+import { useGamification } from '../../../context/GamificationContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const BattleGame = () => {
     const { addXp, updateHighScore } = useGamification();

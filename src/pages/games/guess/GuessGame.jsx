@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import vehiclesData from '../../data/vehicles.json';
+import vehiclesData from '../../../data/vehicles.json';
 import './GuessGame.css';
-import { useGamification } from '../../context/GamificationContext';
-import { useAuth } from '../../context/AuthContext';
+import { useGamification } from '../../../context/GamificationContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const GuessGame = () => {
     const { addXp, updateHighScore } = useGamification();
