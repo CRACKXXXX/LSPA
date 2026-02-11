@@ -21,7 +21,8 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 const Location = () => {
     const { showToast } = useToast();
-    const position = [34.0522, -118.2437]; // Los Santos (LA Proxy)
+    const position = [18.3003, -64.8255]; // Little Saint James
+
     const [form, setForm] = useState({ name: '', email: '', message: '' });
 
     const handleSubmit = (e) => {
@@ -38,14 +39,14 @@ const Location = () => {
             <div className="map-section glass-panel">
                 <h2 className="neon-text">📍 NUESTRA UBICACIÓN</h2>
                 <div className="map-wrapper">
-                    <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                    <MapContainer center={position} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <Marker position={position}>
                             <Popup>
-                                <strong>LSPA Headquarters</strong><br />1234 Vinewood Blvd.
+                                <strong>LSPA Headquarters</strong><br />Little Saint James, USVI
                             </Popup>
                         </Marker>
                     </MapContainer>
@@ -60,7 +61,7 @@ const Location = () => {
                         <span className="icon">🏠</span>
                         <div>
                             <strong>OFICINA CENTRAL</strong>
-                            <p>1234 Vinewood Blvd, Los Santos, SA 90028</p>
+                            <p>Little Saint James Island, U.S. Virgin Islands</p>
                         </div>
                     </div>
                     <div className="info-item">

@@ -167,7 +167,7 @@ The application features a **Cyberpunk/Neon** aesthetic with dark mode, glassmor
 - Usage guide for each feature
 
 ### 🗺️ Location (Map)
-- Interactive **Los Santos** map with Leaflet
+- Interactive **Little Saint James** map (HQ) with Leaflet
 - Contact form
 - "Agency" information
 
