@@ -452,6 +452,7 @@ Only vehicles that pass BOTH tests are included in the database.
 - [Vite Guide](https://vitejs.dev/)
 - [Chart.js Docs](https://www.chartjs.org/)
 - [React Leaflet](https://react-leaflet.js.org/)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template) - Readme Template used
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

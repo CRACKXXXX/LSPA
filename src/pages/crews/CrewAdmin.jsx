@@ -22,6 +22,23 @@ const AdminConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
     );
 };
 
+// --- DANGER MODAL (RED THEME) ---
+const DangerModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
+    if (!isOpen) return null;
+    return (
+        <div className="modal-overlay" style={{backdropFilter: 'blur(5px)'}}>
+            <div className="modal-content danger-modal">
+                <h3>⚠️ {title}</h3>
+                <p>{message}</p>
+                <div className="modal-actions">
+                    <button onClick={onCancel} className="btn-modal-cancel">CANCELAR</button>
+                    <button onClick={onConfirm} className="btn-modal-danger">ELIMINAR DEFINITIVAMENTE</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const CrewAdmin = () => {
     const { currentCrew, updateCrewInfo, manageMember, deleteCrew, canManage } = useCrew();
     const { user } = useAuth();
@@ -34,6 +51,7 @@ const CrewAdmin = () => {
     });
 
     const [modalConfig, setModalConfig] = useState({ open: false, title: '', message: '', action: null });
+    const [dangerModal, setDangerModal] = useState({ open: false, title: '', message: '', action: null });
 
     useEffect(() => {
         if (!currentCrew) {
@@ -69,9 +87,18 @@ const CrewAdmin = () => {
         setModalConfig({ open: true, title, message, action });
     };
 
+    const openDanger = (title, message, action) => {
+        setDangerModal({ open: true, title, message, action });
+    };
+
     const handleConfirm = () => {
         if (modalConfig.action) modalConfig.action();
         setModalConfig({ ...modalConfig, open: false });
+    };
+
+    const handleDangerConfirm = () => {
+        if (dangerModal.action) dangerModal.action();
+        setDangerModal({ ...dangerModal, open: false });
     };
 
     const myMemberRole = currentCrew.members.find(m => m.userId === user.id)?.role;
@@ -234,7 +261,7 @@ const CrewAdmin = () => {
                         <h2>☠️ ZONA DE PELIGRO</h2>
                         <p>Estas acciones son irreversibles. Ten cuidado.</p>
                         <button className="disband-btn" onClick={() => 
-                            openConfirm('ELIMINAR CREW', '¿ESTÁS SEGURO? Esta acción es DEFINITIVA e IRREVERSIBLE. Se borrará todo.', () => {
+                            openDanger('ELIMINAR CREW', '¿ESTÁS SEGURO? Esta acción es DEFINITIVA e IRREVERSIBLE. Se borrará todo.', () => {
                                 deleteCrew(currentCrew.id);
                                 navigate('/crews');
                             })
@@ -251,6 +278,14 @@ const CrewAdmin = () => {
                 message={modalConfig.message} 
                 onConfirm={handleConfirm} 
                 onCancel={() => setModalConfig({...modalConfig, open: false})}
+            />
+
+            <DangerModal 
+                isOpen={dangerModal.open} 
+                title={dangerModal.title} 
+                message={dangerModal.message} 
+                onConfirm={handleDangerConfirm} 
+                onCancel={() => setDangerModal({ ...dangerModal, open: false })}
             />
         </div>
     );
