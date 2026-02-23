@@ -28,6 +28,7 @@ import TermsOfSale from './pages/legal/TermsOfSale';
 import GuideFAQ from './pages/legal/GuideFAQ';
 import AdminPanel from './pages/admin/AdminPanel';
 import ScrollToTop from './components/ScrollToTop';
+import ForoNews from './pages/foro-news/ForoNews';
 
 // UI Pack
 import AppLoader from './components/ui/AppLoader';
@@ -74,6 +75,7 @@ function App() {
                       <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                       <Route path="/leaderboard" element={<Leaderboard />} />
                       <Route path="/community" element={<Community />} />
+                      <Route path="/foro" element={<ForoNews />} />
                       <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/cookies-policy" element={<CookiesPolicy />} />

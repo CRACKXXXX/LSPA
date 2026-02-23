@@ -70,6 +70,14 @@ const Header = () => {
                     Ubicación
                 </NavLink>
 
+                <NavLink 
+                    to="/foro" 
+                    onClick={closeMenu}
+                    className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                >
+                    Foro
+                </NavLink>
+
                 <div className="nav-group">
                     <span className="nav-group-label">GAMES:</span>
                     <div className="nav-group-links">
