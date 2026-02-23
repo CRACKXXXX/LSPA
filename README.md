@@ -25,6 +25,7 @@
   ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite)
   ![Chart.js](https://img.shields.io/badge/Chart.js-4.x-FF6384?style=for-the-badge&logo=chartdotjs)
   ![Leaflet](https://img.shields.io/badge/Leaflet-Maps-199900?style=for-the-badge&logo=leaflet)
+  [![Figma](https://img.shields.io/badge/Figma-Design-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/ij2v0mmPVX6hvLxbpGX3bB/LSPA---Los-Santos-Performance-Analyzer?m=auto&t=DfY4vpOxPvqq2A9Y-6)
 </div>
 
 ---
@@ -32,6 +33,7 @@
 ## 📋 Table of Contents
 
 - [About The Project](#-about-the-project)
+- [Figma Design](#-figma-design)
 - [Key Features](#-key-features)
 - [Technical Architecture](#-technical-architecture)
 - [Installation](#-installation)
@@ -62,6 +64,31 @@
 The application features a **Cyberpunk/Neon** aesthetic with dark mode, glassmorphism, and smooth animations.
 
 (<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 🎨 Figma Design
+
+The full UI/UX design for LSPA was planned and prototyped in Figma before development.
+
+<div align="center">
+
+🔗 **[View the Figma Design File](https://www.figma.com/design/ij2v0mmPVX6hvLxbpGX3bB/LSPA---Los-Santos-Performance-Analyzer?m=auto&t=DfY4vpOxPvqq2A9Y-6)**
+
+</div>
+
+The Figma file includes:
+
+| Section | Details |
+|---------|--------|
+| 🖼️ **Wireframes** | Low-fidelity layout sketches for all pages |
+| 🧩 **Component Library** | Reusable UI components (cards, buttons, modals, navbar) |
+| 🎨 **Color System** | Full dark-mode palette with Cyberpunk/Neon theme tokens |
+| 📐 **Typography** | Font scales using Outfit and Russo One |
+| 📱 **Responsive Layouts** | Desktop, tablet, and mobile breakpoints |
+| 🎮 **Page Designs** | High-fidelity mockups for Home, Versus, Garage, Profile, and more |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 

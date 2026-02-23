@@ -123,89 +123,84 @@
     text-shadow: 0 0 10px rgba(255, 230, 0, 0.4);
 }
 
-/* Social Text Links */
-.social-links-text {
+/* Social Icons Column */
+.footer-column.social-icons {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    align-items: center;
 }
 
-.social-text {
-    font-family: 'Orbitron', sans-serif; /* Tech font */
-    font-weight: 800;
-    font-size: 1.1rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    position: relative;
-    transition: all 0.3s ease;
-    width: fit-content;
-    padding-left: 15px;
+/* Social Icon Links */
+.social-icons-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Hover Indicator */
-.social-text::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background: currentColor;
+.social-icon-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    opacity: 0;
-    transition: all 0.3s;
-    box-shadow: 0 0 10px currentColor;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-decoration: none;
+    margin-bottom: 0 !important;
 }
 
-.social-text:hover {
-    padding-left: 20px;
-    transform: scale(1.05);
+.social-icon-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
 }
 
-.social-text:hover::before {
-    opacity: 1;
-    left: 5px;
+.social-icon-link:hover {
+    transform: translateY(-4px) scale(1.1) !important;
 }
 
-/* Platform Specifics - BRAND COLORS */
-.social-text.twitter {
-    color: #1DA1F2; /* Standard Blue */
+.social-icon-link:hover svg {
+    transform: scale(1.1);
 }
-.social-text.twitter:hover {
+
+/* Brand Colors on Hover */
+.social-icon-link.twitter:hover {
     color: #fff;
-    text-shadow: 0 0 10px #1DA1F2, 0 0 20px #1DA1F2;
+    background: rgba(29, 161, 242, 0.15);
+    border-color: #1DA1F2;
+    box-shadow: 0 0 15px rgba(29, 161, 242, 0.4), 0 0 30px rgba(29, 161, 242, 0.15);
 }
 
-.social-text.instagram {
-    /* Instagram Gradient as Text Color */
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent; /* Fallback */
-    transition: all 0.3s;
-}
-.social-text.instagram:hover {
-    -webkit-text-fill-color: #fff;
-    text-shadow: 0 0 10px #bc1888, 0 0 20px #dc2743;
-}
-
-.social-text.youtube {
-    color: #FF0000; /* YouTube Red */
-}
-.social-text.youtube:hover {
+.social-icon-link.instagram:hover {
     color: #fff;
-    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+    background: linear-gradient(135deg, rgba(240, 148, 51, 0.15), rgba(188, 24, 136, 0.15));
+    border-color: #dc2743;
+    box-shadow: 0 0 15px rgba(220, 39, 67, 0.4), 0 0 30px rgba(188, 24, 136, 0.15);
 }
 
-.social-text.discord {
-    color: #5865F2; /* Discord Blurple */
-}
-.social-text.discord:hover {
+.social-icon-link.youtube:hover {
     color: #fff;
-    text-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
+    background: rgba(255, 0, 0, 0.12);
+    border-color: #FF0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.15);
+}
+
+.social-icon-link.discord:hover {
+    color: #fff;
+    background: rgba(88, 101, 242, 0.15);
+    border-color: #5865F2;
+    box-shadow: 0 0 15px rgba(88, 101, 242, 0.4), 0 0 30px rgba(88, 101, 242, 0.15);
+}
+
+.social-icon-link.tiktok:hover {
+    color: #fff;
+    background: rgba(254, 44, 85, 0.12);
+    border-color: #fe2c55;
+    box-shadow: 0 0 15px rgba(254, 44, 85, 0.4), 0 0 30px rgba(37, 244, 238, 0.15);
 }
 
 @keyframes gradientFlow {
@@ -233,30 +228,46 @@
         width: 100%;
     }
 
-    /* Fix Social Links on Mobile */
-    .social-links-text {
-        align-items: center; /* Center items in flex column */
+    /* Social Icons on Mobile */
+    .social-icons-row {
+        justify-content: center;
     }
 
-    .social-text {
-        padding-left: 0; /* Remove indent on mobile */
-        font-size: 1rem;
-    }
-    
-    .social-text::before {
-        display: none; /* Hide dot on mobile */
+    .social-icon-link {
+        width: 40px;
+        height: 40px;
     }
 
-    .social-text:hover {
-        padding-left: 0;
-        transform: scale(1.1);
+    .social-icon-link svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
 @media (max-width: 480px) {
     .footer-links-section {
         flex-direction: column;
+        align-items: center;
         gap: 2rem;
+    }
+
+    .footer-column.social-icons {
+        align-items: center;
+        width: 100%;
+    }
+
+    .social-icons-row {
+        justify-content: center;
+    }
+
+    .social-icon-link {
+        width: 38px;
+        height: 38px;
+    }
+
+    .social-icon-link svg {
+        width: 16px;
+        height: 16px;
     }
     
     .legal-text {
@@ -265,6 +276,6 @@
     }
     
     .legal-text span {
-        display: none; /* Hide separators on small mobile */
+        display: none;
     }
 }
