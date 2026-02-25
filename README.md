@@ -104,6 +104,10 @@ The Figma file includes:
 - **Profile Integration**: Direct link to global standing from user profile.
 - **Dynamic Badges**: Custom rank indicators in the navbar.
 
+### 📡 System & Connectivity
+- **RSS Feed Integration**: A dedicated landing page `/rss` with an XML feed (`feed.xml`) simulating game news and application patch notes.
+- **Firebase Database**: Live connection to Cloud Firestore reading a collection of articles.
+
 ### 📘 User Experience
 - **Player's Handbook**: Rewrote the entire Guide/FAQ to be user-centric (no technical jargon).
 - **Smart Navigation**: Dynamic garage badge that only appears when relevant.
@@ -427,6 +431,8 @@ Only vehicles that pass BOTH tests are included in the database.
 | `/games/higherlower` | Higher/Lower | Minigame |
 | `/guide` | Guide | FAQ and documentation |
 | `/location` | Location | Map and contact |
+| `/rss` | RSS Feed | LSPA News and Updates XML |
+| `/foro` | Foro / News | Social news board reading from Firebase |
 | `/admin` | Admin Panel | User management (admins only) |
 | `/login` | Login | Sign in |
 | `/register` | Register | Create account |
@@ -445,15 +451,16 @@ Only vehicles that pass BOTH tests are included in the database.
 - **React Router DOM 6** - SPA Navigation
 - **CSS3** - Styles with variables and glassmorphism
 
-### Visualization
-- **Chart.js 4** - Charts (Analytics)
-- **Leaflet** - Interactive maps
+### Visualization & Libraries (Third-Party Components)
+- [Chart.js 4](https://www.chartjs.org/) - Library used to generate analytics graphs.
+- [React Leaflet](https://react-leaflet.js.org/) & [LeafletJS](https://leafletjs.com/) - Open-source JS library for mobile-friendly interactive maps. Used for the Headquarters location map.
+- [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) - NoSQL document database used for the Foro/News section.
 
 ### Global State
 - **React Context API** - AuthContext, GarageContext, GamificationContext
 
 ### Data
-- **JSON** - Vehicle database
+- **JSON** - Vehicle database (`vehicles.json`)
 - **localStorage** - Session persistence and user data
 
 ### Tools
@@ -477,9 +484,7 @@ Only vehicles that pass BOTH tests are included in the database.
 ### Documentation and Tutorials
 - [React Documentation](https://react.dev/)
 - [Vite Guide](https://vitejs.dev/)
-- [Chart.js Docs](https://www.chartjs.org/)
-- [React Leaflet](https://react-leaflet.js.org/)
-- [Best-README-Template](https://github.com/othneildrew/Best-README-Template) - Readme Template used
+- [Best-README-Template (Template Used)](https://github.com/othneildrew/Best-README-Template) - An amazing README template that helped structure this markdown documentation.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

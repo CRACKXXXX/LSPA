@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import vehiclesData from '../../data/vehicles.json';
 import './Home.css';
 
@@ -161,9 +162,13 @@ const Home = () => {
 
         <div className="filter-group">
             <label>Fabricante</label>
-            <select value={selectedManufacturer} onChange={(e) => setSelectedManufacturer(e.target.value)}>
-                {manufacturers.map(m => <option key={m} value={m}>{m}</option>)}
-            </select>
+            <CustomDropdown
+                options={manufacturers.map(m => ({ value: m, label: m, color: m === 'All' ? '#fff' : 'var(--secondary-color)' }))}
+                value={selectedManufacturer}
+                onChange={setSelectedManufacturer}
+                accentColor="var(--secondary-color)"
+                fullWidth
+            />
         </div>
 
         <div className="filter-group">
@@ -223,22 +228,23 @@ const Home = () => {
             </div>
             
             <div className="sort-container">
-                <label>Ordenar:</label>
-                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                    <option value="name_asc">Nombre (A-Z)</option>
-                    
-                    <option value="speed_desc">Velocidad (Más Rápido)</option>
-                    <option value="speed_asc">Velocidad (Más Lento)</option>
-                    
-                    <option value="accel_desc">Aceleración (Mayor)</option>
-                    <option value="accel_asc">Aceleración (Menor)</option>
-
-                    <option value="handling_desc">Manejo (Mejor)</option>
-                    <option value="handling_asc">Manejo (Peor)</option>
-
-                    <option value="braking_desc">Frenada (Mejor)</option>
-                    <option value="braking_asc">Frenada (Peor)</option>
-                </select>
+                <CustomDropdown
+                    label="Ordenar:"
+                    options={[
+                        { value: 'name_asc', label: '🔤 Nombre (A-Z)', color: '#fff' },
+                        { value: 'speed_desc', label: '🏎️ Velocidad (Más Rápido)', color: 'var(--secondary-color)' },
+                        { value: 'speed_asc', label: '🐢 Velocidad (Más Lento)', color: 'var(--text-muted)' },
+                        { value: 'accel_desc', label: '⚡ Aceleración (Mayor)', color: 'var(--primary-color)' },
+                        { value: 'accel_asc', label: '🐌 Aceleración (Menor)', color: 'var(--text-muted)' },
+                        { value: 'handling_desc', label: '🎯 Manejo (Mejor)', color: 'var(--secondary-color)' },
+                        { value: 'handling_asc', label: '💫 Manejo (Peor)', color: 'var(--text-muted)' },
+                        { value: 'braking_desc', label: '🛑 Frenada (Mejor)', color: '#ff4444' },
+                        { value: 'braking_asc', label: '⚠️ Frenada (Peor)', color: 'var(--text-muted)' },
+                    ]}
+                    value={sortBy}
+                    onChange={setSortBy}
+                    accentColor="var(--primary-color)"
+                />
             </div>
         </div>
 

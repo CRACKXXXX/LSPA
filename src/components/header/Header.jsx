@@ -71,11 +71,19 @@ const Header = () => {
                 </NavLink>
 
                 <NavLink 
+                    to="/rss" 
+                    onClick={closeMenu}
+                    className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                >
+                    RSS Feed
+                </NavLink>
+
+                <NavLink 
                     to="/foro" 
                     onClick={closeMenu}
                     className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
                 >
-                    Foro
+                    Foro / News
                 </NavLink>
 
                 <div className="nav-group">

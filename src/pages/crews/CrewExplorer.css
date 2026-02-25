@@ -161,6 +161,17 @@
     cursor: default;
 }
 
+.btn-invite {
+    background: rgba(255, 165, 0, 0.15);
+    color: #FFA500;
+    border: 1px solid #FFA500;
+}
+.btn-invite:hover {
+    background: #FFA500;
+    color: black;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+}
+
 /* --- MODAL OVERRIDES --- */
 .explorer-modal-overlay {
     position: fixed;

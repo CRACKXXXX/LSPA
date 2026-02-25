@@ -30,6 +30,8 @@ const Footer = () => {
                 <a href="/garage">Mi Garaje</a>
                 <a href="/analytics">Análisis</a>
                 <a href="/location">Ubicación</a>
+                <a href="/rss">RSS Feed</a>
+                <a href="/foro">Foro / News</a>
             </div>
             <div className="footer-column">
                 <h4>Zona Gaming</h4>

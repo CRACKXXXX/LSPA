@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { collection, getDocs, onSnapshot, query, orderBy, addDoc, serverTimestamp, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase-config';
+import { useAuth } from '../../context/AuthContext';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './ForoNews.css';
 
 // Category color mapping for visual distinction
@@ -22,15 +24,26 @@ const CATEGORY_ICONS = {
 };
 
 const ForoNews = () => {
-  // State management
+  // Core data state
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Filter state
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [sortBy, setSortBy] = useState('date_desc');
 
-  // Available categories derived from data
+  // Interactive state
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [expandedCards, setExpandedCards] = useState(new Set());
+  const [likedNews, setLikedNews] = useState(new Set());
+  const [bookmarkedNews, setBookmarkedNews] = useState(new Set());
+  const [activeTagFilter, setActiveTagFilter] = useState(null);
+  const [featuredId, setFeaturedId] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Available categories
   const categories = ['Todas', 'GTA Online', 'Coches Reales', 'Tuning', 'Carreras', 'Novedades'];
 
   // Fetch news from Firestore on mount
@@ -46,6 +59,12 @@ const ForoNews = () => {
         }));
         setNoticias(newsArray);
         setError(null);
+
+        // Set the most liked article as featured
+        if (newsArray.length > 0) {
+          const mostLiked = newsArray.reduce((max, n) => (n.likes || 0) > (max.likes || 0) ? n : max);
+          setFeaturedId(mostLiked.id);
+        }
       } catch (err) {
         console.error('Error fetching news from Firestore:', err);
         setError('Error al cargar las noticias. Inténtalo de nuevo más tarde.');
@@ -63,18 +82,22 @@ const ForoNews = () => {
       .filter(noticia => {
         // Category filter
         if (selectedCategory !== 'Todas' && noticia.categoria !== selectedCategory) return false;
-        // Search filter (title + description)
+
+        // Tag filter (when clicking a tag)
+        if (activeTagFilter && !noticia.tags?.includes(activeTagFilter)) return false;
+
+        // Search filter (title + description + tags)
         if (searchTerm) {
           const term = searchTerm.toLowerCase();
           const matchTitle = noticia.titulo?.toLowerCase().includes(term);
           const matchDesc = noticia.descripcion?.toLowerCase().includes(term);
           const matchTags = noticia.tags?.some(tag => tag.toLowerCase().includes(term));
-          if (!matchTitle && !matchDesc && !matchTags) return false;
+          const matchAuthor = noticia.autor?.toLowerCase().includes(term);
+          if (!matchTitle && !matchDesc && !matchTags && !matchAuthor) return false;
         }
         return true;
       })
       .sort((a, b) => {
-        // Sorting logic
         if (sortBy === 'date_desc') return new Date(b.fecha) - new Date(a.fecha);
         if (sortBy === 'date_asc') return new Date(a.fecha) - new Date(b.fecha);
         if (sortBy === 'likes_desc') return (b.likes || 0) - (a.likes || 0);
@@ -82,7 +105,13 @@ const ForoNews = () => {
         if (sortBy === 'title_asc') return a.titulo.localeCompare(b.titulo);
         return 0;
       });
-  }, [noticias, selectedCategory, searchTerm, sortBy]);
+  }, [noticias, selectedCategory, searchTerm, sortBy, activeTagFilter]);
+
+  // Category count helper
+  const getCategoryCount = useCallback((cat) => {
+    if (cat === 'Todas') return noticias.length;
+    return noticias.filter(n => n.categoria === cat).length;
+  }, [noticias]);
 
   // Format date for display
   const formatDate = (dateStr) => {
@@ -94,10 +123,81 @@ const ForoNews = () => {
     });
   };
 
+  // Relative time helper
+  const getRelativeTime = (dateStr) => {
+    const now = new Date();
+    const date = new Date(dateStr);
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Hoy';
+    if (diffDays === 1) return 'Ayer';
+    if (diffDays < 7) return `Hace ${diffDays} días`;
+    if (diffDays < 30) return `Hace ${Math.floor(diffDays / 7)} semanas`;
+    return `Hace ${Math.floor(diffDays / 30)} meses`;
+  };
+
   // Get category style
   const getCategoryStyle = (category) => {
     return CATEGORY_COLORS[category] || { bg: 'rgba(255,255,255,0.1)', border: '#888', text: '#888' };
   };
+
+  // Toggle card expansion
+  const toggleExpand = (id) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // Toggle like with animation
+  const toggleLike = (id) => {
+    setLikedNews(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // Toggle bookmark
+  const toggleBookmark = (id) => {
+    setBookmarkedNews(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // Handle tag click to filter
+  const handleTagClick = (tag) => {
+    if (activeTagFilter === tag) {
+      setActiveTagFilter(null);
+    } else {
+      setActiveTagFilter(tag);
+    }
+  };
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('Todas');
+    setSortBy('date_desc');
+    setActiveTagFilter(null);
+  };
+
+  // Check if any filter is active
+  const hasActiveFilters = searchTerm || selectedCategory !== 'Todas' || activeTagFilter || sortBy !== 'date_desc';
 
   // Loading skeleton
   if (loading) {
@@ -105,10 +205,10 @@ const ForoNews = () => {
       <div className="foro-container">
         <aside className="foro-sidebar glass-panel">
           <div className="sidebar-header">
-            <h2>Foro Noticias</h2>
+            <h2>📰 Foro Noticias</h2>
           </div>
           <div className="skeleton-filters">
-            {[1, 2, 3, 4, 5].map(i => (
+            {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="skeleton-chip"></div>
             ))}
           </div>
@@ -148,12 +248,29 @@ const ForoNews = () => {
 
   return (
     <div className="foro-container">
+      {/* Mobile sidebar toggle */}
+      <button
+        className={`sidebar-toggle-btn ${sidebarOpen ? 'open' : ''}`}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle filters"
+      >
+        <span>☰</span> Filtros
+      </button>
+
       {/* Sidebar with category filters */}
-      <aside className="foro-sidebar glass-panel">
+      <aside className={`foro-sidebar glass-panel ${sidebarOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <h2>📰 Foro Noticias</h2>
           <span className="news-count">{filteredNews.length} noticias</span>
         </div>
+
+        {/* Active tag filter badge */}
+        {activeTagFilter && (
+          <div className="active-tag-badge">
+            <span>Filtrando por: <strong>#{activeTagFilter}</strong></span>
+            <button onClick={() => setActiveTagFilter(null)}>✕</button>
+          </div>
+        )}
 
         {/* Category chips */}
         <div className="filter-section">
@@ -164,11 +281,12 @@ const ForoNews = () => {
                 ? { bg: 'rgba(255,255,255,0.1)', border: '#fff', text: '#fff' }
                 : getCategoryStyle(cat);
               const isActive = selectedCategory === cat;
+              const count = getCategoryCount(cat);
               return (
                 <button
                   key={cat}
                   className={`category-chip ${isActive ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => { setSelectedCategory(cat); setSidebarOpen(false); }}
                   style={{
                     '--chip-bg': style.bg,
                     '--chip-border': style.border,
@@ -177,6 +295,7 @@ const ForoNews = () => {
                 >
                   <span className="chip-icon">{CATEGORY_ICONS[cat] || '🌐'}</span>
                   <span className="chip-label">{cat}</span>
+                  <span className="chip-count">{count}</span>
                 </button>
               );
             })}
@@ -186,18 +305,27 @@ const ForoNews = () => {
         {/* Sort selector */}
         <div className="filter-section">
           <label className="filter-label">Ordenar por</label>
-          <select
+          <CustomDropdown
+            options={[
+              { value: 'date_desc', label: '🕝 Más recientes', color: 'var(--secondary-color)' },
+              { value: 'date_asc', label: '📅 Más antiguas', color: 'var(--text-muted)' },
+              { value: 'likes_desc', label: '❤️ Más populares', color: '#ff4444' },
+              { value: 'likes_asc', label: '💔 Menos populares', color: 'var(--text-muted)' },
+              { value: 'title_asc', label: '🔤 Título (A-Z)', color: '#fff' },
+            ]}
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="foro-select"
-          >
-            <option value="date_desc">Más recientes</option>
-            <option value="date_asc">Más antiguas</option>
-            <option value="likes_desc">Más populares</option>
-            <option value="likes_asc">Menos populares</option>
-            <option value="title_asc">Título (A-Z)</option>
-          </select>
+            onChange={setSortBy}
+            accentColor="var(--secondary-color)"
+            fullWidth
+          />
         </div>
+
+        {/* Reset filters button */}
+        {hasActiveFilters && (
+          <button className="reset-filters-btn" onClick={resetFilters}>
+            🔄 Limpiar filtros
+          </button>
+        )}
 
         {/* Stats summary */}
         <div className="sidebar-stats">
@@ -210,21 +338,31 @@ const ForoNews = () => {
             <span className="stat-label">Categorías</span>
           </div>
           <div className="stat-item">
-            <span className="stat-value">{noticias.reduce((sum, n) => sum + (n.likes || 0), 0)}</span>
+            <span className="stat-value">{noticias.reduce((sum, n) => sum + (n.likes || 0), 0).toLocaleString()}</span>
             <span className="stat-label">Likes</span>
           </div>
         </div>
+
+        {/* Bookmarked count */}
+        {bookmarkedNews.size > 0 && (
+          <div className="bookmarks-indicator">
+            🔖 {bookmarkedNews.size} guardadas
+          </div>
+        )}
       </aside>
+
+      {/* Backdrop for mobile sidebar */}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)}></div>}
 
       {/* Main content area */}
       <main className="foro-main">
-        {/* Search bar */}
+        {/* Search + view toggle bar */}
         <div className="foro-header-actions">
           <div className="foro-search-bar">
             <i className="search-icon">🔍</i>
             <input
               type="text"
-              placeholder="Buscar noticias, tags..."
+              placeholder="Buscar noticias, tags, autores..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -232,22 +370,58 @@ const ForoNews = () => {
               <button className="clear-search" onClick={() => setSearchTerm('')}>✕</button>
             )}
           </div>
-          <div className="results-info">
-            {searchTerm && <span>Resultados para "<strong>{searchTerm}</strong>"</span>}
+
+          {/* View mode toggle */}
+          <div className="view-toggle">
+            <button
+              className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Vista cuadrícula"
+            >
+              ▦
+            </button>
+            <button
+              className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="Vista lista"
+            >
+              ☰
+            </button>
           </div>
         </div>
 
-        {/* News grid */}
-        <div className="foro-grid">
+        {/* Results info bar */}
+        <div className="results-bar">
+          <span className="results-count">
+            {filteredNews.length} {filteredNews.length === 1 ? 'noticia' : 'noticias'}
+            {searchTerm && <> para "<strong>{searchTerm}</strong>"</>}
+          </span>
+          {activeTagFilter && (
+            <span className="active-filter-pill" onClick={() => setActiveTagFilter(null)}>
+              #{activeTagFilter} ✕
+            </span>
+          )}
+        </div>
+
+        {/* News grid / list */}
+        <div className={`foro-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
           {filteredNews.length > 0 ? (
             filteredNews.map((noticia, index) => {
               const catStyle = getCategoryStyle(noticia.categoria);
+              const isExpanded = expandedCards.has(noticia.id);
+              const isLiked = likedNews.has(noticia.id);
+              const isBookmarked = bookmarkedNews.has(noticia.id);
+              const isFeatured = noticia.id === featuredId && selectedCategory === 'Todas' && !searchTerm && !activeTagFilter;
+
               return (
                 <article
                   key={noticia.id}
-                  className="news-card"
-                  style={{ animationDelay: `${index * 0.08}s` }}
+                  className={`news-card ${isExpanded ? 'expanded' : ''} ${isFeatured ? 'featured' : ''}`}
+                  style={{ animationDelay: `${index * 0.06}s` }}
                 >
+                  {/* Featured badge */}
+                  {isFeatured && <div className="featured-badge">⭐ Destacada</div>}
+
                   {/* Card image */}
                   <div className="news-card-image">
                     <img
@@ -268,17 +442,46 @@ const ForoNews = () => {
                     >
                       {CATEGORY_ICONS[noticia.categoria]} {noticia.categoria}
                     </span>
+
+                    {/* Bookmark button on image */}
+                    <button
+                      className={`bookmark-btn ${isBookmarked ? 'active' : ''}`}
+                      onClick={(e) => { e.stopPropagation(); toggleBookmark(noticia.id); }}
+                      title={isBookmarked ? 'Quitar de guardados' : 'Guardar noticia'}
+                    >
+                      {isBookmarked ? '🔖' : '📑'}
+                    </button>
+
+                    {/* Relative time badge */}
+                    <span className="time-badge">{getRelativeTime(noticia.fecha)}</span>
                   </div>
 
                   {/* Card body */}
                   <div className="news-card-body">
                     <h3 className="news-title">{noticia.titulo}</h3>
-                    <p className="news-description">{noticia.descripcion}</p>
+                    <p className={`news-description ${isExpanded ? 'expanded' : ''}`}>
+                      {noticia.descripcion}
+                    </p>
 
-                    {/* Tags */}
+                    {/* Expand / collapse toggle */}
+                    <button
+                      className="expand-toggle"
+                      onClick={() => toggleExpand(noticia.id)}
+                    >
+                      {isExpanded ? '▲ Ver menos' : '▼ Leer más'}
+                    </button>
+
+                    {/* Tags — clickable */}
                     <div className="news-tags">
                       {noticia.tags?.map((tag, i) => (
-                        <span key={i} className="news-tag">#{tag}</span>
+                        <span
+                          key={i}
+                          className={`news-tag ${activeTagFilter === tag ? 'active-tag' : ''}`}
+                          onClick={() => handleTagClick(tag)}
+                          title={`Filtrar por #${tag}`}
+                        >
+                          #{tag}
+                        </span>
                       ))}
                     </div>
 
@@ -288,10 +491,19 @@ const ForoNews = () => {
                         <span className="news-author">✍️ {noticia.autor}</span>
                         <span className="news-date">📅 {formatDate(noticia.fecha)}</span>
                       </div>
-                      <div className="news-likes">
-                        <span className="likes-icon">🔥</span>
-                        <span className="likes-count">{noticia.likes}</span>
-                      </div>
+
+                      {/* Interactive like button */}
+                      <button
+                        className={`like-btn ${isLiked ? 'liked' : ''}`}
+                        onClick={() => toggleLike(noticia.id)}
+                      >
+                        <span className={`like-icon ${isLiked ? 'pulse' : ''}`}>
+                          {isLiked ? '❤️' : '🤍'}
+                        </span>
+                        <span className="likes-count">
+                          {(noticia.likes || 0) + (isLiked ? 1 : 0)}
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </article>
@@ -302,6 +514,11 @@ const ForoNews = () => {
               <span className="no-results-icon">🔎</span>
               <h3>No se encontraron noticias</h3>
               <p>Prueba con otros filtros o términos de búsqueda.</p>
+              {hasActiveFilters && (
+                <button className="reset-filters-btn" onClick={resetFilters}>
+                  Limpiar filtros
+                </button>
+              )}
             </div>
           )}
         </div>

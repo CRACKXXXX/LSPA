@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGarage } from '../../context/GarageContext';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './Garage.css';
 
 const TAG_OPTIONS = [
@@ -10,11 +11,21 @@ const TAG_OPTIONS = [
     { value: 'HUNTING', label: '🎯 Cazando', color: 'var(--secondary-color)' }
 ];
 
+const FILTER_OPTIONS = [
+    { value: 'ALL', label: '🌐 Todo', color: '#fff' },
+    ...TAG_OPTIONS
+];
+
+const SORT_OPTIONS = [
+    { value: 'recent', label: '🕐 Recientes', color: 'var(--primary-color)' },
+    { value: 'tag', label: '🏷️ Etiquetas', color: 'var(--secondary-color)' }
+];
+
 const GaragePage = () => {
     const { garageVehicles, garageIds, updateTag } = useGarage();
 
-    const [sortBy, setSortBy] = React.useState('recent');
-    const [filterTag, setFilterTag] = React.useState('ALL');
+    const [sortBy, setSortBy] = useState('recent');
+    const [filterTag, setFilterTag] = useState('ALL');
 
     const TAG_PRIORITY = {
         'IMPORTANTE': 1,
@@ -34,53 +45,29 @@ const GaragePage = () => {
             const pB = TAG_PRIORITY[b.savedTag] || 99;
             return pA - pB;
         }
-        return 0; // Default is insertion order (recent)
+        return 0;
     });
 
     return (
         <div className="garage-container">
             <div className="garage-header animate-slide-up">
                 <h2 className="gradient-text">MI GARAJE DE ENSUEÑO</h2>
-                <div className="garage-actions" style={{display:'flex', gap:'1rem', alignItems:'center'}}>
-                    <div className="filter-box" style={{display:'flex', alignItems:'center', gap:'0.5rem'}}>
-                         <label style={{color:'var(--text-muted)', fontSize:'0.9rem'}}>VER:</label>
-                         <select
-                            value={filterTag}
-                            onChange={(e) => setFilterTag(e.target.value)}
-                            style={{
-                                background:'rgba(0,0,0,0.5)', 
-                                border:'1px solid var(--secondary-color)', 
-                                color:'#fff', 
-                                padding:'0.5rem', 
-                                borderRadius:'20px',
-                                outline:'none'
-                            }}
-                         >
-                            <option value="ALL">Todo</option>
-                            {TAG_OPTIONS.map(opt => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                            ))}
-                         </select>
-                    </div>
+                <div className="garage-actions">
+                    <CustomDropdown
+                        label="VER:"
+                        options={FILTER_OPTIONS}
+                        value={filterTag}
+                        onChange={setFilterTag}
+                        accentColor="var(--secondary-color)"
+                    />
 
-                    <div className="sort-box" style={{display:'flex', alignItems:'center', gap:'0.5rem'}}>
-                        <label style={{color:'var(--text-muted)', fontSize:'0.9rem'}}>ORDENAR:</label>
-                        <select 
-                            value={sortBy} 
-                            onChange={(e) => setSortBy(e.target.value)}
-                            style={{
-                                background:'rgba(0,0,0,0.5)', 
-                                border:'1px solid var(--primary-color)', 
-                                color:'#fff', 
-                                padding:'0.5rem', 
-                                borderRadius:'20px',
-                                outline:'none'
-                            }}
-                        >
-                            <option value="recent">🕐 Recientes</option>
-                            <option value="tag">🏷️ Etiquetas</option>
-                        </select>
-                    </div>
+                    <CustomDropdown
+                        label="ORDENAR:"
+                        options={SORT_OPTIONS}
+                        value={sortBy}
+                        onChange={setSortBy}
+                        accentColor="var(--primary-color)"
+                    />
 
                     <div className="stat-card">
                         <span>Vehículos</span>
@@ -105,21 +92,13 @@ const GaragePage = () => {
                             
                             <div className="garage-controls">
                                 <label>Estado:</label>
-                                <select 
-                                    value={vehicle.savedTag} 
-                                    onChange={(e) => updateTag(vehicle.id, e.target.value)}
-                                    className="tag-select"
-                                    style={{
-                                        borderColor: TAG_OPTIONS.find(t => t.value === vehicle.savedTag)?.color || '#fff',
-                                        color: TAG_OPTIONS.find(t => t.value === vehicle.savedTag)?.color || '#fff'
-                                    }}
-                                >
-                                    {TAG_OPTIONS.map(opt => (
-                                        <option key={opt.value} value={opt.value}>
-                                            {opt.label}
-                                        </option>
-                                    ))}
-                                </select>
+                                <CustomDropdown
+                                    label=""
+                                    options={TAG_OPTIONS}
+                                    value={vehicle.savedTag}
+                                    onChange={(val) => updateTag(vehicle.id, val)}
+                                    accentColor={TAG_OPTIONS.find(t => t.value === vehicle.savedTag)?.color || '#fff'}
+                                />
                             </div>
                         </div>
                     ))}

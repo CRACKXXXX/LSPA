@@ -76,7 +76,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .admin-card:hover {
@@ -402,3 +402,237 @@
   30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
   40%, 60% { transform: translate3d(4px, 0, 0); }
 }
+
+/* --- ACTIONS CELL DROPDOWN FIX --- */
+.members-card {
+    position: relative;
+    z-index: 10;
+}
+
+.danger-card {
+    position: relative;
+    z-index: 1;
+}
+
+.actions-cell {
+    overflow: visible;
+    position: relative;
+}
+
+.actions-cell .cdrop {
+    min-width: 130px;
+}
+
+.actions-cell .cdrop-menu {
+    min-width: 160px;
+    right: auto;
+}
+
+/* --- ADMIN TOP BAR FIX (for overflow:visible) --- */
+.admin-card::before {
+    overflow: hidden;
+}
+
+/* --- PENDING REQUESTS SECTION --- */
+.pending-requests-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 165, 0, 0.3);
+}
+
+.pending-title {
+    font-family: 'Rajdhani', sans-serif;
+    color: #FFA500;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
+}
+
+.pending-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.pending-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 165, 0, 0.06);
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.pending-item:hover {
+    background: rgba(255, 165, 0, 0.12);
+    border-color: rgba(255, 165, 0, 0.4);
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.1);
+}
+
+.pending-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.pending-user-info > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.pending-username {
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.pending-level {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pending-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.approve-btn, .reject-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 800;
+    transition: all 0.3s ease;
+    border: 1px solid;
+}
+
+.approve-btn {
+    background: rgba(0, 200, 83, 0.15);
+    border-color: rgba(0, 200, 83, 0.4);
+    color: #00C853;
+}
+
+.approve-btn:hover {
+    background: rgba(0, 200, 83, 0.35);
+    box-shadow: 0 0 15px rgba(0, 200, 83, 0.4);
+    transform: scale(1.1);
+}
+
+.reject-btn {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.3);
+    color: #ff4444;
+}
+
+.reject-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* --- RESPONSIVE FIXES --- */
+@media (max-width: 768px) {
+    .actions-cell .cdrop {
+        min-width: 100px;
+    }
+    
+    .pending-item {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+    
+    .pending-user-info {
+        flex-direction: column;
+    }
+}
+
+/* =========================================
+   ADMIN CONFIRM MODAL
+   ========================================= */
+
+.admin-modal-content {
+    background: rgba(15, 15, 20, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    animation: fadeInScale 0.2s ease-out;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.admin-modal-title {
+    font-family: 'Rajdhani', sans-serif;
+    color: #fff;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.admin-modal-message {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.admin-btn-cancel, .admin-btn-confirm {
+    flex: 1;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.admin-btn-cancel {
+    background: transparent;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
+.admin-btn-cancel:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.admin-btn-confirm {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.5);
+    color: #ff4444;
+}
+
+.admin-btn-confirm:hover {
+    background: #ff4444;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+    transform: translateY(-2px);
+}
+

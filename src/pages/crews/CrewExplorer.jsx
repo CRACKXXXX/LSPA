@@ -2,11 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { useNavigate } from 'react-router-dom'; // Added for navigation
+import { useNavigate } from 'react-router-dom';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './CrewExplorer.css'; 
 
 const CrewExplorer = () => {
-    const { crews, joinCrew, createCrew, currentCrew, loading } = useCrew(); // Added createCrew
+    const { crews, joinCrew, createCrew, currentCrew, loading, hasPendingRequest } = useCrew();
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate(); // Navigation hook
@@ -139,48 +140,21 @@ const CrewExplorer = () => {
                     display: 'flex', 
                     justifyContent: 'center', 
                     alignItems: 'center', 
-                    gap: '15px',
-                    background: 'rgba(0,0,0,0.4)',
-                    padding: '10px 20px',
-                    borderRadius: '50px',
-                    border: '1px solid #333',
                     maxWidth: 'fit-content',
                     margin: '20px auto'
                 }}>
-                    <label style={{
-                        color: '#888', 
-                        fontSize: '0.85rem', 
-                        textTransform: 'uppercase', 
-                        letterSpacing: '1px',
-                        fontWeight: 'bold'
-                    }}>Ordenar:</label>
-                    <select
+                    <CustomDropdown
+                        label="Ordenar:"
+                        options={[
+                            { value: 'level_desc', label: '🏆 Nivel Total (Mayor a Menor)', color: 'var(--primary-color)' },
+                            { value: 'level_asc', label: '🐣 Nivel Total (Menor a Mayor)', color: 'var(--text-muted)' },
+                            { value: 'members_desc', label: '👥 Miembros (Más poblada)', color: 'var(--secondary-color)' },
+                            { value: 'members_asc', label: '👤 Miembros (Menos poblada)', color: 'var(--text-muted)' },
+                        ]}
                         value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        className="neon-dropdown" // Ensure this class doesn't conflict, using inline mainly
-                        style={{
-                            background: 'transparent',
-                            color: 'var(--primary-color)',
-                            border: 'none',
-                            borderBottom: '1px solid var(--primary-color)',
-                            padding: '5px 25px 5px 5px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            outline: 'none',
-                            fontWeight: 'bold',
-                            appearance: 'none', // Remove default arrow
-                            backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'right 0px center',
-                            backgroundSize: '12px',
-                            minWidth: '220px'
-                        }}
-                    >
-                        <option value="level_desc" style={{background: '#111', color: '#fff'}}>🏆 Nivel Total (Mayor a Menor)</option>
-                        <option value="level_asc" style={{background: '#111', color: '#fff'}}>🐣 Nivel Total (Menor a Mayor)</option>
-                        <option value="members_desc" style={{background: '#111', color: '#fff'}}>👥 Miembros (Más poblada)</option>
-                        <option value="members_asc" style={{background: '#111', color: '#fff'}}>👤 Miembros (Menos poblada)</option>
-                    </select>
+                        onChange={setSortBy}
+                        accentColor="var(--primary-color)"
+                    />
                 </div>
             </div>
 
@@ -241,6 +215,12 @@ const CrewExplorer = () => {
                                     <button className="card-action-btn btn-member">VER DETALLES</button>
                                 ) : isFull ? (
                                     <button className="card-action-btn btn-full">LLENO</button>
+                                ) : hasPendingRequest(crew.id) ? (
+                                    <button className="card-action-btn btn-member" disabled>⏳ PENDIENTE</button>
+                                ) : crew.privacy === 'invite_only' ? (
+                                    <button className="card-action-btn btn-invite">✉️ SOLICITAR</button>
+                                ) : crew.privacy === 'closed' ? (
+                                    <button className="card-action-btn btn-full" disabled>🔒 CERRADA</button>
                                 ) : (
                                     <button className="card-action-btn btn-join">UNIRSE</button>
                                 )}
@@ -290,17 +270,31 @@ const CrewExplorer = () => {
                                 IR A MI DASHBOARD
                             </button>
                         ) : !currentCrew && selectedCrew.members.length < (selectedCrew.memberLimit || 50) ? (
-                            <button 
-                                className="card-action-btn btn-join" 
-                                style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
-                                onClick={() => {
-                                    joinCrew(selectedCrew.id);
-                                    setSelectedCrew(null);
-                                    navigate('/crews'); // Auto redirect after join
-                                }}
-                            >
-                                SOLICITAR INGRESO
-                            </button>
+                            hasPendingRequest(selectedCrew.id) ? (
+                                <button 
+                                    className="card-action-btn btn-member" 
+                                    style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
+                                    disabled
+                                >
+                                    ⏳ SOLICITUD PENDIENTE
+                                </button>
+                            ) : (
+                                <button 
+                                    className="card-action-btn btn-join" 
+                                    style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
+                                    onClick={() => {
+                                        joinCrew(selectedCrew.id);
+                                        if (selectedCrew.privacy !== 'invite_only') {
+                                            setSelectedCrew(null);
+                                            navigate('/crews');
+                                        } else {
+                                            setSelectedCrew(null);
+                                        }
+                                    }}
+                                >
+                                    {selectedCrew.privacy === 'invite_only' ? '✉️ ENVIAR SOLICITUD' : 'UNIRSE AHORA'}
+                                </button>
+                            )
                         ) : (
                              <button 
                                 className="card-action-btn btn-member" 

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../../context/ToastContext'; // Import Toast
+import { useToast } from '../../context/ToastContext';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './CrewAdmin.css';
 
 // Custom Modal inside Admin for consistent styling
@@ -40,7 +41,7 @@ const DangerModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 };
 
 const CrewAdmin = () => {
-    const { currentCrew, updateCrewInfo, manageMember, deleteCrew, canManage } = useCrew();
+    const { currentCrew, updateCrewInfo, manageMember, deleteCrew, canManage, handleJoinRequest } = useCrew();
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
@@ -160,14 +161,17 @@ const CrewAdmin = () => {
                     </div>
                      <div className="input-group">
                         <label>Privacidad</label>
-                        <select 
+                        <CustomDropdown
+                            options={[
+                                { value: 'public', label: '🔓 Pública', color: 'var(--success)' },
+                                { value: 'invite_only', label: '✉️ Solo Invitación', color: 'var(--primary-color)' },
+                                { value: 'closed', label: '🔒 Cerrada', color: '#ff4444' },
+                            ]}
                             value={formData.privacy}
-                            onChange={e => setFormData({...formData, privacy: e.target.value})}
-                        >
-                            <option value="public">Pública</option>
-                            <option value="invite_only">Solo Invitación</option>
-                            <option value="closed">Cerrada</option>
-                        </select>
+                            onChange={(val) => setFormData({...formData, privacy: val})}
+                            accentColor="var(--primary-color)"
+                            fullWidth
+                        />
                     </div>
                     <div className="input-group">
                         <label>Lema / Descripción</label>
@@ -222,19 +226,17 @@ const CrewAdmin = () => {
 
                                                     return (
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                            <select 
-                                                                className="role-selector admin-select"
-                                                                disabled={!canEdit}
+                                                            <CustomDropdown
+                                                                options={[
+                                                                    // Show current role if outside assignable range
+                                                                    ...(!assignableRoles.includes(member.role) ? [{ value: member.role, label: member.role.toUpperCase(), color: 'var(--text-muted)' }] : []),
+                                                                    ...assignableRoles.map(role => ({ value: role, label: role.toUpperCase(), color: role === 'co-owner' ? 'var(--primary-color)' : role === 'staff' ? 'var(--secondary-color)' : '#fff' }))
+                                                                ]}
                                                                 value={member.role}
-                                                                onChange={(e) => manageMember(currentCrew.id, member.userId, 'setRole', e.target.value)}
-                                                            >
-                                                                {/* Only show roles I can assign, OR the current role if it's outside my range (so it doesn't vanish visually) */}
-                                                                {!assignableRoles.includes(member.role) && <option value={member.role}>{member.role.toUpperCase()}</option>}
-                                                                
-                                                                {assignableRoles.map(role => (
-                                                                    <option key={role} value={role}>{role.toUpperCase()}</option>
-                                                                ))}
-                                                            </select>
+                                                                onChange={(val) => manageMember(currentCrew.id, member.userId, 'setRole', val)}
+                                                                accentColor="var(--secondary-color)"
+                                                                disabled={!canEdit}
+                                                            />
 
                                                             {canEdit && (
                                                                 <button title="Expulsar" className="action-btn kick" onClick={() => 
@@ -253,6 +255,38 @@ const CrewAdmin = () => {
                             </tbody>
                         </table>
                     </div>
+
+                    {/* PENDING REQUESTS (invite_only) */}
+                    {(currentCrew.pendingRequests || []).length > 0 && (
+                        <div className="pending-requests-section">
+                            <h3 className="pending-title">📩 Solicitudes Pendientes ({currentCrew.pendingRequests.length})</h3>
+                            <div className="pending-list">
+                                {currentCrew.pendingRequests.map(req => (
+                                    <div key={req.userId} className="pending-item">
+                                        <div className="pending-user-info">
+                                            <img src={req.avatar || 'https://placehold.co/40'} alt="avatar" className="mini-avatar" />
+                                            <div>
+                                                <span className="pending-username">{req.username}</span>
+                                                <span className="pending-level">Nivel {req.level}</span>
+                                            </div>
+                                        </div>
+                                        <div className="pending-actions">
+                                            <button 
+                                                className="approve-btn" 
+                                                onClick={() => handleJoinRequest(currentCrew.id, req.userId, true)}
+                                                title="Aceptar"
+                                            >✓</button>
+                                            <button 
+                                                className="reject-btn" 
+                                                onClick={() => handleJoinRequest(currentCrew.id, req.userId, false)}
+                                                title="Rechazar"
+                                            >✕</button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </section>
 
                 {/* SECTION 3: DANGER ZONE */}

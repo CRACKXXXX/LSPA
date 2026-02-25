@@ -4,8 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useGamification } from '../../context/GamificationContext';
 import { useGarage } from '../../context/GarageContext';
-import { useCrew } from '../../context/CrewContext'; // Added useCrew
-import vehiclesData from '../../data/vehicles.json'; // Import Data
+import { useCrew } from '../../context/CrewContext';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
+import vehiclesData from '../../data/vehicles.json';
 import './ProfilePage.css';
 
 const ProfilePage = () => {
@@ -97,6 +98,16 @@ const ProfilePage = () => {
         setIsEditing(false);
     };
 
+    const handleCancel = () => {
+        // Reset all local state to original values
+        setNewBio(currentUser.bio || '');
+        setNewAvatar(currentUser.avatar || '');
+        setNewFavBrand(currentUser.favorites?.brand || 'Pegassi');
+        setNewFavStyle(currentUser.favorites?.style || 'Grip');
+        setNewPlayerType(currentUser.favorites?.playerType || 'Rookie');
+        setIsEditing(false);
+    };
+
     return (
         <div className="profile-container">
             {/* Header Section */}
@@ -136,97 +147,92 @@ const ProfilePage = () => {
                                 aria-label="Biografía"
                             />
                             <div className="edit-row" style={{display:'flex', gap:'1rem', marginBottom:'1rem', flexWrap: 'wrap'}}>
-                                <select 
-                                    value={newFavBrand} 
-                                    onChange={e => setNewFavBrand(e.target.value)} 
-                                    className="bio-input" 
-                                    style={{flex: 1, minWidth: '140px'}}
-                                    aria-label="Marca Favorita"
-                                >
-                                    <option value="" disabled>Marca</option>
-                                    <optgroup label="Lujo / Deportivo">
-                                        <option value="Pegassi">Pegassi</option>
-                                        <option value="Grotti">Grotti</option>
-                                        <option value="Pfister">Pfister</option>
-                                        <option value="Truffade">Truffade</option>
-                                        <option value="Progen">Progen</option>
-                                        <option value="Ocelot">Ocelot</option>
-                                        <option value="Dewbauchee">Dewbauchee</option>
-                                        <option value="Overflod">Överflöd</option>
-                                        <option value="Enus">Enus</option>
-                                        <option value="Benefactor">Benefactor</option>
-                                    </optgroup>
-                                    <optgroup label="JDM / Tuner">
-                                        <option value="Karin">Karin</option>
-                                        <option value="Annis">Annis</option>
-                                        <option value="Dinka">Dinka</option>
-                                        <option value="Maibatsu">Maibatsu</option>
-                                        <option value="Emperor">Emperor</option>
-                                        <option value="Vulcar">Vulcar</option>
-                                    </optgroup>
-                                    <optgroup label="Muscle / Americano">
-                                        <option value="Vapid">Vapid</option>
-                                        <option value="Bravado">Bravado</option>
-                                        <option value="Declasse">Declasse</option>
-                                        <option value="Imponte">Imponte</option>
-                                        <option value="Albany">Albany</option>
-                                        <option value="Cheval">Cheval</option>
-                                        <option value="Invetero">Invetero</option>
-                                    </optgroup>
-                                    <optgroup label="Otros">
-                                        <option value="Obey">Obey</option>
-                                        <option value="Gallivanter">Gallivanter</option>
-                                        <option value="Lampadati">Lampadati</option>
-                                        <option value="Coil">Coil</option>
-                                        <option value="BF">BF</option>
-                                        <option value="Canis">Canis</option>
-                                        <option value="Dundreary">Dundreary</option>
-                                        <option value="Maxwell">Maxwell</option>
-                                    </optgroup>
-                                </select>
+                                <div style={{flex: 1, minWidth: '140px'}}>
+                                    <CustomDropdown
+                                        options={[
+                                            { value: 'Pegassi', label: 'Pegassi', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Grotti', label: 'Grotti', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Pfister', label: 'Pfister', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Truffade', label: 'Truffade', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Progen', label: 'Progen', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Ocelot', label: 'Ocelot', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Dewbauchee', label: 'Dewbauchee', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Overflod', label: 'Överflöd', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Enus', label: 'Enus', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Benefactor', label: 'Benefactor', group: 'Lujo / Deportivo', color: 'var(--secondary-color)' },
+                                            { value: 'Karin', label: 'Karin', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Annis', label: 'Annis', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Dinka', label: 'Dinka', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Maibatsu', label: 'Maibatsu', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Emperor', label: 'Emperor', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Vulcar', label: 'Vulcar', group: 'JDM / Tuner', color: '#ff4444' },
+                                            { value: 'Vapid', label: 'Vapid', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Bravado', label: 'Bravado', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Declasse', label: 'Declasse', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Imponte', label: 'Imponte', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Albany', label: 'Albany', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Cheval', label: 'Cheval', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Invetero', label: 'Invetero', group: 'Muscle / Americano', color: '#00bfff' },
+                                            { value: 'Obey', label: 'Obey', group: 'Otros', color: '#fff' },
+                                            { value: 'Gallivanter', label: 'Gallivanter', group: 'Otros', color: '#fff' },
+                                            { value: 'Lampadati', label: 'Lampadati', group: 'Otros', color: '#fff' },
+                                            { value: 'Coil', label: 'Coil', group: 'Otros', color: '#fff' },
+                                            { value: 'BF', label: 'BF', group: 'Otros', color: '#fff' },
+                                            { value: 'Canis', label: 'Canis', group: 'Otros', color: '#fff' },
+                                            { value: 'Dundreary', label: 'Dundreary', group: 'Otros', color: '#fff' },
+                                            { value: 'Maxwell', label: 'Maxwell', group: 'Otros', color: '#fff' },
+                                        ]}
+                                        value={newFavBrand}
+                                        onChange={setNewFavBrand}
+                                        accentColor="var(--secondary-color)"
+                                        fullWidth
+                                    />
+                                </div>
                                 
-                                <select 
-                                    value={newFavStyle} 
-                                    onChange={e => setNewFavStyle(e.target.value)} 
-                                    className="bio-input" 
-                                    style={{flex: 1, minWidth: '140px'}}
-                                    aria-label="Estilo Favorito"
-                                >
-                                    <option value="" disabled>Estilo</option>
-                                    <option value="Grip">Grip</option>
-                                    <option value="Drift">Drift</option>
-                                    <option value="Drag">Drag (Aceleración)</option>
-                                    <option value="Rally">Rally</option>
-                                    <option value="Offroad">Todoterreno</option>
-                                    <option value="Stance">Stance (Postura)</option>
-                                    <option value="Track">Circuito</option>
-                                    <option value="Street">Callejero</option>
-                                    <option value="Cruiser">Paseo</option>
-                                    <option value="Pursuit">Persecución</option>
-                                    <option value="Show">Exhibición</option>
-                                    <option value="Touge">Touge (Montaña)</option>
-                                </select>
+                                <div style={{flex: 1, minWidth: '140px'}}>
+                                    <CustomDropdown
+                                        options={[
+                                            { value: 'Grip', label: '🏎️ Grip', color: 'var(--primary-color)' },
+                                            { value: 'Drift', label: '💨 Drift', color: 'var(--secondary-color)' },
+                                            { value: 'Drag', label: '⚡ Drag (Aceleración)', color: '#ff4444' },
+                                            { value: 'Rally', label: '🏞️ Rally', color: '#00bfff' },
+                                            { value: 'Offroad', label: '🌍 Todoterreno', color: '#8b4513' },
+                                            { value: 'Stance', label: '💪 Stance (Postura)', color: '#da70d6' },
+                                            { value: 'Track', label: '🏁 Circuito', color: 'var(--primary-color)' },
+                                            { value: 'Street', label: '🌃 Callejero', color: '#00F0FF' },
+                                            { value: 'Cruiser', label: '🚗 Paseo', color: 'var(--text-muted)' },
+                                            { value: 'Pursuit', label: '🚔 Persecución', color: '#ff6600' },
+                                            { value: 'Show', label: '✨ Exhibición', color: 'var(--primary-color)' },
+                                            { value: 'Touge', label: '⛰️ Touge (Montaña)', color: '#4caf50' },
+                                        ]}
+                                        value={newFavStyle}
+                                        onChange={setNewFavStyle}
+                                        accentColor="var(--primary-color)"
+                                        fullWidth
+                                    />
+                                </div>
 
-                                <select 
-                                    value={newPlayerType} 
-                                    onChange={e => setNewPlayerType(e.target.value)} 
-                                    className="bio-input" 
-                                    style={{flex: 1, minWidth: '140px', borderColor: 'var(--accent-color)'}}
-                                    aria-label="Tipo de Jugador"
-                                >
-                                    <option value="" disabled>Tipo de Jugador</option>
-                                    <option value="Rookie">Novato (Rookie)</option>
-                                    <option value="Pro">Profesional (Pro)</option>
-                                    <option value="Casual">Casual</option>
-                                    <option value="Tryhard">Competitivo (Tryhard)</option>
-                                    <option value="Grinder">Farmeador (Grinder)</option>
-                                    <option value="Hacker">Hacker (Fake)</option>
-                                    <option value="Collector">Coleccionista</option>
-                                    <option value="Racer">Corredor</option>
-                                    <option value="Drifter">Drifter</option>
-                                    <option value="Roleplayer">Roleplayer</option>
-                                    <option value="God">Modo Dios</option>
-                                </select>
+                                <div style={{flex: 1, minWidth: '140px'}}>
+                                    <CustomDropdown
+                                        options={[
+                                            { value: 'Rookie', label: '👶 Novato (Rookie)', color: 'var(--text-muted)' },
+                                            { value: 'Pro', label: '🏆 Profesional (Pro)', color: 'var(--primary-color)' },
+                                            { value: 'Casual', label: '🎮 Casual', color: '#00bfff' },
+                                            { value: 'Tryhard', label: '💥 Competitivo (Tryhard)', color: '#ff4444' },
+                                            { value: 'Grinder', label: '💰 Farmeador (Grinder)', color: '#4caf50' },
+                                            { value: 'Hacker', label: '💀 Hacker (Fake)', color: '#9c27b0' },
+                                            { value: 'Collector', label: '💎 Coleccionista', color: 'var(--secondary-color)' },
+                                            { value: 'Racer', label: '🏁 Corredor', color: 'var(--primary-color)' },
+                                            { value: 'Drifter', label: '💨 Drifter', color: '#ff6600' },
+                                            { value: 'Roleplayer', label: '🎭 Roleplayer', color: '#00F0FF' },
+                                            { value: 'God', label: '👑 Modo Dios', color: '#FFD700' },
+                                        ]}
+                                        value={newPlayerType}
+                                        onChange={setNewPlayerType}
+                                        accentColor="var(--accent-color, var(--secondary-color))"
+                                        fullWidth
+                                    />
+                                </div>
                             </div>
                         </div>
                     ) : (
@@ -340,13 +346,31 @@ const ProfilePage = () => {
                     )}
                     
                     {isOwnProfile && (
-                        <button 
-                            className="edit-btn"
-                            onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-                            style={{marginTop: '1rem', width: '100%'}}
-                        >
-                            {isEditing ? 'GUARDAR CAMBIOS' : 'EDITAR PERFIL'}
-                        </button>
+                        <div className="profile-edit-actions">
+                            {isEditing ? (
+                                <>
+                                    <button 
+                                        className="edit-btn save-btn"
+                                        onClick={handleSave}
+                                    >
+                                        ✓ GUARDAR CAMBIOS
+                                    </button>
+                                    <button 
+                                        className="edit-btn cancel-btn"
+                                        onClick={handleCancel}
+                                    >
+                                        ✕ DESCARTAR
+                                    </button>
+                                </>
+                            ) : (
+                                <button 
+                                    className="edit-btn"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    ✏️ EDITAR PERFIL
+                                </button>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>

@@ -97,18 +97,19 @@ export const CrewProvider = ({ children }) => {
         const newCrew = {
             id: generateUUID(),
             ...crewData,
-            privacy: crewData.privacy || 'public', // Default to PUBLIC
+            privacy: crewData.privacy || 'public',
             crewPoints: initialLevel, 
             members: [{ 
                 userId: user.id, 
                 username: user.username,
                 avatar: user.avatar,
-                level: user.stats?.level || initialLevel, // Use actual user level if available
+                level: user.stats?.level || initialLevel,
                 role: 'owner', 
                 joinedAt: Date.now() 
             }],
+            pendingRequests: [],
             chat: [],
-            memberLimit: 50, // UPDATED LIMIT
+            memberLimit: 50,
             createdAt: Date.now()
         };
 
@@ -126,37 +127,102 @@ export const CrewProvider = ({ children }) => {
 
         setCrews(prev => prev.map(crew => {
             if (crew.id === crewId) {
-                if (crew.privacy === 'public' || crew.privacy === 'invite_only') { 
-                    // AUDIT FIX: Verify exact location of level in AuthContext (user.stats.level)
-                    const userLevel = parseInt(user.stats?.level || user.level || 1, 10);
-                    
-                    // Limit Check (50)
-                    if (crew.members.length >= 50) {
-                        showToast('error', 'La crew está llena (Máx 50).');
+                if (crew.privacy === 'closed') {
+                    showToast('warning', 'Esta crew es privada y no acepta solicitudes.');
+                    return crew;
+                }
+
+                if (crew.members.length >= 50) {
+                    showToast('error', 'La crew está llena (Máx 50).');
+                    return crew;
+                }
+
+                // INVITE ONLY: create a pending request
+                if (crew.privacy === 'invite_only') {
+                    const alreadyRequested = (crew.pendingRequests || []).some(r => r.userId === user.id);
+                    if (alreadyRequested) {
+                        showToast('warning', 'Ya tienes una solicitud pendiente en esta crew.');
                         return crew;
                     }
-
-                    const newMembers = [...crew.members, { 
-                        userId: user.id, 
+                    const newRequest = {
+                        userId: user.id,
                         username: user.username,
                         avatar: user.avatar,
-                        level: userLevel, // Storing correct snapshot
-                        role: 'noob', 
-                        joinedAt: Date.now() 
-                    }];
-                    
-                    showToast('success', `Te has unido a ${crew.name}`);
+                        level: parseInt(user.stats?.level || user.level || 1, 10),
+                        requestedAt: Date.now()
+                    };
+                    showToast('success', `Solicitud enviada a ${crew.name}. Espera aprobación.`);
                     return {
                         ...crew,
-                        members: newMembers,
-                        crewPoints: calculateCrewPoints(newMembers)
+                        pendingRequests: [...(crew.pendingRequests || []), newRequest]
                     };
-                } else {
-                    showToast('warning', 'Esta crew es privada.');
                 }
+
+                // PUBLIC: join directly
+                const userLevel = parseInt(user.stats?.level || user.level || 1, 10);
+                const newMembers = [...crew.members, { 
+                    userId: user.id, 
+                    username: user.username,
+                    avatar: user.avatar,
+                    level: userLevel,
+                    role: 'noob', 
+                    joinedAt: Date.now() 
+                }];
+                
+                showToast('success', `Te has unido a ${crew.name}`);
+                return {
+                    ...crew,
+                    members: newMembers,
+                    crewPoints: calculateCrewPoints(newMembers)
+                };
             }
             return crew;
         }));
+    };
+
+    // Handle join request (approve/reject) for invite_only crews
+    const handleJoinRequest = (crewId, requestUserId, approved) => {
+        setCrews(prev => prev.map(crew => {
+            if (crew.id !== crewId) return crew;
+            
+            const request = (crew.pendingRequests || []).find(r => r.userId === requestUserId);
+            if (!request) return crew;
+
+            // Remove from pending
+            const updatedRequests = crew.pendingRequests.filter(r => r.userId !== requestUserId);
+
+            if (approved) {
+                if (crew.members.length >= 50) {
+                    showToast('error', 'La crew está llena.');
+                    return { ...crew, pendingRequests: updatedRequests };
+                }
+                const newMembers = [...crew.members, {
+                    userId: request.userId,
+                    username: request.username,
+                    avatar: request.avatar,
+                    level: request.level,
+                    role: 'noob',
+                    joinedAt: Date.now()
+                }];
+                showToast('success', `${request.username} ha sido aceptado en la crew.`);
+                return {
+                    ...crew,
+                    members: newMembers,
+                    pendingRequests: updatedRequests,
+                    crewPoints: calculateCrewXP(newMembers)
+                };
+            } else {
+                showToast('info', `Solicitud de ${request.username} rechazada.`);
+                return { ...crew, pendingRequests: updatedRequests };
+            }
+        }));
+    };
+
+    // Check if user has pending request for a crew
+    const hasPendingRequest = (crewId) => {
+        if (!user) return false;
+        const crew = crews.find(c => c.id === crewId);
+        return (crew?.pendingRequests || []).some(r => r.userId === user.id);
     };
 
     const deleteCrew = (crewId) => {
@@ -304,7 +370,9 @@ export const CrewProvider = ({ children }) => {
             updateCrewInfo,
             manageMember,
             sendCrewMessage,
-            canManage
+            canManage,
+            handleJoinRequest,
+            hasPendingRequest
         }}>
             {children}
         </CrewContext.Provider>

@@ -267,30 +267,120 @@
 }
 
 /* EDIT INPUTS */
-.bio-input, .avatar-input {
+.edit-form-container {
     width: 100%;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.bio-input {
+    width: 100%;
+    min-height: 90px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
-    padding: 0.5rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    font-family: 'Outfit', 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    resize: vertical;
+    transition: all 0.3s ease;
+    line-height: 1.5;
+}
+
+.bio-input:focus {
+    outline: none;
+    border-color: var(--secondary-color, #ff00ff);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.2), inset 0 0 30px rgba(255, 0, 255, 0.03);
+}
+
+.bio-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+.avatar-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    font-family: 'Outfit', 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.avatar-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #ffd700);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.avatar-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* EDIT BUTTONS */
+.profile-edit-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    width: 100%;
 }
 
 .edit-btn {
+    flex: 1;
     background: transparent;
     border: 1px solid var(--text-muted);
     color: var(--text-muted);
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .edit-btn:hover {
     border-color: #fff;
     color: #fff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
+
+.edit-btn.save-btn {
+    background: rgba(0, 200, 83, 0.12);
+    border-color: #00C853;
+    color: #00C853;
+}
+
+.edit-btn.save-btn:hover {
+    background: rgba(0, 200, 83, 0.3);
+    box-shadow: 0 0 18px rgba(0, 200, 83, 0.35);
+    color: #fff;
+}
+
+.edit-btn.cancel-btn {
+    background: rgba(255, 68, 68, 0.08);
+    border-color: rgba(255, 68, 68, 0.5);
+    color: #ff4444;
+}
+
+.edit-btn.cancel-btn:hover {
+    background: rgba(255, 68, 68, 0.25);
+    border-color: #ff4444;
+    box-shadow: 0 0 18px rgba(255, 68, 68, 0.3);
+    color: #fff;
+}
+
 
 /* GARAGE */
 .garage-preview-grid {

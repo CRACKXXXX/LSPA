@@ -1,0 +1,194 @@
+.rss-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rss-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.rss-header h1 {
+    font-size: 3rem;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(255, 165, 0, 0.6);
+    color: #FFA500;
+}
+
+.rss-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.rss-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem;
+    background: rgba(10, 10, 15, 0.7);
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 165, 0, 0.05);
+}
+
+.rss-icon-wrapper {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
+    border: 2px solid rgba(255, 165, 0, 0.3);
+}
+
+.rss-icon {
+    width: 80px;
+    height: 80px;
+    color: #FFA500;
+    filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+}
+
+.pulse-animation {
+    animation: rssPulse 2s infinite;
+}
+
+@keyframes rssPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0.4)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255, 165, 0, 0.8)); }
+    100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0.4)); }
+}
+
+.rss-info {
+    flex: 1;
+}
+
+.rss-info h2 {
+    font-family: 'Rajdhani', sans-serif;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.rss-info p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.rss-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border-left: 3px solid #FFA500;
+}
+
+.benefit-item span:last-child {
+    font-weight: bold;
+    color: #ddd;
+}
+
+.rss-action-area {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.rss-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.primary-rss-btn {
+    background: rgba(255, 165, 0, 0.15);
+    border: 1px solid #FFA500;
+    color: #FFA500;
+}
+
+.primary-rss-btn:hover {
+    background: #FFA500;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.secondary-rss-btn {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+}
+
+.secondary-rss-btn:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.rss-back {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    letter-spacing: 1px;
+}
+
+.back-btn:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .rss-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .rss-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .rss-benefits {
+        text-align: left;
+    }
+
+    .rss-action-area {
+        flex-direction: column;
+    }
+}

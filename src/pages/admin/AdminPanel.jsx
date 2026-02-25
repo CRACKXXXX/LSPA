@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -220,14 +221,17 @@ const AdminPanel = () => {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="edit-role">Rol</label>
-                                    <select id="edit-role" name="role" value={formData.role} onChange={handleChange}>
-                                        <option value="user">Usuario</option>
-                                        <option value="admin">Administrador</option>
-                                        {/* Only Owner can assign Owner role */}
-                                        {(user.role === 'owner' || user.id === ADMIN_ID) && (
-                                            <option value="owner">Owner</option>
-                                        )}
-                                    </select>
+                                    <CustomDropdown
+                                        options={[
+                                            { value: 'user', label: '👤 Usuario', color: '#fff' },
+                                            { value: 'admin', label: '🛡️ Administrador', color: 'var(--secondary-color)' },
+                                            ...((user.role === 'owner' || user.id === ADMIN_ID) ? [{ value: 'owner', label: '👑 Owner', color: 'var(--primary-color)' }] : []),
+                                        ]}
+                                        value={formData.role}
+                                        onChange={(val) => setFormData({ ...formData, role: val })}
+                                        accentColor="var(--secondary-color)"
+                                        fullWidth
+                                    />
                                 </div>
                             </div>
 
