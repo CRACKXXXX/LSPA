@@ -504,3 +504,95 @@ input[type="range"]::-webkit-slider-runnable-track {
     padding: 0.6rem;
   }
 }
+
+/* ── HOME TOGGLE BUTTON ─────────────────────────────────────── */
+.home-footer-toggle-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 110;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 230, 0, 0.5);
+  background: rgba(10, 10, 14, 0.85);
+  backdrop-filter: blur(12px);
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.home-footer-toggle-btn:hover {
+  background: rgba(255, 230, 0, 0.15);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 18px rgba(255, 230, 0, 0.35);
+  transform: scale(1.08);
+}
+
+.home-footer-toggle-btn.active {
+  background: rgba(255, 230, 0, 0.2);
+  border-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 230, 0, 0.4);
+}
+
+/* ── HOME MINI FOOTER ───────────────────────────────────────── */
+.home-mini-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  max-height: 38vh;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.home-mini-footer.footer-open {
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* Footer con fondo sólido y borde superior */
+.home-mini-footer .footer-container {
+  background: rgba(6, 6, 10, 0.98) !important;
+  border-top: 1px solid rgba(255, 230, 0, 0.3) !important;
+  backdrop-filter: blur(20px) !important;
+  max-height: 38vh;
+  overflow-y: auto;
+}
+
+/* Scrollbar visible y estilizada */
+.home-mini-footer .footer-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.home-mini-footer .footer-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+
+.home-mini-footer .footer-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(255, 230, 0, 0.5);
+}
+
+.home-mini-footer .footer-container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+  box-shadow: 0 0 10px rgba(255, 230, 0, 0.8);
+}
+
+
+@media (max-width: 768px) {
+  .home-mini-footer {
+    max-height: 50vh;
+  }
+}

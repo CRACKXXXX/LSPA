@@ -2,10 +2,12 @@
 import React, { useState, useMemo } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
+import Footer from '../../components/footer/Footer';
 import vehiclesData from '../../data/vehicles.json';
 import './Home.css';
 
 const Home = () => {
+  const [footerOpen, setFooterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedManufacturer, setSelectedManufacturer] = useState('All');
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -144,6 +146,7 @@ const Home = () => {
   }, [searchTerm, selectedManufacturer, selectedClasses, minTopSpeed, onlyWeaponized, onlyImani, onlyHsw, sortBy, smartPreference]);
 
   return (
+    <>
     <div className="home-container">
       {/* Sidebar Filters */}
       <aside className="filters-sidebar glass-panel">
@@ -266,6 +269,22 @@ const Home = () => {
         </div>
       </main>
     </div>
+
+    {/* Botón flotante toggle del footer */}
+    <button
+      className={`home-footer-toggle-btn ${footerOpen ? 'active' : ''}`}
+      onClick={() => setFooterOpen(p => !p)}
+      aria-label="Mostrar/ocultar footer"
+      title={footerOpen ? 'Ocultar footer' : 'Mostrar footer'}
+    >
+      {footerOpen ? '✕' : 'ℹ'}
+    </button>
+
+    {/* Mini footer compacto */}
+    <div className={`home-mini-footer ${footerOpen ? 'footer-open' : ''}`}>
+      <Footer />
+    </div>
+    </>
   );
 };
 
