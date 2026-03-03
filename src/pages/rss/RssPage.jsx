@@ -1,7 +1,10 @@
 import React from 'react';
+import { useToast } from '../../context/ToastContext';
 import './RssPage.css';
 
 const RssPage = () => {
+  const { showToast } = useToast();
+
   return (
     <div className="rss-page-container">
       <div className="rss-header">
@@ -29,7 +32,7 @@ const RssPage = () => {
               className="rss-copy-btn"
               onClick={() => {
                 navigator.clipboard.writeText('https://lspa-joel.web.app/feed.xml');
-                alert('¡Enlace copiado al portapapeles!');
+                showToast('success', '¡Enlace copiado al portapapeles!');
               }}
             >
               Copiar
