@@ -2,42 +2,42 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Los Santos Performance Analyzer - Noticias RSS</title>
-    <link>http://localhost:5173</link>
+    <link>https://lspa-joel.web.app</link>
     <description>Novedades, actualizaciones de vehículos y parches del servidor LSPA.</description>
     <language>es-es</language>
     <lastBuildDate>Wed, 25 Feb 2026 12:00:00 GMT</lastBuildDate>
-    <atom:link href="http://localhost:5173/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://lspa-joel.web.app/feed.xml" rel="self" type="application/rss+xml" />
 
     <item>
       <title>LSPA v3.0: Revolución Social y Crews</title>
-      <link>http://localhost:5173/crews</link>
+      <link>https://lspa-joel.web.app/foro</link>
       <description>El sistema de Crews ha llegado a LSPA. Ahora puedes fundar tu propia tripulación, gestionar solicitudes de acceso ("Invite Only") y administrar a tus miembros con rangos jerárquicos. Únete a una Crew y llevad vuestro garaje a la cima del Leaderboard.</description>
       <pubDate>Wed, 25 Feb 2026 11:30:00 GMT</pubDate>
-      <guid>http://localhost:5173/news/crew-v3-launch</guid>
+      <guid>https://lspa-joel.web.app/news/crew-v3-launch</guid>
     </item>
 
     <item>
       <title>Análisis: Bottom Dollar Bounties - Nuevos Vehículos</title>
-      <link>http://localhost:5173/home</link>
+      <link>https://lspa-joel.web.app/foro</link>
       <description>La base de datos de LSPA se ha actualizado con los 9 vehículos de la actualización "Bottom Dollar Bounties" de GTA Online. El nuevo Enus Paragon S ya está destrozando récords de velocidad punta en la clase Coupé. ¡Compara sus estadísticas en el Versus Mode!</description>
       <pubDate>Mon, 23 Feb 2026 09:15:00 GMT</pubDate>
-      <guid>http://localhost:5173/news/bottom-dollar-vehicles</guid>
+      <guid>https://lspa-joel.web.app/news/bottom-dollar-vehicles</guid>
     </item>
 
     <item>
       <title>Nuevo Minijuego: Adivina el Coche (Modo Extremo)</title>
-      <link>http://localhost:5173/minigames/guess</link>
+      <link>https://lspa-joel.web.app/foro</link>
       <description>Hemos añadido una dificultad extrema al minijuego "Adivina el Coche". Ahora las imágenes de los vehículos tienen más desenfoque de movimiento. ¿Crees conocer todos los faros de Grotti y Pegassi? Demuéstralo y gana hasta 150 XP por acierto.</description>
       <pubDate>Fri, 20 Feb 2026 16:45:00 GMT</pubDate>
-      <guid>http://localhost:5173/news/minigame-extreme-mode</guid>
+      <guid>https://lspa-joel.web.app/news/minigame-extreme-mode</guid>
     </item>
 
     <item>
       <title>Meta Actual: El Grotti Itali RSX vs Pegassi Weaponized Ignus</title>
-      <link>http://localhost:5173/versus-mode</link>
+      <link>https://lspa-joel.web.app/foro</link>
       <description>Las analíticas globales del Versus Mode muestran que la rivalidad del mes es Itali RSX frente al Weaponized Ignus. Aunque el Ignus cuenta con aceleración mejorada de HSW, la velocidad punta del RSX en autopista sigue siendo un factor decisivo para los corredores.</description>
       <pubDate>Tue, 17 Feb 2026 20:00:00 GMT</pubDate>
-      <guid>http://localhost:5173/news/itali-vs-ignus</guid>
+      <guid>https://lspa-joel.web.app/news/itali-vs-ignus</guid>
     </item>
   </channel>
 </rss>

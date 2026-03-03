@@ -106,7 +106,10 @@ The Figma file includes:
 
 ### 📡 System & Connectivity
 - **RSS Feed Integration**: A dedicated landing page `/rss` with an XML feed (`feed.xml`) simulating game news and application patch notes.
-- **Firebase Database**: Live connection to Cloud Firestore reading a collection of articles.
+- **Firebase Database & Hosting**: Live connection to Cloud Firestore reading a collection of articles. The project is deployed securely at: **[https://lspa-joel.web.app](https://lspa-joel.web.app)**
+- **RSS Lector Demonstration**: (Items point directly to the deployed app URLs)
+<br/>
+<img src="public/rss-lector-screenshot.png" alt="RSS Lector Screenshot" width="600" />
 
 ### 📘 User Experience
 - **Player's Handbook**: Rewrote the entire Guide/FAQ to be user-centric (no technical jargon).
