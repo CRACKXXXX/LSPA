@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useRef } from 'react';
+
 import vehiclesData from '../data/vehicles.json';
 import { useAuth } from './AuthContext';
 
@@ -30,7 +31,7 @@ export const GarageProvider = ({ children }) => {
     });
 
     // Track previous user to distinguish Logout vs Initial Load
-    const prevUserRef = React.useRef(undefined);
+    const prevUserRef = useRef(undefined);
 
     // 1. Sync State on User Change (Login/Logout)
     useEffect(() => {
