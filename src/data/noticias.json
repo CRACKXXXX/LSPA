@@ -1,0 +1,112 @@
+[
+  {
+    "id": "n001",
+    "titulo": "Nuevo DLC: Vapid Dominator GTX llega al juego",
+    "descripcion": "Rockstar Games ha confirmado la llegada del esperado Vapid Dominator GTX, un muscle car con mejoras HSW disponibles desde el primer día. Los datos de velocidad punta superan los 210 km/h según las pruebas realizadas por la comunidad de LSPA en el circuito de Vinewood.",
+    "categoria": "GTA Online",
+    "autor": "Niko_Bellic_Fan",
+    "fecha": "2026-02-20",
+    "likes": 87,
+    "imagen": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop",
+    "tags": ["dlc", "muscle", "hsw", "vapid"]
+  },
+  {
+    "id": "n002",
+    "titulo": "Análisis: ¿Es el Pfister 811 aún el rey en 2026?",
+    "descripcion": "Tras las últimas actualizaciones de balanceo, revisamos si el Pfister 811 sigue siendo la mejor opción para carreras de alta velocidad. Comparamos sus estadísticas actualizadas frente a los nuevos contendientes como el Grotti Itali RSX y el Ocelot Pariah en cinco circuitos distintos.",
+    "categoria": "Carreras",
+    "autor": "SpeedRacer_LS",
+    "fecha": "2026-02-18",
+    "likes": 124,
+    "imagen": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&h=400&fit=crop",
+    "tags": ["pfister", "811", "analisis", "carreras", "super"]
+  },
+  {
+    "id": "n003",
+    "titulo": "Guía completa de tuning para el Karin Sultan RS",
+    "descripcion": "El Sultan RS es uno de los coches más versátiles del juego. En esta guía cubrimos la configuración óptima de motor, caja de cambios, suspensión y alineación para obtener el máximo rendimiento tanto en circuito como en drift. Incluye comparativas antes y después.",
+    "categoria": "Tuning",
+    "autor": "DriftKing_SA",
+    "fecha": "2026-02-15",
+    "likes": 203,
+    "imagen": "https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=600&h=400&fit=crop",
+    "tags": ["karin", "sultan", "tuning", "drift", "guia"]
+  },
+  {
+    "id": "n004",
+    "titulo": "Toyota GR86 2026: El coche real que más se parece al Karin Futo",
+    "descripcion": "Comparamos el nuevo Toyota GR86 con el clásico Karin Futo de GTA Online. Ambos comparten ADN de tracción trasera y motor bóxer. Analizamos dimensiones, potencia y comportamiento en curva para ver cuánto se inspiró Rockstar en este icónico deportivo japonés.",
+    "categoria": "Coches Reales",
+    "autor": "JDM_Enthusiast",
+    "fecha": "2026-02-10",
+    "likes": 156,
+    "imagen": "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=600&h=400&fit=crop",
+    "tags": ["toyota", "gr86", "karin", "futo", "jdm", "real"]
+  },
+  {
+    "id": "n005",
+    "titulo": "LSPA alcanza 10.000 vehículos catalogados",
+    "descripcion": "Hito histórico para nuestra plataforma. El catálogo de Los Santos Performance Analyzer supera los 10.000 registros de vehículos con estadísticas verificadas. Celebramos este logro con un torneo especial de clasificación dentro de la comunidad.",
+    "categoria": "Novedades",
+    "autor": "LSPA_Admin",
+    "fecha": "2026-02-05",
+    "likes": 342,
+    "imagen": "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=600&h=400&fit=crop",
+    "tags": ["lspa", "hito", "comunidad", "catalogo"]
+  },
+  {
+    "id": "n006",
+    "titulo": "Temporada de Carreras de Invierno: Resultados finales",
+    "descripcion": "Concluye la temporada de invierno con CrazyDriver_88 como campeón destacado. El torneo enfrentó a 64 pilotos en 12 circuitos distintos durante tres semanas, con un sistema de puntuación basado en consistencia y tiempos de vuelta. Revive los mejores momentos.",
+    "categoria": "Carreras",
+    "autor": "TorneoLS_Oficial",
+    "fecha": "2026-01-30",
+    "likes": 89,
+    "imagen": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&h=400&fit=crop",
+    "tags": ["torneo", "invierno", "resultados", "campeonato"]
+  },
+  {
+    "id": "n007",
+    "titulo": "Ferrari SF90 vs Grotti X80 Proto: ¿Quién gana en la vida real?",
+    "descripcion": "El Grotti X80 Proto fue claramente inspirado en el Ferrari LaFerrari. Pero ahora exponemos el SF90 Stradale, el hipercoche más avanzado de Maranello, frente a su contraparte virtual. Potencia, aerodinámica y tecnología de conducción bajo el microscopio.",
+    "categoria": "Coches Reales",
+    "autor": "ItalianJob_LS",
+    "fecha": "2026-01-25",
+    "likes": 178,
+    "imagen": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&h=400&fit=crop",
+    "tags": ["ferrari", "sf90", "grotti", "x80", "hipercar"]
+  },
+  {
+    "id": "n008",
+    "titulo": "Doble XP este fin de semana en LSPA",
+    "descripcion": "Celebrando el aniversario de la plataforma, este fin de semana todos los eventos del foro otorgarán el doble de XP. Participa en debates, publica análisis de vehículos y completa los retos semanales para subir en el ranking de la comunidad.",
+    "categoria": "Novedades",
+    "autor": "LSPA_Admin",
+    "fecha": "2026-01-20",
+    "likes": 267,
+    "imagen": "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=600&h=400&fit=crop",
+    "tags": ["xp", "evento", "aniversario", "comunidad"]
+  },
+  {
+    "id": "n009",
+    "titulo": "Mejores configuraciones de suspensión para drift competitivo",
+    "descripcion": "Un deep dive técnico en la mecánica de suspensión de GTA Online. Explicamos cómo los valores de altura, rebote y compresión afectan el ángulo de drift, la estabilidad en contra-volante y la capacidad de mantener el humo en los neumáticos traseros durante maniobras largas.",
+    "categoria": "Tuning",
+    "autor": "TechTuner_Pro",
+    "fecha": "2026-01-15",
+    "likes": 145,
+    "imagen": "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&h=400&fit=crop",
+    "tags": ["suspension", "drift", "tuning", "tecnico", "configuracion"]
+  },
+  {
+    "id": "n010",
+    "titulo": "Rockstar anuncia nuevos sistemas de personalización visual",
+    "descripcion": "Según filtraciones de código del último parche, Rockstar estaría preparando un sistema ampliado de wrap de vinilo personalizado y nuevas opciones de pintura cromada para la próxima actualización masiva. Los dataminers de la comunidad han encontrado más de 200 nuevas entradas de activos en los archivos RPF.",
+    "categoria": "GTA Online",
+    "autor": "Dataminer_LS",
+    "fecha": "2026-01-10",
+    "likes": 231,
+    "imagen": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop",
+    "tags": ["rockstar", "customizacion", "vinilo", "filtracion", "parche"]
+  }
+]

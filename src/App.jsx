@@ -40,6 +40,7 @@ import ScrollTopBtn from './components/ui/ScrollTopBtn';
 import GuessGame from './pages/games/guess/GuessGame';
 import BattleGame from './pages/games/battle/BattleGame';
 import HigherLower from './pages/games/higher-lower/HigherLower';
+import { NoticiasProvider } from './context/NoticiasContext';
 
 function AppContent({ appReady }) {
   const location = useLocation();
@@ -94,12 +95,13 @@ function App() {
             <CrewProvider>
               <AppLoader onComplete={() => setAppReady(true)} />
               <BackgroundSparks />
-              
+              <NoticiasProvider>
               <Router>
                 <ScrollToTop />
                 <ScrollTopBtn />
                 <AppContent appReady={appReady} />
               </Router>
+              </NoticiasProvider>
             </CrewProvider>
           </GamificationProvider>
         </GarageProvider>

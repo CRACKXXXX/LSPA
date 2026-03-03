@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { collection, getDocs, onSnapshot, query, orderBy, addDoc, serverTimestamp, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase/firebase-config';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useNoticias } from '../../context/NoticiasContext';
 import { useAuth } from '../../context/AuthContext';
 import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';
 import './ForoNews.css';
@@ -24,10 +24,10 @@ const CATEGORY_ICONS = {
 };
 
 const ForoNews = () => {
-  // Core data state
-  const [noticias, setNoticias] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { noticias, loading } = useNoticias();
+  const { user, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const isAdminOrOwner = isAdmin;
 
   // Filter state
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,7 +35,7 @@ const ForoNews = () => {
   const [sortBy, setSortBy] = useState('date_desc');
 
   // Interactive state
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState('grid');
   const [expandedCards, setExpandedCards] = useState(new Set());
   const [likedNews, setLikedNews] = useState(new Set());
   const [bookmarkedNews, setBookmarkedNews] = useState(new Set());
@@ -43,38 +43,16 @@ const ForoNews = () => {
   const [featuredId, setFeaturedId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Set featured on load
+  useMemo(() => {
+    if (noticias.length > 0) {
+      const mostLiked = noticias.reduce((max, n) => (n.likes || 0) > (max.likes || 0) ? n : max);
+      setFeaturedId(mostLiked.id);
+    }
+  }, [noticias]);
+
   // Available categories
   const categories = ['Todas', 'GTA Online', 'Coches Reales', 'Tuning', 'Carreras', 'Novedades'];
-
-  // Fetch news from Firestore on mount
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        setLoading(true);
-        const newsCollection = collection(db, 'noticias');
-        const snapshot = await getDocs(newsCollection);
-        const newsArray = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setNoticias(newsArray);
-        setError(null);
-
-        // Set the most liked article as featured
-        if (newsArray.length > 0) {
-          const mostLiked = newsArray.reduce((max, n) => (n.likes || 0) > (max.likes || 0) ? n : max);
-          setFeaturedId(mostLiked.id);
-        }
-      } catch (err) {
-        console.error('Error fetching news from Firestore:', err);
-        setError('Error al cargar las noticias. Inténtalo de nuevo más tarde.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNews();
-  }, []);
 
   // Filter and sort news
   const filteredNews = useMemo(() => {
@@ -231,16 +209,16 @@ const ForoNews = () => {
     );
   }
 
-  // Error state
-  if (error) {
+
+  if (noticias.length === 0 && !searchTerm && selectedCategory === 'Todas') {
     return (
       <div className="foro-container">
         <div className="foro-error">
-          <span className="error-icon">⚠️</span>
-          <h3>{error}</h3>
-          <button onClick={() => window.location.reload()} className="retry-btn">
-            Reintentar
-          </button>
+          <span className="error-icon">📭</span>
+          <h3>No hay noticias todavía.</h3>
+          {isAdminOrOwner && (
+            <button className="retry-btn" onClick={() => navigate('/admin#noticias')}>Crear la primera desde el Admin</button>
+          )}
         </div>
       </div>
     );
@@ -248,6 +226,17 @@ const ForoNews = () => {
 
   return (
     <div className="foro-container">
+      {/* Botón de acceso rápido al admin (solo para admin/owner) */}
+      {isAdminOrOwner && (
+        <button
+          className="foro-admin-shortcut"
+          onClick={() => { navigate('/admin'); setTimeout(() => { window.location.hash = 'noticias'; document.getElementById('tab-noticias')?.click(); }, 100); }}
+          title="Gestionar noticias en el Panel Admin"
+        >
+          🛡️ Gestionar Noticias
+        </button>
+      )}
+
       {/* Mobile sidebar toggle */}
       <button
         className={`sidebar-toggle-btn ${sidebarOpen ? 'open' : ''}`}
