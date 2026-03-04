@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useGamification } from '../../context/GamificationContext';
@@ -32,7 +32,6 @@ const ProfilePage = () => {
     const isOwnProfile = !userId || (currentUser && userId === currentUser.id);
 
     useEffect(() => {
-        setLoading(true);
         if (isOwnProfile) {
             setProfileUser(currentUser);
             if (currentUser) {

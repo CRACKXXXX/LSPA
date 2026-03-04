@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNoticias } from '../../context/NoticiasContext';
 import { useAuth } from '../../context/AuthContext';
@@ -44,7 +44,7 @@ const ForoNews = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Set featured on load
-  useMemo(() => {
+  useEffect(() => {
     if (noticias.length > 0) {
       const mostLiked = noticias.reduce((max, n) => (n.likes || 0) > (max.likes || 0) ? n : max);
       setFeaturedId(mostLiked.id);
@@ -383,7 +383,7 @@ const ForoNews = () => {
         <div className="results-bar">
           <span className="results-count">
             {filteredNews.length} {filteredNews.length === 1 ? 'noticia' : 'noticias'}
-            {searchTerm && <> para "<strong>{searchTerm}</strong>"</>}
+            {searchTerm && <>&nbsp;para &ldquo;<strong>{searchTerm}</strong>&rdquo;</>}
           </span>
           {activeTagFilter && (
             <span className="active-filter-pill" onClick={() => setActiveTagFilter(null)}>

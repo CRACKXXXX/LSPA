@@ -6,8 +6,22 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   { ignores: ['dist'] },
+  // Node.js scripts — use Node globals
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['scripts/**/*.{js,cjs,mjs}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: { ...globals.node },
+      sourceType: 'module',
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-vars': 'warn',
+    },
+  },
+  // React / Browser src
+  {
+    files: ['src/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -34,7 +48,9 @@ export default [
         { allowConstantExport: true },
       ],
       'no-unused-vars': 'warn',
-      'react/prop-types': 'off', // We will use prop-types manually but won't block build on it
+      'react/prop-types': 'off',
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/set-state-in-render': 'warn',
     },
   },
 ];

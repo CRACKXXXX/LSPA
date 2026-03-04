@@ -1,19 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
+
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Leaderboard.css';
 
 const Leaderboard = () => {
     const { getAllUsers } = useAuth();
-    const [users, setUsers] = useState([]);
     const [activeTab, setActiveTab] = useState('global'); // 'global' | 'higherLower'
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const allUsers = getAllUsers();
-        setUsers(allUsers);
-    }, [getAllUsers]);
+    const users = useMemo(() => getAllUsers() || [], [getAllUsers]);
 
     const getSortedUsers = () => {
         if (activeTab === 'global') {

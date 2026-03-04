@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import vehiclesData from '../../../data/vehicles.json';
 import './BattleGame.css';
 import VehicleCard from '../../../components/vehicle-card/VehicleCard';
@@ -19,6 +19,7 @@ const BattleGame = () => {
 
     useEffect(() => {
         startRound();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getRandomVehicle = () => vehiclesData[Math.floor(Math.random() * vehiclesData.length)];

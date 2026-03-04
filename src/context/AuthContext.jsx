@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 
 const AuthContext = createContext();
 
@@ -127,13 +127,6 @@ export const AuthProvider = ({ children }) => {
 
     const ADMIN_ID = '06f2211e-8d48-41c9-a21d-4d1ddaa72002'; // HARDCODED SUPER ADMIN
 
-    // Helper: Check if user is admin or owner
-    const checkAdmin = (userObj) => {
-        if (userObj.id === ADMIN_ID) {
-            return { ...userObj, role: 'owner' };
-        }
-        return userObj;
-    };
 
     // Helper for Social Features
     const getAllUsers = () => getDb();

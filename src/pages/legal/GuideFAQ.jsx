@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Legal.css';
 
 const GuideFAQ = () => {
@@ -24,8 +24,8 @@ const GuideFAQ = () => {
                             Usa la barra de búsqueda para encontrar cualquier modelo o filtra por categorías (Super, Deportivos, Clásicos...).
                         </p>
                         <ul>
-                            <li><strong>Modo Lectura:</strong> En la ficha de cualquier coche, activa el icono del "Ojo" presencial. Esto oscurece el fondo y elimina distracciones para que puedas ver las especificaciones con claridad.</li>
-                            <li><strong>Ficha Técnica:</strong> Cada coche tiene barras de rendimiento. Puedes activar el interruptor "LS Customs" para simular cómo mejoraría el coche si estuviera tuneado al máximo.</li>
+                            <li><strong>Modo Lectura:</strong> En la ficha de cualquier coche, activa el icono del &ldquo;Ojo&rdquo; presencial. Esto oscurece el fondo y elimina distracciones para que puedas ver las especificaciones con claridad.</li>
+                            <li><strong>Ficha Técnica:</strong> Cada coche tiene barras de rendimiento. Puedes activar el interruptor &ldquo;LS Customs&rdquo; para simular cómo mejoraría el coche si estuviera tuneado al máximo.</li>
                         </ul>
 
                         <h3>Gestionando tu Inventario</h3>

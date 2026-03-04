@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import '../legal/Legal.css';
 import './GuidePage.css';
 
@@ -153,7 +154,7 @@ const GuidePage = () => {
                         <p>Tu garaje personal para organizar tu colección:</p>
                         <ul className="guide-list enhanced">
                             <li><strong>Añadir Vehículo:</strong> Pulsa el icono ❤️ en cualquier tarjeta de vehículo.</li>
-                            <li><strong>Estados:</strong> Marca cada coche como "Obtenido" ✅ o "Pendiente" 🎯.</li>
+                            <li><strong>Estados:</strong> Marca cada coche como &ldquo;Obtenido&rdquo; ✅ o &ldquo;Pendiente&rdquo; 🎯.</li>
                             <li><strong>Estadísticas:</strong> Ve el valor total de tu colección y la velocidad media.</li>
                             <li><strong>Privacidad:</strong> Tu garaje es visible en tu perfil público.</li>
                         </ul>
@@ -168,15 +169,15 @@ const GuidePage = () => {
                         </FAQItem>
 
                         <FAQItem question="¿Por qué algunos coches no tienen imagen?">
-                            <p>Solo incluimos vehículos que pasen nuestra "prueba de supervivencia": deben tener una imagen válida (HTTP 200) Y estadísticas físicas reales. Los vehículos de DLC muy nuevos pueden tardar en añadirse a las fuentes de imágenes.</p>
+                            <p>Solo incluimos vehículos que pasen nuestra &ldquo;prueba de supervivencia&rdquo;: deben tener una imagen válida (HTTP 200) Y estadísticas físicas reales. Los vehículos de DLC muy nuevos pueden tardar en añadirse a las fuentes de imágenes.</p>
                         </FAQItem>
 
                         <FAQItem question="¿Cómo puedo ser Administrador?">
-                            <p>Los administradores son designados por el Owner del sitio. Si eres admin, verás el botón "Panel Admin 🛡️" en tu menú de usuario. Desde ahí puedes gestionar usuarios, editar perfiles y asignar roles.</p>
+                            <p>Los administradores son designados por el Owner del sitio. Si eres admin, verás el botón &ldquo;Panel Admin 🛡️&rdquo; en tu menú de usuario. Desde ahí puedes gestionar usuarios, editar perfiles y asignar roles.</p>
                         </FAQItem>
 
                         <FAQItem question="¿Se guardan mis récords si cierro sesión?">
-                            <p>Sí. Todos tus récords (Mayor/Menor, Adivina, Batalla) se guardan automáticamente en tu perfil de usuario y persisten entre sesiones. Puedes verlos en la sección "Récords" de tu perfil.</p>
+                            <p>Sí. Todos tus récords (Mayor/Menor, Adivina, Batalla) se guardan automáticamente en tu perfil de usuario y persisten entre sesiones. Puedes verlos en la sección &ldquo;Récords&rdquo; de tu perfil.</p>
                         </FAQItem>
 
                         <FAQItem question="¿Cómo funciona el modo Versus / Comparador?">

@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import { useAuth } from './AuthContext';
 
 const GamificationContext = createContext();
@@ -106,10 +106,7 @@ export const GamificationProvider = ({ children }) => {
         if (!user || !user.stats) return 0;
         const { xp, level } = user.stats;
         
-        const currentLevelInfo = { xpStart: getXpForNextLevel(level - 1), xpEnd: getXpForNextLevel(level) }; 
-        // Note: Logic allows infinite levels.
-        
-        // Let's simplify progress bar:
+    // Calculate progress bar:
         // XP needed for current level base:
         const base = Math.pow((level - 1) * 10, 2);
         const target = Math.pow(level * 10, 2);

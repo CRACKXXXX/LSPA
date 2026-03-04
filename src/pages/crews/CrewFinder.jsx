@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { useCrew } from '../../context/CrewContext';
 import './CrewFinder.css';
 

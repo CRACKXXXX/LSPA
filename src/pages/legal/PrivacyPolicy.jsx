@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Legal.css';
 
 const PrivacyPolicy = () => {
@@ -28,7 +28,7 @@ const PrivacyPolicy = () => {
                         <p>Sus datos se procesan en los servidores seguros de Weazel News Network y FIB Cloud para:</p>
                         <ul>
                             <li>Determinar su nivel de amenaza en el asfalto (Cálculo de XP).</li>
-                            <li>Organizar clasificaciones globales de los "Más Buscados".</li>
+                            <li>Organizar clasificaciones globales de los &ldquo;Más Buscados&rdquo;.</li>
                             <li>Mejorar la precisión del algoritmo de predicción de rendimiento de vehículos.</li>
                         </ul>
                         <p><strong>AVISO:</strong> LSPA no venderá sus datos a organizaciones ilícitas, salvo orden judicial de la San Andreas Supreme Court.</p>

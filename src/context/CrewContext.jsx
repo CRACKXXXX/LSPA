@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
 
@@ -13,6 +13,15 @@ const generateUUID = () => {
 const CrewContext = createContext();
 
 export const useCrew = () => useContext(CrewContext);
+
+// Función auxiliar para sumar niveles (Nivel Total) — fuera del componente para evitar hoisting issues
+const calculateCrewXP = (members = []) => {
+    if (!Array.isArray(members)) return 0;
+    return members.reduce((acc, member) => {
+        const level = parseInt(member.level || member.xp || 1, 10);
+        return acc + (isNaN(level) ? 1 : level);
+    }, 0);
+};
 
 export const CrewProvider = ({ children }) => {
     const { user } = useAuth();
@@ -66,21 +75,7 @@ export const CrewProvider = ({ children }) => {
         }
     }, [crews, loading]);
 
-    // --- XP CALCULATOR ---
-    
-    // Función auxiliar para sumar niveles (Nivel Total)
-    const calculateCrewXP = (members = []) => {
-        if (!Array.isArray(members)) return 0;
-        
-        return members.reduce((acc, member) => {
-            // Priority: member.level -> member.xp -> 1
-            const level = parseInt(member.level || member.xp || 1, 10);
-            return acc + (isNaN(level) ? 1 : level);
-        }, 0);
-    };
-
-    // Alias for compatibility
-    const calculateTotalXp = calculateCrewXP;
+    // calculateCrewXP is defined outside the component to avoid hoisting issues
     const calculateCrewPoints = calculateCrewXP;
 
     // --- ACTIONS ---

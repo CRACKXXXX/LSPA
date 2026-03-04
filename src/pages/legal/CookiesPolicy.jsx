@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Legal.css';
 
 const CookiesPolicy = () => {
@@ -20,7 +20,7 @@ const CookiesPolicy = () => {
                     <section className="legal-section">
                         <h2>2. Tipos de Cookies que Usamos</h2>
                         <ul>
-                            <li><strong>Cookies de Sesión (Session Authentication):</strong> Esenciales para verificar que usted es quien dice ser y no un impostor del Cluckin' Bell.</li>
+                            <li><strong>Cookies de Sesión (Session Authentication):</strong> Esenciales para verificar que usted es quien dice ser y no un impostor del Cluckin&apos; Bell.</li>
                             <li><strong>Cookies de Analítica (FIB Surveillance):</strong> Nos ayudan a entender qué páginas visita más (probablemente el Garage) para optimizar la carga del sistema.</li>
                             <li><strong>Cookies de Preferencia:</strong> Recuerdan si prefiere el tema oscuro o si le gusta quemar sus retinas con el tema claro.</li>
                         </ul>

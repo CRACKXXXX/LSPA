@@ -1,5 +1,5 @@
 
-import React from 'react';
+import { useState } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
 
 const StatRadar = ({ vehicleA, vehicleB, title, colorA, colorB }) => {
@@ -34,9 +34,6 @@ const StatRadar = ({ vehicleA, vehicleB, title, colorA, colorB }) => {
     // Default Colors
     const defaultColorA = "#00F0FF"; // Cyan
     const defaultColorB = "#FF003C"; // Red / Magenta
-
-    const finalColorA = colorA || (vehicleB ? "var(--accent-color)" : defaultColorA);
-    const finalColorB = colorB || (vehicleA ? "var(--secondary-color)" : defaultColorB);
 
     return (
         <div style={{ width: '100%', height: 350, background: 'rgba(0,0,0,0.2)', borderRadius: '12px', padding: '1rem', position: 'relative' }}>

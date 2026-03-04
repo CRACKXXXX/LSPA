@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { useGarage } from '../../context/GarageContext';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import CustomDropdown from '../../components/custom-dropdown/CustomDropdown';

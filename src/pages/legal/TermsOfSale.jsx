@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Legal.css';
 
 const TermsOfSale = () => {
@@ -18,7 +18,7 @@ const TermsOfSale = () => {
                     </section>
                     
                     <section className="legal-section">
-                        <h2>2. Política de "No Refunds" (Sin Devoluciones)</h2>
+                        <h2>2. Política de &ldquo;No Refunds&rdquo; (Sin Devoluciones)</h2>
                         <p>
                             Debido a la naturaleza digital inmediata de los servicios (Pases VIP, Multiplicadores de XP, Acceso a Torneos), <strong>NO SE ADMITEN DEVOLUCIONES</strong> bajo ninguna circunstancia.
                         </p>

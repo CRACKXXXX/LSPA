@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -246,7 +246,7 @@ const CrewExplorer = () => {
                         <span className="crew-tag" style={{ fontSize: '1.2rem' }}>[{selectedCrew.tag}]</span>
                         
                         <p style={{ margin: '20px 0', color: '#ccc', fontStyle: 'italic' }}>
-                            "{selectedCrew.description || 'Sin descripción disponible.'}"
+                            &ldquo;{selectedCrew.description || 'Sin descripción disponible.'}&rdquo;
                         </p>
 
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', margin: '20px 0' }}>

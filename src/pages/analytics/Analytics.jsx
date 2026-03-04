@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import vehicleData from '../../data/vehicles.json';
 import DistributionChart from '../../components/charts/DistributionChart';
 import './Analytics.css';

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   collection, onSnapshot, addDoc, updateDoc, deleteDoc,
   doc, serverTimestamp, query, orderBy
@@ -14,6 +14,20 @@ export const NoticiasProvider = ({ children }) => {
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [seeded, setSeeded] = useState(false);
+
+  // Seed inicial: cuando Firestore está vacío, sube el JSON local — declarado antes del useEffect
+  const seedInitialData = useCallback(async () => {
+    try {
+      const col = collection(db, COLLECTION);
+      for (const n of initialNoticias) {
+        // eslint-disable-next-line no-unused-vars
+        const { id: _localId, ...rest } = n; // omitimos el id local, Firestore genera el suyo
+        await addDoc(col, { ...rest, fechaCreacion: serverTimestamp() });
+      }
+    } catch (e) {
+      console.error('Error sembrando datos iniciales:', e);
+    }
+  }, []);
 
   // Escucha en tiempo real la colección de Firestore
   useEffect(() => {
@@ -33,20 +47,7 @@ export const NoticiasProvider = ({ children }) => {
       setLoading(false);
     });
     return () => unsub();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Seed inicial: cuando Firestore está vacío, sube el JSON local
-  const seedInitialData = async () => {
-    try {
-      const col = collection(db, COLLECTION);
-      for (const n of initialNoticias) {
-        const { id: _id, ...rest } = n; // omitimos el id local, Firestore genera el suyo
-        await addDoc(col, { ...rest, fechaCreacion: serverTimestamp() });
-      }
-    } catch (e) {
-      console.error('Error sembrando datos iniciales:', e);
-    }
-  };
+  }, [seeded, seedInitialData]);
 
   // CREATE
   const addNoticia = useCallback(async (noticia) => {

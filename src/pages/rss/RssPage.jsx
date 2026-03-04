@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useToast } from '../../context/ToastContext';
 import './RssPage.css';
 

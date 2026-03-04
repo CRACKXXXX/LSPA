@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/lspa-logo.jpg';
 import './Header.css';
@@ -27,15 +27,6 @@ const Header = () => {
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
     const closeMenu = () => setMenuOpen(false);
-
-    const handleAuthClick = () => {
-        if (user) {
-            navigate('/profile');
-        } else {
-            navigate('/auth');
-        }
-        closeMenu();
-    };
 
     return (
         <header className="header-container"> {/* Reverted to original class name */}

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import logo from '../../assets/lspa-logo.jpg';
 import './Footer.css';
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import vehiclesData from '../../../data/vehicles.json';
 import './GuessGame.css';
 import { useGamification } from '../../../context/GamificationContext';
@@ -31,6 +31,29 @@ const GuessGame = () => {
         }
     }, [score, highScore, updateHighScore]);
 
+    const getRandomVehicle = () => {
+        if (!vehiclesData || vehiclesData.length === 0) return null;
+        return vehiclesData[Math.floor(Math.random() * vehiclesData.length)];
+    };
+
+    const handleGuess = (name) => {
+        if (isRevealed) return;
+        
+        setSelectedOption(name);
+        setIsRevealed(true);
+
+        if (name === currentVehicle.name) {
+            // Correct
+            const xpEarned = 50 + (timeLeft * 2);
+            setScore(prev => prev + 100 + (timeLeft * 10));
+            addXp(xpEarned, xpEarned + 10); // Gamification XP
+        } else {
+            // Wrong or Timeout
+            setIsGameOver(true);
+            setScore(0);
+        }
+    };
+
     useEffect(() => {
         let timer;
         if (!isRevealed && !isGameOver && timeLeft > 0) {
@@ -39,12 +62,8 @@ const GuessGame = () => {
             handleGuess(null); // Time's up
         }
         return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timeLeft, isRevealed, isGameOver]);
-
-    const getRandomVehicle = () => {
-        if (!vehiclesData || vehiclesData.length === 0) return null;
-        return vehiclesData[Math.floor(Math.random() * vehiclesData.length)];
-    };
 
     const startRound = () => {
         if (!vehiclesData || vehiclesData.length < 4) {
@@ -75,26 +94,7 @@ const GuessGame = () => {
         }
         
         const allOptions = [correct.name, ...Array.from(wrongOptions)];
-        // Shuffle
         setOptions(allOptions.sort(() => Math.random() - 0.5));
-    };
-
-    const handleGuess = (name) => {
-        if (isRevealed) return;
-        
-        setSelectedOption(name);
-        setIsRevealed(true);
-
-        if (name === currentVehicle.name) {
-            // Correct
-            const xpEarned = 50 + (timeLeft * 2);
-            setScore(prev => prev + 100 + (timeLeft * 10)); // Score remains same
-            addXp(xpEarned, xpEarned + 10); // Gamification XP
-        } else {
-            // Wrong or Timeout
-            setIsGameOver(true);
-            setScore(0); // Reset streak on lose? Or just Game Over screen? Let's reset streak/score.
-        }
     };
 
     const [loadingError, setLoadingError] = useState(false);

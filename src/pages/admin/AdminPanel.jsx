@@ -289,7 +289,7 @@ const AdminPanel = () => {
                             <h2 style={{color:'#ff003c'}}>⚠️ ELIMINAR NOTICIA</h2>
                         </div>
                         <div className="editor-body">
-                            <p>¿Eliminar <strong>"{deleteNoticia_.titulo}"</strong>?</p>
+                            <p>¿Eliminar <strong>&ldquo;{deleteNoticia_.titulo}&rdquo;</strong>?</p>
                             <p style={{fontSize:'0.9rem',color:'#888'}}>Esta acción no se puede deshacer.</p>
                         </div>
                         <div className="editor-footer" style={{justifyContent:'center'}}>

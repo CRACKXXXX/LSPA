@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, Sector } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Sector } from 'recharts';
 
 // Expanded neon palette for many segments
 const COLORS = [
@@ -89,9 +89,9 @@ const DistributionChart = ({ vehicles, dataKey = 'manufacturer', title, limit = 
     }, [vehicles, dataKey, limit, customGrouping]);
 
     const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent: pct }) => {
         // Lower threshold to 1% to show more labels
-        if (percent < 0.01) return null; 
+        if (pct < 0.01) return null; 
 
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -111,7 +111,7 @@ const DistributionChart = ({ vehicles, dataKey = 'manufacturer', title, limit = 
                 paintOrder="stroke"
                 style={{ pointerEvents: 'none' }} 
             >
-                {`${(percent * 100).toFixed(0)}%`}
+                {`${(pct * 100).toFixed(0)}%`}
             </text>
         );
     };

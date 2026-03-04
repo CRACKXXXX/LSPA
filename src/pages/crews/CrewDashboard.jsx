@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Fragment, useState, useEffect, useRef, useMemo } from 'react';
 import { useCrew } from '../../context/CrewContext';
 import { useNavigate } from 'react-router-dom';
 import './CrewDashboard.css';
@@ -78,10 +78,6 @@ const ImageUrlModal = ({ isOpen, onClose, onSend }) => {
 };
 
 const CrewDashboard = ({ crew, currentUser }) => {
-    // GUARD CLAUSE
-    if (!crew) return <div className="loading-spinner">Cargando Crew...</div>;
-    if (!currentUser) return <div className="loading-spinner">Esperando usuario...</div>;
-
     const { leaveCrew, deleteCrew, sendCrewMessage } = useCrew();
     const navigate = useNavigate();
     const [messageInput, setMessageInput] = useState('');
@@ -93,13 +89,26 @@ const CrewDashboard = ({ crew, currentUser }) => {
     const [showImageModal, setShowImageModal] = useState(false);
 
     // Role Logic
-    const myMemberData = crew.members.find(m => m.userId === currentUser.id);
+    const myMemberData = crew ? crew.members.find(m => m.userId === currentUser?.id) : null;
     const myRole = myMemberData ? myMemberData.role : 'noob';
     const isBoss = ['owner', 'co-owner', 'staff'].includes(myRole);
 
+    // Computed total crew level
+    const totalCrewLevel = useMemo(() => {
+        if (!crew) return 0;
+        return crew.members.reduce((acc, m) => {
+            const val = parseInt(m.level || 1, 10);
+            return acc + (isNaN(val) ? 1 : val);
+        }, 0);
+    }, [crew]);
+
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [crew.chat]);
+    }, [crew?.chat]);
+
+    // GUARD CLAUSES after hooks
+    if (!crew) return <div className="loading-spinner">Cargando Crew...</div>;
+    if (!currentUser) return <div className="loading-spinner">Esperando usuario...</div>;
 
     const handleSend = (e) => {
         e.preventDefault();
@@ -151,12 +160,7 @@ const CrewDashboard = ({ crew, currentUser }) => {
                         <div className="header-text">
                             <h2>{crew.name} <span className="header-tag">[{crew.tag}]</span></h2>
                             <div className="header-stats-row">
-                                <span>🏆 {
-                                    useMemo(() => crew.members.reduce((acc, m) => {
-                                         const val = parseInt(m.level || 1, 10);
-                                         return acc + (isNaN(val) ? 1 : val);
-                                    }, 0), [crew.members])
-                                } NIVEL TOTAL</span>
+                                <span>🏆 {totalCrewLevel} NIVEL TOTAL</span>
                                 <span>👥 {crew.members.length} Miembros</span>
                             </div>
                         </div>
@@ -223,7 +227,7 @@ const CrewDashboard = ({ crew, currentUser }) => {
                         }
 
                         return (
-                            <React.Fragment key={msg.id}>
+                            <Fragment key={msg.id}>
                                 {showDateSeparator && (
                                     <div className="chat-date-separator">
                                         <span>{dateLabel}</span>
@@ -253,7 +257,7 @@ const CrewDashboard = ({ crew, currentUser }) => {
                                         </div>
                                     </div>
                                 </div>
-                            </React.Fragment>
+                            </Fragment>
                         );
                     })}
                     <div ref={chatEndRef} />
