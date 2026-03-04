@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import VehicleCard from '../../components/vehicle-card/VehicleCard';
 import vehicleData from '../../data/vehicles.json';
-import StatRadar from '../../components/charts/StatRadar';
+import StatRadar from '../../components/stat-radar/StatRadar';
 import './VersusMode.css';
 import { useGamification } from '../../context/GamificationContext';
 

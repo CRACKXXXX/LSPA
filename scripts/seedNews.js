@@ -1,5 +1,5 @@
 // Seed script to populate Firestore with forum news data
-// Run with: node scripts/seedNews.js
+// Run with: node scripts/seed-news.js
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";

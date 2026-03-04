@@ -20,7 +20,7 @@ import AuthPage from './pages/auth/AuthPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import Leaderboard from './pages/leaderboard/Leaderboard';
 import Community from './pages/community/Community';
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import ProtectedRoute from './components/protected-route/ProtectedRoute';
 import Analytics from './pages/analytics/Analytics';
 
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
@@ -28,14 +28,14 @@ import CookiesPolicy from './pages/legal/CookiesPolicy';
 import TermsOfSale from './pages/legal/TermsOfSale';
 import GuideFAQ from './pages/legal/GuideFAQ';
 import AdminPanel from './pages/admin/AdminPanel';
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from './components/scroll-to-top/ScrollToTop';
 import ForoNews from './pages/foro-news/ForoNews';
 import RssPage from './pages/rss/RssPage';
 
 // UI Pack
-import AppLoader from './components/ui/AppLoader';
-import BackgroundSparks from './components/ui/BackgroundSparks';
-import ScrollTopBtn from './components/ui/ScrollTopBtn';
+import AppLoader from './components/app-loader/AppLoader';
+import BackgroundSparks from './components/background-sparks/BackgroundSparks';
+import ScrollTopBtn from './components/scroll-top-btn/ScrollTopBtn';
 
 // Games (Refactored)
 import GuessGame from './pages/games/guess/GuessGame';

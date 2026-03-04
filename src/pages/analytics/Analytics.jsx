@@ -1,7 +1,7 @@
 
 
 import vehicleData from '../../data/vehicles.json';
-import DistributionChart from '../../components/charts/DistributionChart';
+import DistributionChart from '../../components/distribution-chart/DistributionChart';
 import './Analytics.css';
 
 const Analytics = () => {
