@@ -25,6 +25,7 @@
   ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite)
   ![Chart.js](https://img.shields.io/badge/Chart.js-4.x-FF6384?style=for-the-badge&logo=chartdotjs)
   ![Leaflet](https://img.shields.io/badge/Leaflet-Maps-199900?style=for-the-badge&logo=leaflet)
+   ![Firebase](https://img.shields.io/badge/Firebase-Hosting-FFCA28?style=for-the-badge&logo=firebase)
   [![Figma](https://img.shields.io/badge/Figma-Design-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/ij2v0mmPVX6hvLxbpGX3bB/LSPA---Los-Santos-Performance-Analyzer?m=auto&t=DfY4vpOxPvqq2A9Y-6)
 </div>
 
@@ -105,11 +106,14 @@ The Figma file includes:
 - **Dynamic Badges**: Custom rank indicators in the navbar.
 
 ### 📡 System & Connectivity
-- **RSS Feed Integration**: A dedicated landing page `/rss` with an XML feed (`feed.xml`) simulating game news and application patch notes.
-- **Firebase Database & Hosting**: Live connection to Cloud Firestore reading a collection of articles. The project is deployed securely at: **[https://lspa-joel.web.app](https://lspa-joel.web.app)**
-- **RSS Lector Demonstration**: (Items point directly to the deployed app URLs)
+- **RSS Feed Integration**: A dedicated landing page `/rss` with an XML feed (`feed.xml`) containing game news and patch notes.
+- **Firebase Database & Hosting**: Live connection to Cloud Firestore for the Foro/News CRUD system. Deployed at: **[https://lspa-joel.web.app](https://lspa-joel.web.app)**
+- **Foro / News (CRUD)**: Full Create, Read, Update, and Delete operations on news articles, managed via the Admin Panel and stored in Firestore.
+
+#### 📖 RSS Feed Reader Demonstration
+The following screenshot shows a real RSS feed reader consuming the LSPA feed at `https://lspa-joel.web.app/feed.xml`. Each item points to the deployed application:
 <br/>
-<img src="public/rss-lector-screenshot.png" alt="RSS Lector Screenshot" width="600" />
+<img src="public/rss-lector-screenshot.png" alt="RSS Feed Reader showing LSPA news items" width="400" />
 
 ### 📘 User Experience
 - **Player's Handbook**: Rewrote the entire Guide/FAQ to be user-centric (no technical jargon).
@@ -219,34 +223,44 @@ The Figma file includes:
 ```
 src/
 ├── components/           # Reusable components
-│   ├── header/          # Main navigation
-│   ├── footer/          # Footer
-│   ├── vehicle-card/    # Vehicle card component
-│   ├── charts/          # Chart components
-│   └── auth/            # Authentication components
-├── context/             # Global state (React Context)
-│   ├── AuthContext.jsx        # Authentication and users
-│   ├── GarageContext.jsx      # Garage management
-│   └── GamificationContext.jsx # XP, levels, records
+│   ├── header/          # Header with responsive hamburger menu
+│   ├── footer/          # Footer with legal links and social icons
+│   ├── vehicle-card/    # Vehicle card with stats and tier system
+│   ├── custom-dropdown/ # Reusable custom dropdown selector
+│   ├── app-loader/      # Animated intro loader
+│   └── background-sparks/ # Ambient particle effects
+├── context/             # Global state (React Context API)
+│   ├── AuthContext.jsx        # Authentication, users, and admin actions
+│   ├── GarageContext.jsx      # Personal garage management
+│   ├── GamificationContext.jsx # XP, levels, and records
+│   ├── CrewContext.jsx        # Crew system (create, join, manage)
+│   ├── NoticiasContext.jsx    # Foro/News CRUD (Firebase Firestore)
+│   └── ToastContext.jsx       # Global toast notifications
 ├── pages/               # Application pages
-│   ├── home/            # Main catalog
-│   ├── games/           # Minigames Collection (Battle, Guess, Hi-Lo)
-│   ├── versus-mode/     # Comparator
-│   ├── garage/          # Personal garage
-│   ├── profile/         # User profile
-│   ├── admin/           # Admin panel
-│   ├── crews/           # Crew System (Dashboard, Admin, Explorer)
-│   ├── analytics/       # Analytics dashboard
-│   ├── leaderboard/     # Global ranking
+│   ├── home/            # Main catalog with filters and sorting
+│   ├── games/           # Minigames (Battle, Guess, Higher-Lower)
+│   ├── versus-mode/     # Side-by-side vehicle comparator
+│   ├── garage/          # Personal vehicle collection
+│   ├── profile/         # User profile and stats
+│   ├── admin/           # Admin panel (users + news CRUD)
+│   ├── crews/           # Crew System (Dashboard, Admin, Explorer, Finder)
+│   ├── foro-news/       # News board (reads from Firestore)
+│   ├── rss/             # RSS Feed landing page
+│   ├── analytics/       # Analytics dashboard with Chart.js
+│   ├── leaderboard/     # Global XP ranking
+│   ├── community/       # Community hub
 │   ├── guide/           # Guide and FAQ
-│   ├── location/        # Map and contact
-│   ├── legal/           # Legal pages
-│   └── auth/            # Login/Register
-├── styles/              # Global Styles (App.css, index.css)
+│   ├── location/        # Leaflet map and contact form
+│   ├── legal/           # Privacy, Cookies, Terms
+│   └── auth/            # Login / Register
+├── firebase/            # Firebase configuration
+│   └── firebase-config.js
+├── styles/              # Global Styles (App.css, index.css, Animations.css)
 ├── data/
-│   └── vehicles.json    # Vehicle database
+│   ├── vehicles.json    # Vehicle database (713+ vehicles)
+│   └── noticias.json    # Initial news data for Firestore seeding
 └── scripts/
-    ├── import-vehicles.js     # Vehicle importer
+    ├── import-vehicles.js     # Vehicle importer from DurtyFree
     └── sanitize-vehicles.js   # Validator with double filter
 ```
 
@@ -275,6 +289,22 @@ npm run dev
 ```
 
 The app will be available at `http://localhost:5173`
+
+### Testing the Admin Panel (CRUD)
+
+The Foro/News CRUD operations (Create, Read, Update, Delete) are managed from the **Admin Panel** (`/admin`).  
+To gain admin access:
+
+1. **Register** a new account at `/auth`
+2. Open the browser console (`F12`) and run:
+   ```javascript
+   const db = JSON.parse(localStorage.getItem('lspa_users_db_v2'));
+   db[db.length - 1].role = 'owner';
+   localStorage.setItem('lspa_users_db_v2', JSON.stringify(db));
+   localStorage.setItem('lspa_active_user_v2', JSON.stringify(db[db.length - 1]));
+   ```
+3. **Refresh the page** — You will now see a user dropdown with **PANEL ADMIN**
+4. Navigate to the Admin Panel → **📰 Noticias del Foro** tab to Create, Edit, and Delete news articles
 
 ### Production Build
 
@@ -321,7 +351,6 @@ npm run preview
 {
   id: "uuid",
   username: "string",
-  email: "string",
   password: "hashed",
   role: "user|admin|owner",
   avatar: "url",
@@ -423,24 +452,28 @@ Only vehicles that pass BOTH tests are included in the database.
 
 | Route | Page | Description |
 |-------|------|-------------|
-| `/` | Home | Vehicle catalog |
-| `/versus` | Versus Mode | 2-vehicle comparator |
-| `/garage` | Garage | Personal collection |
-| `/profile` | Profile | Your profile and stats |
-| `/analytics` | Analytics | Dashboard with charts |
-| `/leaderboard` | Leaderboard | Global ranking |
-| `/games/guess` | Guess | Minigame |
-| `/games/battle` | Battle | Minigame |
-| `/games/higherlower` | Higher/Lower | Minigame |
-| `/guide` | Guide | FAQ and documentation |
-| `/location` | Location | Map and contact |
-| `/rss` | RSS Feed | LSPA News and Updates XML |
-| `/foro` | Foro / News | Social news board reading from Firebase |
-| `/admin` | Admin Panel | User management (admins only) |
-| `/login` | Login | Sign in |
-| `/register` | Register | Create account |
-| `/terms` | Terms | Terms of service |
-| `/privacy` | Privacy | Privacy policy |
+| `/` | Home | Vehicle catalog with 713+ vehicles |
+| `/home` | Home | Alternative route to main catalog |
+| `/versus-mode` | Versus Mode | Side-by-side vehicle comparator |
+| `/garage` | Garage | Personal vehicle collection with tags |
+| `/profile` | Profile | User stats, XP, high scores |
+| `/analytics` | Analytics | Charts and data dashboard |
+| `/leaderboard` | Leaderboard | Global XP ranking |
+| `/minigames/guess` | Guess The Car | Identify blurred vehicles |
+| `/minigames/battle` | Battle Cards | Stat-based card game vs CPU |
+| `/minigames/higher-lower` | Higher or Lower | Speed guessing streak |
+| `/guide-faq` | Guide / FAQ | Feature documentation |
+| `/location` | Location | Leaflet map + contact form |
+| `/rss` | RSS Feed | XML feed landing page |
+| `/foro` | Foro / News | News board (Firestore CRUD) |
+| `/admin` | Admin Panel | User + News management (admins) |
+| `/auth` | Auth | Login / Register |
+| `/privacy-policy` | Privacy Policy | GDPR compliance |
+| `/cookies-policy` | Cookies | Cookie information |
+| `/terms-of-sale` | Terms of Sale | Commercial terms |
+| `/crew-dashboard` | Crew Dashboard | Crew member view |
+| `/crew-admin` | Crew Admin | Crew management (Staff+) |
+| `/crew-explorer` | Crew Explorer | Browse public crews |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -460,7 +493,7 @@ Only vehicles that pass BOTH tests are included in the database.
 - [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) - NoSQL document database used for the Foro/News section.
 
 ### Global State
-- **React Context API** - AuthContext, GarageContext, GamificationContext
+- **React Context API** - AuthContext, GarageContext, GamificationContext, CrewContext, NoticiasContext, ToastContext
 
 ### Data
 - **JSON** - Vehicle database (`vehicles.json`)

@@ -43,12 +43,12 @@ import BattleGame from './pages/games/battle/BattleGame';
 import HigherLower from './pages/games/higher-lower/HigherLower';
 import { NoticiasProvider } from './context/NoticiasContext';
 
-function AppContent({ appReady }) {
+function AppContent({ isAppReady }) {
   const location = useLocation();
   const isHome = location.pathname === '/' || location.pathname === '/home';
 
   return (
-    <div className={`app-wrapper ${appReady ? 'fade-in-content' : ''}`} style={{opacity: appReady ? 1 : 0}}>
+    <div className={`app-wrapper ${isAppReady ? 'fade-in-content' : ''}`} style={{opacity: isAppReady ? 1 : 0}}>
       <Header />
       <div className="main-content">
         <Routes>
@@ -86,7 +86,7 @@ function AppContent({ appReady }) {
 }
 
 function App() {
-  const [appReady, setAppReady] = useState(false);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   return (
     <AuthProvider>
@@ -94,13 +94,13 @@ function App() {
         <GarageProvider>
           <GamificationProvider>
             <CrewProvider>
-              <AppLoader onComplete={() => setAppReady(true)} />
+              <AppLoader onComplete={() => setIsAppReady(true)} />
               <BackgroundSparks />
               <NoticiasProvider>
               <Router>
                 <ScrollToTop />
                 <ScrollTopBtn />
-                <AppContent appReady={appReady} />
+                <AppContent isAppReady={isAppReady} />
               </Router>
               </NoticiasProvider>
             </CrewProvider>

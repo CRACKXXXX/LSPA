@@ -41,7 +41,7 @@ const ForoNews = () => {
   const [bookmarkedNews, setBookmarkedNews] = useState(new Set());
   const [activeTagFilter, setActiveTagFilter] = useState(null);
   const [featuredId, setFeaturedId] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Set featured on load
   useEffect(() => {
@@ -239,15 +239,15 @@ const ForoNews = () => {
 
       {/* Mobile sidebar toggle */}
       <button
-        className={`sidebar-toggle-btn ${sidebarOpen ? 'open' : ''}`}
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className={`sidebar-toggle-btn ${isSidebarOpen ? 'open' : ''}`}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         aria-label="Toggle filters"
       >
         <span>☰</span> Filtros
       </button>
 
       {/* Sidebar with category filters */}
-      <aside className={`foro-sidebar glass-panel ${sidebarOpen ? 'mobile-open' : ''}`}>
+      <aside className={`foro-sidebar glass-panel ${isSidebarOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <h2>📰 Foro Noticias</h2>
           <span className="news-count">{filteredNews.length} noticias</span>
@@ -275,7 +275,7 @@ const ForoNews = () => {
                 <button
                   key={cat}
                   className={`category-chip ${isActive ? 'active' : ''}`}
-                  onClick={() => { setSelectedCategory(cat); setSidebarOpen(false); }}
+                  onClick={() => { setSelectedCategory(cat); setIsSidebarOpen(false); }}
                   style={{
                     '--chip-bg': style.bg,
                     '--chip-border': style.border,
@@ -341,7 +341,7 @@ const ForoNews = () => {
       </aside>
 
       {/* Backdrop for mobile sidebar */}
-      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)}></div>}
+      {isSidebarOpen && <div className="sidebar-backdrop" onClick={() => setIsSidebarOpen(false)}></div>}
 
       {/* Main content area */}
       <main className="foro-main">

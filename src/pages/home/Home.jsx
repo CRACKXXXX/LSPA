@@ -7,7 +7,7 @@ import vehiclesData from '../../data/vehicles.json';
 import './Home.css';
 
 const Home = () => {
-  const [footerOpen, setFooterOpen] = useState(false);
+  const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedManufacturer, setSelectedManufacturer] = useState('All');
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -272,16 +272,16 @@ const Home = () => {
 
     {/* Botón flotante toggle del footer */}
     <button
-      className={`home-footer-toggle-btn ${footerOpen ? 'active' : ''}`}
-      onClick={() => setFooterOpen(p => !p)}
+      className={`home-footer-toggle-btn ${isFooterOpen ? 'active' : ''}`}
+      onClick={() => setIsFooterOpen(p => !p)}
       aria-label="Mostrar/ocultar footer"
-      title={footerOpen ? 'Ocultar footer' : 'Mostrar footer'}
+      title={isFooterOpen ? 'Ocultar footer' : 'Mostrar footer'}
     >
-      {footerOpen ? '✕' : 'ℹ'}
+      {isFooterOpen ? '✕' : 'ℹ'}
     </button>
 
     {/* Mini footer compacto */}
-    <div className={`home-mini-footer ${footerOpen ? 'footer-open' : ''}`}>
+    <div className={`home-mini-footer ${isFooterOpen ? 'footer-open' : ''}`}>
       <Footer />
     </div>
     </>

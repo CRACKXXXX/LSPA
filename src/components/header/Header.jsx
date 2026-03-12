@@ -10,8 +10,8 @@ import { useGamification } from '../../context/GamificationContext';
 
 
 const Header = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [userMenuOpen, setUserMenuOpen] = useState(false); // Dropdown state
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const { garageIds } = useGarage(); 
     const count = garageIds.length;
     const { user, logout, isAdmin } = useAuth(); // Destructure logout and isAdmin
@@ -21,12 +21,12 @@ const Header = () => {
     const handleLogout = () => {
         logout();
         navigate('/auth');
-        setUserMenuOpen(false);
+        setIsUserMenuOpen(false);
         closeMenu();
     };
 
-    const toggleMenu = () => setMenuOpen(!menuOpen);
-    const closeMenu = () => setMenuOpen(false);
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const closeMenu = () => setIsMenuOpen(false);
 
     return (
         <header className="header-container"> {/* Reverted to original class name */}
@@ -35,11 +35,11 @@ const Header = () => {
                 <h1>LSPA</h1> {/* Reverted to original h1 */}
             </div>
 
-            <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle Menu"> {/* Reverted to original menu toggle */}
-                <span className={`hamburger ${menuOpen ? 'open' : ''}`}></span>
+            <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle Menu">
+                <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}></span>
             </button>
 
-            <nav className={`nav-menu ${menuOpen ? 'open' : ''}`}> {/* Reverted to original class name */}
+            <nav className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
                 <NavLink to="/" onClick={closeMenu} className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}> {/* Reverted to original path */}
                     <span>Inicio</span>
                 </NavLink>
@@ -100,13 +100,13 @@ const Header = () => {
                     {user ? (
                         <div 
                             className="user-menu-trigger" 
-                            onClick={() => setUserMenuOpen(!userMenuOpen)}
+                            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                             style={{cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px'}}
                         >
                             <img src={user.avatar} alt="User" style={{width: '32px', height: '32px', borderRadius: '50%', border: '2px solid var(--accent-color)'}} />
                             <span style={{fontWeight: 'bold', color: 'var(--accent-color)'}}>{level}</span>
                             
-                            {userMenuOpen && (
+                            {isUserMenuOpen && (
                                 <div className="user-dropdown-menu" style={{
                                     position: 'absolute',
                                     top: '120%',
@@ -141,7 +141,7 @@ const Header = () => {
                 </div>
             </nav>
             
-            {menuOpen && <div className="menu-backdrop" onClick={closeMenu}></div>}
+            {isMenuOpen && <div className="menu-backdrop" onClick={closeMenu}></div>}
         </header>
     );
 };
