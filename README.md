@@ -105,7 +105,9 @@ LSPA now supports **importing and exporting vehicle data** in multiple formats, 
 | **JSON** | ✅ | ✅ | Native JavaScript object notation |
 | **XML** | ✅ | ✅ | Structured markup, parsed with DOMParser |
 | **CSV** | ✅ | ✅ | Comma-separated via PapaParse |
-| **Excel (.xlsx)** | ✅ | ✅ | 💡 **Ampliación** — requires Excel or LibreOffice |
+| **Excel (.xlsx)** | ✅ | ✅ | 💡 **Ampliación Principal (50%)** — Excel moderno |
+| **Excel (.xls)** | ✅ | ✅ | 💡 **Ampliación Extra (+10%)** — Excel 97-2004 Legacy |
+| **LibreOffice Calc (.ods)** | ✅ | ✅ | 💡 **Ampliación Extra (+10%)** — OpenDocument |
 
 ### How to Use
 

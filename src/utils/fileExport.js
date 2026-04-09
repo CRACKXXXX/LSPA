@@ -145,3 +145,31 @@ export function exportXlsx(vehicles, fileName = 'datos.xlsx') {
   XLSX.utils.book_append_sheet(wb, ws, 'Vehicles');
   XLSX.writeFile(wb, fileName);
 }
+
+/**
+ * Export vehicles as Legacy Excel (.xls) and trigger download.
+ * AMPLIACIÓN: Microsoft Excel Legacy format (+10%).
+ * @param {Array} vehicles
+ * @param {string} fileName
+ */
+export function exportXls(vehicles, fileName = 'datos.xls') {
+  const flat = vehicles.map(flattenVehicle);
+  const ws = XLSX.utils.json_to_sheet(flat);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Vehicles');
+  XLSX.writeFile(wb, fileName);
+}
+
+/**
+ * Export vehicles as LibreOffice Calc (.ods) and trigger download.
+ * AMPLIACIÓN: OpenDocument Spreadsheet format (+10%).
+ * @param {Array} vehicles
+ * @param {string} fileName
+ */
+export function exportOds(vehicles, fileName = 'datos.ods') {
+  const flat = vehicles.map(flattenVehicle);
+  const ws = XLSX.utils.json_to_sheet(flat);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Vehicles');
+  XLSX.writeFile(wb, fileName);
+}

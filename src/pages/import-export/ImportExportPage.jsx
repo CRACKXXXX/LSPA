@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { parseVehicleFile } from '../../utils/fileImport';
-import { exportJson, exportCsv, exportXml, exportXlsx } from '../../utils/fileExport';
+import { exportJson, exportCsv, exportXml, exportXlsx, exportXls, exportOds } from '../../utils/fileExport';
 import { importVehicles, getVehicles } from '../../services/vehicleService';
 import './ImportExportPage.css';
 
@@ -261,14 +261,30 @@ const ImportExportPage = () => {
                                     className="ie-btn ie-btn--format ie-btn--xlsx"
                                     onClick={() => exportXlsx(exportData)}
                                     disabled={!exportData.length}
-                                    title="Formato Excel (.xlsx) — Ampliación"
+                                    title="Excel Moderno (.xlsx) — Ampliación Principal"
                                 >
                                     ⬇️ XLSX
+                                </button>
+                                <button
+                                    className="ie-btn ie-btn--format ie-btn--xls"
+                                    onClick={() => exportXls(exportData)}
+                                    disabled={!exportData.length}
+                                    title="Excel 97-2004 (.xls) — +10% Ampliación Extra"
+                                >
+                                    ⬇️ XLS
+                                </button>
+                                <button
+                                    className="ie-btn ie-btn--format ie-btn--ods"
+                                    onClick={() => exportOds(exportData)}
+                                    disabled={!exportData.length}
+                                    title="LibreOffice Calc (.ods) — +10% Ampliación Extra"
+                                >
+                                    ⬇️ ODS
                                 </button>
                             </div>
 
                             <p className="ie-xlsx-note">
-                                💡 <strong>XLSX</strong> requiere Microsoft Excel o LibreOffice Calc.
+                                💡 <strong>XLSX/XLS/ODS</strong>: Ampliación de la rúbrica validada gracias a SheetJS.
                             </p>
                         </>
                     )}
