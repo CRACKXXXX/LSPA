@@ -177,28 +177,40 @@ function parseXlsx(buffer) {
  */
 export async function parseVehicleFile(file) {
   const ext = file.name.split('.').pop().toLowerCase();
+  let vehiclesData = [];
 
   if (ext === 'json') {
     const text = await file.text();
     const parsed = JSON.parse(text);
     // Handle both array and { vehicles: [...] } shapes
-    return Array.isArray(parsed) ? parsed : (parsed.vehicles ?? [parsed]);
-  }
-
-  if (ext === 'xml') {
+    vehiclesData = Array.isArray(parsed) ? parsed : (parsed.vehicles ?? [parsed]);
+  } else if (ext === 'xml') {
     const text = await file.text();
-    return parseXml(text);
-  }
-
-  if (ext === 'csv') {
+    vehiclesData = parseXml(text);
+  } else if (ext === 'csv') {
     const text = await file.text();
-    return parseCsv(text);
-  }
-
-  if (ext === 'xlsx' || ext === 'xls' || ext === 'ods') {
+    vehiclesData = parseCsv(text);
+  } else if (ext === 'xlsx' || ext === 'xls' || ext === 'ods') {
     const buffer = await file.arrayBuffer();
-    return parseXlsx(buffer);
+    vehiclesData = parseXlsx(buffer);
+  } else {
+    throw new Error(`Formato no soportado: .${ext}. Usa JSON, XML, CSV o XLSX.`);
   }
 
-  throw new Error(`Formato no soportado: .${ext}. Usa JSON, XML, CSV o XLSX.`);
+  if (!Array.isArray(vehiclesData) || vehiclesData.length === 0) {
+    throw new Error("El archivo no contiene datos válidos o está vacío.");
+  }
+
+  // Validate that it looks like a vehicle (must have GTAV specific fields, 'name' alone is not enough since package.json has it)
+  const isValid = vehiclesData.some(item => 
+    typeof item === 'object' && 
+    item !== null && 
+    ('manufacturer' in item || 'class' in item || 'stats' in item)
+  );
+
+  if (!isValid) {
+    throw new Error("El archivo no contiene el formato de vehículo correcto (faltan propiedades como 'manufacturer' o 'class').");
+  }
+
+  return vehiclesData;
 }

@@ -48,7 +48,11 @@ const ImportExportPage = () => {
         setImportSuccess('');
         try {
             const count = await importVehicles(importedData);
-            setImportSuccess(`✅ ${count} vehículos guardados en Firebase correctamente.`);
+            if (count > 0) {
+                setImportSuccess(`✅ ${count} vehículos guardados en Firebase correctamente.`);
+            } else {
+                setImportError('⚠️ No se guardó ningún vehículo válido. Asegúrate de que el archivo es correcto.');
+            }
         } catch (err) {
             setImportError('Error al guardar en Firebase: ' + err.message);
         } finally {
