@@ -1,0 +1,6 @@
+id,name,manufacturer,class,seats,price,speed,acceleration,handling,braking,realKMH,realMPH,isWeaponized,hasImaniTech,isHsw,image
+zentorno,Zentorno,Pegassi,Super,2,725000,9.8,9.5,8.5,4.0,340,211,false,false,false,https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/zentorno.png
+t20,T20,Progen,Super,2,2200000,9.5,9.0,8.8,5.0,330,205,false,false,false,https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/t20.png
+adder,Adder,Truffade,Super,2,1000000,9.6,9.2,8.0,4.5,335,208,false,false,false,https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/adder.png
+turismor,Turismo R,Grotti,Super,2,500000,9.4,9.3,8.3,4.2,325,202,false,false,false,https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/turismor.png
+entity2,Entity XXR,Overflod,Super,2,2305000,9.9,9.6,8.7,5.2,345,214,false,false,true,https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/entity2.png
