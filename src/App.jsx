@@ -31,6 +31,7 @@ import AdminPanel from './pages/admin/AdminPanel';
 import ScrollToTop from './components/scroll-to-top/ScrollToTop';
 import ForoNews from './pages/foro-news/ForoNews';
 import RssPage from './pages/rss/RssPage';
+import ImportExportPage from './pages/import-export/ImportExportPage';
 
 // UI Pack
 import AppLoader from './components/app-loader/AppLoader';
@@ -69,6 +70,7 @@ function AppContent({ isAppReady }) {
           <Route path="/community" element={<Community />} />
           <Route path="/foro" element={<ForoNews />} />
           <Route path="/rss" element={<RssPage />} />
+          <Route path="/import-export" element={<ImportExportPage />} />
           <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/cookies-policy" element={<CookiesPolicy />} />

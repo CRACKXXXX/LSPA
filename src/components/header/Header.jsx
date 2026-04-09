@@ -77,6 +77,15 @@ const Header = () => {
                     Foro / News
                 </NavLink>
 
+                <NavLink 
+                    to="/import-export" 
+                    onClick={closeMenu}
+                    className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                    title="Importar / Exportar vehículos"
+                >
+                    Import / Export
+                </NavLink>
+
                 <div className="nav-group">
                     <span className="nav-group-label">GAMES:</span>
                     <div className="nav-group-links">

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "zentorno",
+    "name": "Zentorno",
+    "manufacturer": "Pegassi",
+    "class": "Super",
+    "seats": 2,
+    "price": 725000,
+    "stats": {
+      "speed": "9.8",
+      "acceleration": "9.5",
+      "handling": "8.5",
+      "braking": "4.0",
+      "realKMH": 340,
+      "realMPH": 211
+    },
+    "isWeaponized": false,
+    "hasImaniTech": false,
+    "isHsw": false,
+    "image": "https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/zentorno.png"
+  },
+  {
+    "id": "t20",
+    "name": "T20",
+    "manufacturer": "Progen",
+    "class": "Super",
+    "seats": 2,
+    "price": 2200000,
+    "stats": {
+      "speed": "9.5",
+      "acceleration": "9.0",
+      "handling": "8.8",
+      "braking": "5.0",
+      "realKMH": 330,
+      "realMPH": 205
+    },
+    "isWeaponized": false,
+    "hasImaniTech": false,
+    "isHsw": false,
+    "image": "https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/t20.png"
+  },
+  {
+    "id": "adder",
+    "name": "Adder",
+    "manufacturer": "Truffade",
+    "class": "Super",
+    "seats": 2,
+    "price": 1000000,
+    "stats": {
+      "speed": "9.6",
+      "acceleration": "9.2",
+      "handling": "8.0",
+      "braking": "4.5",
+      "realKMH": 335,
+      "realMPH": 208
+    },
+    "isWeaponized": false,
+    "hasImaniTech": false,
+    "isHsw": false,
+    "image": "https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/adder.png"
+  },
+  {
+    "id": "turismor",
+    "name": "Turismo R",
+    "manufacturer": "Grotti",
+    "class": "Super",
+    "seats": 2,
+    "price": 500000,
+    "stats": {
+      "speed": "9.4",
+      "acceleration": "9.3",
+      "handling": "8.3",
+      "braking": "4.2",
+      "realKMH": 325,
+      "realMPH": 202
+    },
+    "isWeaponized": false,
+    "hasImaniTech": false,
+    "isHsw": false,
+    "image": "https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/turismor.png"
+  },
+  {
+    "id": "entity2",
+    "name": "Entity XXR",
+    "manufacturer": "Overflod",
+    "class": "Super",
+    "seats": 2,
+    "price": 2305000,
+    "stats": {
+      "speed": "9.9",
+      "acceleration": "9.6",
+      "handling": "8.7",
+      "braking": "5.2",
+      "realKMH": 345,
+      "realMPH": 214
+    },
+    "isWeaponized": false,
+    "hasImaniTech": false,
+    "isHsw": true,
+    "image": "https://raw.githubusercontent.com/kevinldg/gtav-vehicle-database/main/public/vehicle-images/entity2.png"
+  }
+]
