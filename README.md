@@ -35,6 +35,7 @@
 
 - [About The Project](#-about-the-project)
 - [Figma Design](#-figma-design)
+- [Import / Export Feature (UT5)](#-import--export-feature-ut5)
 - [Key Features](#-key-features)
 - [Technical Architecture](#-technical-architecture)
 - [Installation](#-installation)
@@ -88,6 +89,55 @@ The Figma file includes:
 | 📐 **Typography** | Font scales using Outfit and Russo One |
 | 📱 **Responsive Layouts** | Desktop, tablet, and mobile breakpoints |
 | 🎮 **Page Designs** | High-fidelity mockups for Home, Versus, Garage, Profile, and more |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 📥📤 Import / Export Feature (UT5)
+
+LSPA now supports **importing and exporting vehicle data** in multiple formats, with Firebase Firestore as the backend storage layer.
+
+### Supported Formats
+
+| Format | Import | Export | Notes |
+|--------|:------:|:------:|-------|
+| **JSON** | ✅ | ✅ | Native JavaScript object notation |
+| **XML** | ✅ | ✅ | Structured markup, parsed with DOMParser |
+| **CSV** | ✅ | ✅ | Comma-separated via PapaParse |
+| **Excel (.xlsx)** | ✅ | ✅ | 💡 **Ampliación** — requires Excel or LibreOffice |
+
+### How to Use
+
+1. Navigate to **Import / Export** in the header menu (route `/import-export`)
+2. **To import**: Click the drop zone → pick your file → preview data in the table → click **🔥 Guardar en Firebase**
+3. **To export**: Click **🔄 Cargar desde Firebase** → preview data → choose an export format
+
+### Sample Import Files
+
+Download these example files to test the import feature:
+
+| Format | Download |
+|--------|----------|
+| JSON | [datos.json](https://raw.githubusercontent.com/CRACKXXXX/LSPA/main/public/sample-data/datos.json) |
+| XML | [datos.xml](https://raw.githubusercontent.com/CRACKXXXX/LSPA/main/public/sample-data/datos.xml) |
+| CSV | [datos.csv](https://raw.githubusercontent.com/CRACKXXXX/LSPA/main/public/sample-data/datos.csv) |
+
+### Architecture — Services Layer
+
+All Firebase Firestore access is **centralized** in `src/services/vehicleService.js`:
+
+```js
+import { getVehicles, importVehicles } from '../services/vehicleService';
+```
+
+Functions available:
+- `getVehicles()` — fetch all vehicles, ordered by name
+- `getVehiclesSample(n)` — fetch first N vehicles
+- `importVehicles(array)` — batch-write vehicles (handles >400 in chunks)
+- `saveVehicle(vehicle)` — upsert a single vehicle
+- `deleteVehicle(id)` — delete one vehicle
+- `deleteAllVehicles()` — clear entire collection
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -236,6 +286,11 @@ src/
 │   ├── CrewContext.jsx        # Crew system (create, join, manage)
 │   ├── NoticiasContext.jsx    # Foro/News CRUD (Firebase Firestore)
 │   └── ToastContext.jsx       # Global toast notifications
+├── services/            # ⭐ Centralized Firebase access layer (UT5)
+│   └── vehicleService.js      # CRUD operations for vehicles collection
+├── utils/               # Utility functions (UT5)
+│   ├── fileExport.js          # Convert + download: JSON, XML, CSV, XLSX
+│   └── fileImport.js          # Parse uploaded files: JSON, XML, CSV, XLSX
 ├── pages/               # Application pages
 │   ├── home/            # Main catalog with filters and sorting
 │   ├── games/           # Minigames (Battle, Guess, Higher-Lower)
@@ -246,6 +301,7 @@ src/
 │   ├── crews/           # Crew System (Dashboard, Admin, Explorer, Finder)
 │   ├── foro-news/       # News board (reads from Firestore)
 │   ├── rss/             # RSS Feed landing page
+│   ├── import-export/   # ⭐ Import/Export page (UT5)
 │   ├── analytics/       # Analytics dashboard with Chart.js
 │   ├── leaderboard/     # Global XP ranking
 │   ├── community/       # Community hub
@@ -259,6 +315,11 @@ src/
 ├── data/
 │   ├── vehicles.json    # Vehicle database (713+ vehicles)
 │   └── noticias.json    # Initial news data for Firestore seeding
+public/
+├── sample-data/         # ⭐ Sample import files for UT5
+│   ├── datos.json
+│   ├── datos.xml
+│   └── datos.csv
 └── scripts/
     ├── import-vehicles.js     # Vehicle importer from DurtyFree
     └── sanitize-vehicles.js   # Validator with double filter
@@ -466,6 +527,7 @@ Only vehicles that pass BOTH tests are included in the database.
 | `/location` | Location | Leaflet map + contact form |
 | `/rss` | RSS Feed | XML feed landing page |
 | `/foro` | Foro / News | News board (Firestore CRUD) |
+| `/import-export` | **Import / Export** | ⭐ UT5 — Import/export vehicles (JSON/XML/CSV/XLSX) |
 | `/admin` | Admin Panel | User + News management (admins) |
 | `/auth` | Auth | Login / Register |
 | `/privacy-policy` | Privacy Policy | GDPR compliance |
@@ -490,10 +552,15 @@ Only vehicles that pass BOTH tests are included in the database.
 ### Visualization & Libraries (Third-Party Components)
 - [Chart.js 4](https://www.chartjs.org/) - Library used to generate analytics graphs.
 - [React Leaflet](https://react-leaflet.js.org/) & [LeafletJS](https://leafletjs.com/) - Open-source JS library for mobile-friendly interactive maps. Used for the Headquarters location map.
-- [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) - NoSQL document database used for the Foro/News section.
+- [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) - NoSQL document database used for the Foro/News section and the Import/Export vehicles collection.
+
+### Import / Export Libraries (UT5)
+- [PapaParse](https://www.papaparse.com/) - CSV parsing and serialization
+- [SheetJS (xlsx)](https://sheetjs.com/) - Excel (.xlsx) read/write — Ampliación format
 
 ### Global State
 - **React Context API** - AuthContext, GarageContext, GamificationContext, CrewContext, NoticiasContext, ToastContext
+- **Services Layer** (`src/services/`) - Centralized Firebase access for vehicles
 
 ### Data
 - **JSON** - Vehicle database (`vehicles.json`)
