@@ -147,6 +147,10 @@ Functions available:
 
 ## 🆕 Recent Updates (v3.0 - Social Revolution & UX Polish)
 
+### 📱 Responsive UX Polish (UT5)
+- **Import/Export Page Adaptability**: 100% responsive data-tables using `overflow-x` masks. Fluid grid restructuring using `min-width: 0` overrides on container levels to ensure inner content never forces horizontal breakpoints to fail. Dynamic scaling of action buttons on devices `<400px`.
+- **Global Footer Navigation**: Centralized Import/Export link injected securely into generic app routing navigation tree.
+
 ### 🏴‍☠️ Crew System 3.0 (Full Social)
 - **Dedicated Admin Panel**: Separate management page for leaders with glassmorphism UI.
 - **Role Hierarchy**: Full rank system (Owner > Co-Owner > Staff > Veteran > Noob).

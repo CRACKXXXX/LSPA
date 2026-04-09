@@ -57,6 +57,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin-top: 2rem;
+  min-width: 0;
 }
 
 @media (max-width: 900px) {
@@ -77,6 +78,7 @@
   flex-direction: column;
   gap: 1.25rem;
   transition: border-color 0.3s;
+  min-width: 0;
 }
 
 .ie-panel--import {
