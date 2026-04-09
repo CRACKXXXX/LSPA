@@ -32,6 +32,7 @@ const Footer = () => {
                 <a href="/location">Ubicación</a>
                 <a href="/rss">RSS Feed</a>
                 <a href="/foro">Foro / News</a>
+                <a href="/import-export">Import / Export</a>
             </div>
             <div className="footer-column">
                 <h4>Zona Gaming</h4>
